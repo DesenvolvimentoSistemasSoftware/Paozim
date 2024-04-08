@@ -1,0 +1,3 @@
+com.mobile.paozim.test
+style WhiteBackgroundDialogTheme
+style WhiteBackgroundTheme
