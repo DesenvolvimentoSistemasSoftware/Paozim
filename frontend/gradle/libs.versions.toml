@@ -10,6 +10,11 @@ material = "1.11.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
 retrofit = "2.9.0"
+okHttp = "5.0.0-alpha.2"
+convertGson = "2.9.0"
+com-google-dagger-hilt-android = "2.44"
+hilt-android = "2.44"
+picasso = "2.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -20,9 +25,18 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+
+picasso = { module = "com.squareup.picasso:picasso", name = "picasso", version.ref = "picasso"}
+
 retrofit = { module = "com.squareup.retrofit2:retrofit", name = "retrofit", version.ref = "retrofit" }
+okHttp = { module = "com.squareup.okhttp3:okhttp", name = "okhttp", version.ref = "okHttp"}
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", name = "converter-gson", version.ref = "convertGson" }
+
+hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt-android" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "com-google-dagger-hilt-android" }
 

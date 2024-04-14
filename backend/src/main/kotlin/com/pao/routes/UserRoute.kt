@@ -9,7 +9,9 @@ import io.ktor.server.routing.*
 //para rodar nesta máquina
 //private const val BASE_URL = "http://localhost:8080"
 //para rodar na usp
-private const val BASE_URL = "http://172.19.254.15:8080"
+//private const val BASE_URL = "http://172.19.254.15:8080"
+//para rodar na casa do gustavo
+private const val BASE_URL = "http://192.168.0.135:8080"
 private val users = listOf(
     UserInfo(id = 1215, nome = "João", email = "pensanumemail@gmail.com", telefone = "5511982667931", imageURL = "$BASE_URL/Images/frances_ou_sal.jpeg"),
     UserInfo(id = 6545, nome = "Pedro", email = "pedroradical@gmail.com", telefone = "5511956485412", imageURL = "$BASE_URL/Images/baguete.jpeg"),
@@ -20,6 +22,10 @@ private val users = listOf(
 private val invalido = UserInfo(id = 0, nome = "invalido", email = "invalido", telefone = "0000000000000", imageURL = "$BASE_URL/Images/mofou.jpeg")
 
 fun Route.someMessage(){
+    get("/user/pedro") {
+        call.respond(HttpStatusCode.OK, users[1])
+    }
+
     get("/user") {
         var found = false
         for(user in users){
