@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_theme_light">#f6fbff</color>
+    <color name="black">#FF000000</color>
+    <color name="login_text_background">#FFF1C7</color>
+    <color name="login_theme">#FFC107</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
