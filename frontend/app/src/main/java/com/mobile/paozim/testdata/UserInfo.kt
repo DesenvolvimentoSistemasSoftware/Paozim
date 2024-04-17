@@ -19,6 +19,7 @@ data class UserInfo(
     var imageURL: String
 )
 
+//  ######### TESTE COM TUTORIAL #########
 //data class UserInfo(
 //    @SerializedName("userId")
 //    var userId: Int = 0,
@@ -32,3 +33,4 @@ data class UserInfo(
 //    @SerializedName("body")
 //    var body: String = ""
 //)
+//  ######### TESTE COM TUTORIAL #########

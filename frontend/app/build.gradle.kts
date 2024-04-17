@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.com.google.dagger.hilt.android)
+    alias(libs.plugins.plserialization)
     kotlin("kapt")
 }
 
@@ -55,6 +56,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.okHttp)
+    implementation(libs.series.json)
+    implementation(libs.serialization.converter)
 
     //Dagger - Hilt
     implementation(libs.hilt)

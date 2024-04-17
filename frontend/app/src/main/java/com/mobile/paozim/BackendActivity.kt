@@ -1,6 +1,7 @@
 package com.mobile.paozim
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -17,13 +18,15 @@ class BackendActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_backend)
 
+        val firstId = intent.getStringExtra("firstId")
+        Log.d("veja", "aqui oh3: $firstId")
         val email = intent.getStringExtra("email")
         val senha = intent.getStringExtra("senha")
 
         text = findViewById(R.id.tv_id)
-        text.setText(senha)
+        text.setText(firstId)
         text = findViewById(R.id.tv_nome)
-        text.setText(email)
+        text.setText(senha)
         text = findViewById(R.id.tv_email)
         text.setText(email)
         text = findViewById(R.id.tv_telefone)
