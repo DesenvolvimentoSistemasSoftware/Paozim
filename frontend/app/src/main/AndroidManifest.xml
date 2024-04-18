@@ -30,6 +30,9 @@
         android:testOnly="true"
         android:theme="@style/Theme.Paozim">
         <activity
+            android:name=".BackendActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
