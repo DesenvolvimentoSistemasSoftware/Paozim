@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnIniciar.setOnClickListener {
-            val i = Intent(this, LoginActivity::class.java)
+            val i = Intent(this, HomeActivity::class.java)
             startActivity(i)
         }
 //        InitUI()
