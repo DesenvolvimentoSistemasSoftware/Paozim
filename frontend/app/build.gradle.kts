@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.com.google.dagger.hilt.android)
+    alias(libs.plugins.plserialization)
+    kotlin("kapt")
 }
 
 android {
@@ -46,9 +49,21 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
-//    bibliotecas do server, precisa alterar o libs.versions.toml antes
-    implementation(libs.retrofit)
+    //Image load
+    implementation(libs.picasso)
 
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okHttp)
+    implementation(libs.series.json)
+    implementation(libs.serialization.converter)
+
+    //Dagger - Hilt
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
+
+    //Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
