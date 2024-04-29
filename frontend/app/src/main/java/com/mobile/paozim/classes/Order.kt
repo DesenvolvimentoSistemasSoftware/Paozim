@@ -13,6 +13,4 @@ class Order(prodPrice: Float, shipPrice: Float, creator: User, store: Seller) {
     private var shippingPrice: Float = shipPrice
     private var totalPrice: Float = productPrice + shippingPrice
     private val creationDate: String = SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date())
-
-
 }
