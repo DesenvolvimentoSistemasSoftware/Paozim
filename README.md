@@ -7,7 +7,7 @@
 O projeto Pãozim foi idealizado para ser desenvolvido durante a disciplina de [Introdução ao Desenvolvimento de Sistemas de Software (MAC0350)](https://uspdigital.usp.br/jupiterweb/obterDisciplina?sgldis=MAC0350). A plataforma desenvolvida possibilita a assinatura de clientes em padarias próximas de sua localização, e recebem seus produtos diaria, semanal ou mensalmente conforme especificações do seu próprio plano escolhido.
 
 ### Observações
-A conexão entre o backend e o frontend é feita através do ngrok. [Link para o tutorial do ngrok]([https://drive.google.com/drive/folders/1_JOy5EMATv9zNfBw88P1nsH5qACJKgTH?usp=sharing](https://medium.com/desenvolvendo-com-paixao/ngrok-do-localhost-para-o-mundo-5445ad08419))
+A conexão entre o backend e o frontend é feita através do ngrok. [Link para o tutorial do ngrok](https://medium.com/desenvolvendo-com-paixao/ngrok-do-localhost-para-o-mundo-5445ad08419)
 
 Ao executar o server, se atente para as variáveis que devem ser alteradas:
 - <i>BASE_URL</i> em "src/main/kotlin/com/pao/routes/UserRoute"
