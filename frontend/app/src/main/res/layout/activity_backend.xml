@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/login_theme"
     android:backgroundTint="@color/login_theme"
-    tools:context=".BackendActivity">
+    tools:context=".activities.BackendActivity">
 
     <TextView
         android:id="@+id/tv_test"

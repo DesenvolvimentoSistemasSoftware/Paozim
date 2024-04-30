@@ -1,31 +1,25 @@
 package com.pao.plugins
 
+// imports dos gets, posts, etc
 import com.pao.routes.someMessage
-import io.ktor.serialization.kotlinx.json.*
+import com.pao.routes.otherMessage
+
+// imports essenciais do routing
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
+
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+
 
 fun Application.configureRouting() {
     routing {
-//        install(ContentNegotiation) {
-//            json()
-//        }
         someMessage()
-//        rounting {
-//            get("json/kotlinx-serialization") {
-//                call.respond(mapOf("hello" to "world"))
-//            }
-//        }
+        otherMessage()
 
-//        get("/") {
-//            call.respondText("Hello World!")
-//        }
-
-        // Static plugin. Try to access `/static/index.html`
-        static {
+        // garante pegar as imagens de uma pasta
+        static{
             resources("static")
         }
     }
