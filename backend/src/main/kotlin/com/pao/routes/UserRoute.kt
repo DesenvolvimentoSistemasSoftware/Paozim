@@ -8,7 +8,7 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-private const val BASE_URL = "https://ba1d-190-89-1-239.ngrok-free.app"
+private const val BASE_URL = "https://7ebf-190-89-1-239.ngrok-free.app"
 
 // "database" provisória
 private val users = listOf(

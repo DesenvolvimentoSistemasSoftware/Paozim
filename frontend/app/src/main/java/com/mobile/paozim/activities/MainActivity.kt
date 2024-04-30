@@ -1,4 +1,4 @@
-package com.mobile.paozim
+package com.mobile.paozim.activities
 
 import android.content.Intent
 import android.os.Bundle

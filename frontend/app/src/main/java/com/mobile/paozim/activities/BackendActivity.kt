@@ -1,13 +1,11 @@
-package com.mobile.paozim
+package com.mobile.paozim.activities
 
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.mobile.paozim.R
 import com.squareup.picasso.Picasso
 
 class BackendActivity : AppCompatActivity() {
