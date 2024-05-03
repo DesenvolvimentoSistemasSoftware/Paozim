@@ -1,55 +1,57 @@
 package com.mobile.paozim.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.mobile.paozim.R
+import com.mobile.paozim.classes.Product
+import com.mobile.paozim.databinding.ActivityLoginBinding
+import com.mobile.paozim.databinding.FragmentHomeBinding
+import com.mobile.paozim.retrofit.RetrofitInstance
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString("bla1")
-            param2 = it.getString("bla2")
-        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString("bla1", param1)
-                    putString("bla1", param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        RetrofitInstance.api.getRandomProduct().enqueue(object : Callback<Product>{
+            override fun onResponse(call: Call<Product>, response: Response<Product>) {
+                if(response.body() != null){
+                    val randomProduct: Product = response.body()!!
+                    Glide.with(this@HomeFragment)
+                        .load(randomProduct.imagens[0])
+                        .into(binding.imgComidaRandom)
+                    Log.d("VEJA", "id: ${randomProduct.id} e nome: ${randomProduct.nome}")
+                } else {
+                    return
                 }
             }
+            override fun onFailure(call: Call<Product>, t: Throwable) {
+                Toast.makeText(context, "Falhou", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

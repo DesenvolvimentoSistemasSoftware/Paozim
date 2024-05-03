@@ -1,11 +1,9 @@
-package com.mobile.paozim.classes
+package com.pao.classes
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
-//import com.google.gson.annotations.SerializedName
-
-data class Product (
-//    @SerializedName("id")
+@Serializable
+data class Product(
     val id: Int,
     val nome: String,
     val vendedorID: Int,
@@ -17,4 +15,4 @@ data class Product (
     val categorias: Array<String>,
     var aveAvaliacao: Double,
     val avaliacaoID: Array<Int>
-):java.io.Serializable
+)
