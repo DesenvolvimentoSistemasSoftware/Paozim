@@ -14,5 +14,5 @@ data class Product(
     val descricao: String,
     val categorias: Array<String>,
     var aveAvaliacao: Double,
-    val avaliacaoID: Array<Int>
+    val avaliacaoID: IntArray
 )

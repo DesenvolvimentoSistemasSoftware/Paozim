@@ -3,14 +3,20 @@ package com.mobile.paozim.retrofit
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val BASE_URL = "https://124c-143-107-45-1.ngrok-free.app"
-
-object RetrofitInstance {
-    val api:ProductAPI by lazy{
+object RetrofitClient{
+    val retrofit: Retrofit by lazy{
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(ProductAPI::class.java)
     }
+}
+object ApiClient {
+    val apiService: ProductAPI by lazy {
+        RetrofitClient.retrofit.create(ProductAPI::class.java)
+    }
+}
+
+class ApiCall(id:String){
+
 }

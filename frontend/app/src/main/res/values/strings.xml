@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Paozim</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="app_name">Pãozim</string>
     <string name="hello_home_fragment">Home fragment</string>
     <string name="hello_membership_fragment">Membership fragment</string>
     <string name="hello_profile_fragment">Profile fragment</string>

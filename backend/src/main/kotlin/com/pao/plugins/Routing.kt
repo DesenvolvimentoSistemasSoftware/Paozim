@@ -1,6 +1,7 @@
 package com.pao.plugins
 
 // imports dos gets, posts, etc
+import com.pao.routes.getProduct
 import com.pao.routes.someMessage
 import com.pao.routes.otherMessage
 import com.pao.routes.randomProduct
@@ -13,6 +14,7 @@ import io.ktor.server.routing.*
 fun Application.configureRouting() {
     routing {
         randomProduct()
+        getProduct()
         someMessage()
         otherMessage()
 
