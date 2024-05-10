@@ -1,29 +1,27 @@
 package com.mobile.paozim.fragments
 
+import android.content.Intent
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.mobile.paozim.R
+import com.mobile.paozim.activities.DetailActivity
 import com.mobile.paozim.classes.Product
-import com.mobile.paozim.databinding.ActivityLoginBinding
 import com.mobile.paozim.databinding.FragmentHomeBinding
-import com.mobile.paozim.retrofit.RetrofitInstance
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.mobile.paozim.viewModel.HomeViewModel
 
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var homeMvvm: HomeViewModel
+    private lateinit var randomProduct: Product
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        homeMvvm = ViewModelProviders.of(this)[HomeViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -36,22 +34,26 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        homeMvvm.getRandomProduct()
+        observeRandomProduct()
+        onRandomProductClick()
+    }
 
-        RetrofitInstance.api.getRandomProduct().enqueue(object : Callback<Product>{
-            override fun onResponse(call: Call<Product>, response: Response<Product>) {
-                if(response.body() != null){
-                    val randomProduct: Product = response.body()!!
-                    Glide.with(this@HomeFragment)
-                        .load(randomProduct.imagens[0])
-                        .into(binding.imgComidaRandom)
-                    Log.d("VEJA", "id: ${randomProduct.id} e nome: ${randomProduct.nome}")
-                } else {
-                    return
-                }
-            }
-            override fun onFailure(call: Call<Product>, t: Throwable) {
-                Toast.makeText(context, "Falhou", Toast.LENGTH_SHORT).show()
-            }
-        })
+    private fun onRandomProductClick() {
+        binding.cvComidaRandom.setOnClickListener {
+            val intent = Intent(activity, DetailActivity::class.java)
+            intent.putExtra("escolhido", randomProduct)
+            startActivity(intent)
+        }
+    }
+
+    private fun observeRandomProduct() {
+        homeMvvm.observeRandomProductLiveData().observe(viewLifecycleOwner
+        ) { value ->
+            Glide.with(this@HomeFragment)
+                .load(value.imagens[0])
+                .into(binding.imgComidaRandom)
+            this.randomProduct = value
+        }
     }
 }

@@ -45,6 +45,7 @@ dependencies {
     val navVersion = "2.7.7"
     val intuitVersion = "1.0.6"
     val gifVersion = "1.2.17"
+    val lifecycleVersion = "2.4.0"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -52,6 +53,9 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    // Lifecycle
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.1.0")
     // intuit
     implementation("com.intuit.sdp:sdp-android:$intuitVersion")
     implementation("com.intuit.ssp:ssp-android:$intuitVersion")
@@ -63,22 +67,22 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
-    //Image load
+    // Image load
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     implementation(libs.picasso)
 
-    //Retrofit
+    // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.okHttp)
     implementation(libs.series.json)
     implementation(libs.serialization.converter)
 
-    //Dagger - Hilt
+    // Dagger - Hilt
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
 
-    //Test
+    // Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
