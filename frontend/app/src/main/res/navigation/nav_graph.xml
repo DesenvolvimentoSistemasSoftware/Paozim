@@ -20,4 +20,9 @@
         android:name="com.mobile.paozim.fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.mobile.paozim.CartFragment"
+        android:label="fragment_cart"
+        tools:layout="@layout/fragment_cart" />
 </navigation>
