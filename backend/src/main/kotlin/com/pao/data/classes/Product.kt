@@ -1,4 +1,4 @@
-package com.pao.classes
+package com.pao.data.classes
 
 import kotlinx.serialization.Serializable
 

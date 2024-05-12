@@ -2,6 +2,8 @@ package com.mobile.paozim.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.mobile.paozim.databinding.ActivityMainBinding
 
@@ -13,15 +15,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        binding.btnIniciar.setOnClickListener {
-            val i = Intent(this, HomeActivity::class.java)
+        Handler(Looper.getMainLooper()).postDelayed({
+            val i = Intent(this, MainActivity::class.java)
             startActivity(i)
-        }
-//        InitUI()
+            finish()
+        },3000)
     }
-
-//    private fun InitUI() {
-//
-//    }
 }
