@@ -14,10 +14,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnIniciar.setOnClickListener {
-            val i = Intent(this, HomeActivity::class.java)
-            startActivity(i)
-        }
+
 //        InitUI()
     }
 
