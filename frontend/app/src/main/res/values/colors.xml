@@ -2,7 +2,7 @@
 <resources>
     <color name="app_theme_light">#f6fbff</color>
     <color name="primary">#DBA627</color>
-    <color name="accent">#DBA627</color>
+    <color name="accent">#DB8F27</color>
     <color name="login_text_background">#FFF1C7</color>
     <color name="login_theme">#FFC107</color>
     <color name="white">#FFFFFFFF</color>
@@ -11,6 +11,7 @@
     <color name="green">#37DB80</color>
     <color name="grey">#D6D2D8</color>
     <color name="g_black">#33405F</color>
+    <color name="brown">#5C533E</color>
 
     <color name="black">#0d0d0d</color>
     <color name="blue_gray">#FF7B7F8E</color>
