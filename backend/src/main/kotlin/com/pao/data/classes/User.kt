@@ -1,13 +1,11 @@
-package com.pao.data.model
+package com.pao.data.classes
 
 import kotlinx.serialization.Serializable
 
 // Allow us to parse the content of this class to json and send it over the network
 @Serializable
-data class UserInfo(
-    val id: Int,
+data class User(
     val nome: String,
+    val senha: String,
     val email: String,
-    val telefone: String,
-    val imageURL: String
 )
