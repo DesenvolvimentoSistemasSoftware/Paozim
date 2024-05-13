@@ -1,12 +1,11 @@
 package com.pao.routes
 
-import com.pao.classes.Product
+import com.pao.data.classes.Product
+import com.pao.plugins.BASE_URL
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-
-private const val BASE_URL = "https://124c-143-107-45-1.ngrok-free.app"
 
 // "database" provisória
 val products = listOf<Product>(
