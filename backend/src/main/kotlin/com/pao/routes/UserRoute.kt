@@ -11,40 +11,20 @@ import com.pao.authentication.JwtService
 import com.pao.data.classes.LoginRequest
 import com.pao.data.classes.RegisterRequest
 import com.pao.data.classes.SimpleResponse
-import com.pao.plugins.BASE_URL
-import com.pao.repositories.repo
-import io.ktor.server.locations.*
+import com.pao.repositories.Repo
 import io.ktor.server.request.*
 
-// "database" provisória
-private val users = listOf(
-    User(nome = "João", senha="12345678",email = "pensanumemail@gmail.com"),
-    User(nome = "Pedro", senha = "Pedroburro", email = "pedroradical@gmail.com"),
-    User(nome = "André", senha = "andrepinheiro", email = "randomemail@gmail.com"),
-    User(nome = "Glodoaldo", senha = "pqmeodeias", email = "nomefeio@gmail.com"),
-    User(nome = "Alex", senha = "ALEXCHAD", email = "ultimoemail@gmail.com")
-)
 const val API_VERSION = "/v1"
 const val USERS = "$API_VERSION/users"
 const val REGISTER_REQUEST = "$USERS/register"
 const val LOGIN_REQUEST = "$USERS/login"
 
-fun Route.otherMessage(){
-    get("/token"){
-        val email = call.request.queryParameters["email"]!!
-        val password = call.request.queryParameters["password"]!!
-        val username = call.request.queryParameters["username"]!!
-
-        val user = User(nome = username, senha = hash(password), email = email)
-        call.respond(JwtService().generateToken(user))
-    }
-}
-fun Route.UserRoutes(db:repo, jwtService:JwtService, hashFunction: (String) -> String){
+fun Route.UserRoutes(db:Repo, jwtService:JwtService, hashFunction: (String) -> String){
     post(REGISTER_REQUEST){
         val registerRequest = try {
             call.receive<RegisterRequest>()
         } catch (e: Exception){
-            call.respond(HttpStatusCode.BadRequest,SimpleResponse(false,"Missing some fields"))
+            call.respond(HttpStatusCode.BadRequest,SimpleResponse("false","Missing some fields"))
             return@post
         }
 
@@ -55,9 +35,9 @@ fun Route.UserRoutes(db:repo, jwtService:JwtService, hashFunction: (String) -> S
                 email = registerRequest.email
             )
             db.addUser(newUser)
-            call.respond(HttpStatusCode.OK,SimpleResponse(true,jwtService.generateToken(newUser)))
+            call.respond(HttpStatusCode.OK,SimpleResponse(success="true",message=jwtService.generateToken(newUser)))
         } catch (e: Exception){
-            call.respond(HttpStatusCode.Conflict,SimpleResponse(false,e.message ?: "Some error ocurred"))
+            call.respond(HttpStatusCode.Conflict,SimpleResponse("false",e.message ?: "Some error ocurred"))
             return@post
         }
     }
@@ -65,35 +45,22 @@ fun Route.UserRoutes(db:repo, jwtService:JwtService, hashFunction: (String) -> S
         val loginRequest = try {
             call.receive<LoginRequest>()
         } catch (e: Exception){
-            call.respond(HttpStatusCode.BadRequest,SimpleResponse(false,"Missing some fields"))
+            call.respond(HttpStatusCode.BadRequest,SimpleResponse("false","NAO"))
             return@post
         }
         try {
             val user = db.findUserByEmail(loginRequest.email)
             if(user == null){
-                call.respond(HttpStatusCode.BadRequest,SimpleResponse(false,"User not found"))
+                call.respond(HttpStatusCode.BadRequest,SimpleResponse("false","NAO"))
             } else {
                 if(user.senha == hashFunction(loginRequest.senha)){
-                    call.respond(HttpStatusCode.OK,SimpleResponse(true,jwtService.generateToken(user)))
+                    call.respond(HttpStatusCode.OK,SimpleResponse("true",jwtService.generateToken(user)))
                 } else {
-                    call.respond(HttpStatusCode.BadRequest,SimpleResponse(false,"Wrong password"))
+                    call.respond(HttpStatusCode.BadRequest,SimpleResponse("false","NAO"))
                 }
             }
         } catch (e: Exception){
-            call.respond(HttpStatusCode.Conflict,SimpleResponse(false,e.message ?: "Some error ocurred"))
+            call.respond(HttpStatusCode.Conflict,SimpleResponse("false",e.message ?: "NAO"))
         }
     }
 }
-
-//    get("/user") {
-//        var found = false
-//        for (user in users) {
-//            if (call.parameters["nome"] == user.nome) {
-//                call.respond(HttpStatusCode.OK, user)
-//                found = true
-//            }
-//        }
-//        if (found == false) {
-//            call.respond(HttpStatusCode.OK, users[4])
-//        }
-//    }

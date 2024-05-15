@@ -1,5 +1,6 @@
 package com.pao.repositories
 
+import com.pao.data.table.PedidoTable
 import com.pao.data.table.UserTable
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -13,15 +14,14 @@ object DatabaseFactory {
 
     fun init() {
         Database.connect(hikari())
-
         transaction {
             SchemaUtils.create(UserTable)
+            SchemaUtils.create(PedidoTable)
         }
     }
 
     fun hikari(): HikariDataSource {
         val config = HikariConfig().apply {
-//            JDBC_DRIVER=org.postgresql.Driver;DATABASE_URL=jdbc:postgresql:pao?user=postgres&password=database
             jdbcUrl = "jdbc:postgresql:pao?user=postgres&password=database"
             driverClassName = "org.postgresql.Driver"
             maximumPoolSize = 3
@@ -29,14 +29,6 @@ object DatabaseFactory {
             transactionIsolation = "TRANSACTION_REPEATABLE_READ"
             validate()
         }
-//        val config = HikariConfig()
-//        config.driverClassName = System.getenv("JDBC_DRIVER")
-//        config.jdbcUrl = System.getenv("JDBC_DATABASE_URL")
-//        config.maximumPoolSize = 3
-//        config.isAutoCommit = false
-//        config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
-//        config.validate()
-
         return HikariDataSource(config)
     }
 

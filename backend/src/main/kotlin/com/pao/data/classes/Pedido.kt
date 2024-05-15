@@ -3,7 +3,8 @@ package com.pao.data.classes
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SimpleResponse(
-    val success: String,
-    val message: String
+data class Pedido(
+    val id:String,
+    val valorTotal:Double,
+    val status:String
 )

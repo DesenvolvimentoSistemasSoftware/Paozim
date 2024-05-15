@@ -1,0 +1,201 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 98566144 bytes for Failed to commit area from 0x00000000a2200000 to 0x00000000a8000000 of length 98566144.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_windows.cpp:3388), pid=15428, tid=14648
+#
+# JRE version:  (11.0.22+7) (build )
+# Java VM: OpenJDK 64-Bit Server VM (11.0.22+7-LTS, mixed mode, sharing, tiered, compressed oops, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2024.1\lib\idea_rt.jar=56225:C:\Program Files\JetBrains\IntelliJ IDEA 2024.1\bin -Dfile.encoding=UTF-8 com.pao.ApplicationKt
+
+Host: AMD Ryzen 5 5500U with Radeon Graphics         , 12 cores, 5G,  Windows 11 , 64 bit Build 22621 (10.0.22621.3527)
+Time: Tue May 14 02:07:48 2024 Hora oficial do Brasil elapsed time: 0.135371 seconds (0d 0h 0m 0s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000018639307000):  JavaThread "Unknown thread" [_thread_in_vm, id=14648, stack(0x000000343e700000,0x000000343e800000)]
+
+Stack: [0x000000343e700000,0x000000343e800000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x64585a]
+V  [jvm.dll+0x7d9bb9]
+V  [jvm.dll+0x7db2b9]
+V  [jvm.dll+0x7db9a3]
+V  [jvm.dll+0x2694e5]
+V  [jvm.dll+0x642a79]
+V  [jvm.dll+0x636fc5]
+V  [jvm.dll+0x3254fc]
+V  [jvm.dll+0x325382]
+V  [jvm.dll+0x329f56]
+V  [jvm.dll+0x3723d2]
+V  [jvm.dll+0x371e31]
+V  [jvm.dll+0x300c38]
+V  [jvm.dll+0x301d35]
+V  [jvm.dll+0x7b2cf7]
+V  [jvm.dll+0x7b44bf]
+V  [jvm.dll+0x37f7f9]
+V  [jvm.dll+0x794e9f]
+V  [jvm.dll+0x3f02b7]
+V  [jvm.dll+0x3f27a1]
+C  [jli.dll+0x52ef]
+C  [ucrtbase.dll+0x29333]
+C  [KERNEL32.DLL+0x1257d]
+C  [ntdll.dll+0x5aa48]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x0000018636fdf160, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+  0x000001863931f000 GCTaskThread "GC Thread#0" [stack: 0x000000343e800000,0x000000343e900000] [id=21468]
+  0x0000018639346000 ConcurrentGCThread "G1 Main Marker" [stack: 0x000000343e900000,0x000000343ea00000] [id=4252]
+  0x0000018639347800 ConcurrentGCThread "G1 Conc#0" [stack: 0x000000343ea00000,0x000000343eb00000] [id=8228]
+
+[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffeea941677]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x0000018639304c50] Heap_lock - owner thread: 0x0000018639307000
+
+Heap address: 0x00000000a2200000, size: 1502 MB, Compressed Oops mode: Non-zero based: 0x00000000a2200000
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (1 events):
+Event: 0.127 Loaded shared library C:\Users\Gustavo\.jdks\corretto-11.0.22\bin\zip.dll
+
+
+Dynamic libraries:
+0x00007ff6a07d0000 - 0x00007ff6a07de000 	C:\Users\Gustavo\.jdks\corretto-11.0.22\bin\java.exe
+0x00007fff8cbb0000 - 0x00007fff8cdc7000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007fff8bd70000 - 0x00007fff8be34000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007fff89fa0000 - 0x00007fff8a347000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007fff8a7c0000 - 0x00007fff8a8d1000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007fff4e380000 - 0x00007fff4e39b000 	C:\Users\Gustavo\.jdks\corretto-11.0.22\bin\VCRUNTIME140.dll
+0x00007fff4c5d0000 - 0x00007fff4c5e7000 	C:\Users\Gustavo\.jdks\corretto-11.0.22\bin\jli.dll
+0x00007fff8bbc0000 - 0x00007fff8bd6e000 	C:\WINDOWS\System32\USER32.dll
+0x00007fff89ed0000 - 0x00007fff89ef6000 	C:\WINDOWS\System32\win32u.dll
+0x00007fff8c5f0000 - 0x00007fff8c619000 	C:\WINDOWS\System32\GDI32.dll
+0x00007fff6fc40000 - 0x00007fff6fed3000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.22621.3527_none_270e469b73872a76\COMCTL32.dll
+0x00007fff8a620000 - 0x00007fff8a739000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007fff8b5b0000 - 0x00007fff8b657000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007fff8a4c0000 - 0x00007fff8a55a000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007fff8c950000 - 0x00007fff8c981000 	C:\WINDOWS\System32\IMM32.DLL
+0x00007fff53020000 - 0x00007fff5302c000 	C:\Users\Gustavo\.jdks\corretto-11.0.22\bin\vcruntime140_1.dll
+0x00007fff09f60000 - 0x00007fff09fed000 	C:\Users\Gustavo\.jdks\corretto-11.0.22\bin\msvcp140.dll
+0x00007ffeea630000 - 0x00007ffeeb1f3000 	C:\Users\Gustavo\.jdks\corretto-11.0.22\bin\server\jvm.dll
+0x00007fff8c3d0000 - 0x00007fff8c482000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007fff8c0e0000 - 0x00007fff8c188000 	C:\WINDOWS\System32\sechost.dll
+0x00007fff89f00000 - 0x00007fff89f28000 	C:\WINDOWS\System32\bcrypt.dll
+0x00007fff8c190000 - 0x00007fff8c2a5000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007fff8a990000 - 0x00007fff8a998000 	C:\WINDOWS\System32\PSAPI.DLL
+0x00007fff85030000 - 0x00007fff85039000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x00007fff81d20000 - 0x00007fff81d54000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007fff7ee10000 - 0x00007fff7ee1a000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007fff8bae0000 - 0x00007fff8bb51000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007fff88ed0000 - 0x00007fff88ee8000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+0x00007fff52e30000 - 0x00007fff52e40000 	C:\Users\Gustavo\.jdks\corretto-11.0.22\bin\verify.dll
+0x00007fff87870000 - 0x00007fff87aa3000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007fff8b200000 - 0x00007fff8b588000 	C:\WINDOWS\System32\combase.dll
+0x00007fff8c000000 - 0x00007fff8c0d7000 	C:\WINDOWS\System32\OLEAUT32.dll
+0x00007fff766d0000 - 0x00007fff76702000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007fff8a740000 - 0x00007fff8a7b9000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007fff12d70000 - 0x00007fff12d98000 	C:\Users\Gustavo\.jdks\corretto-11.0.22\bin\java.dll
+0x00007fff52a30000 - 0x00007fff52a3a000 	C:\Users\Gustavo\.jdks\corretto-11.0.22\bin\jimage.dll
+0x00007fff51be0000 - 0x00007fff51bee000 	C:\Users\Gustavo\.jdks\corretto-11.0.22\bin\instrument.dll
+0x00007fff12d50000 - 0x00007fff12d68000 	C:\Users\Gustavo\.jdks\corretto-11.0.22\bin\zip.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Users\Gustavo\.jdks\corretto-11.0.22\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.22621.3527_none_270e469b73872a76;C:\Users\Gustavo\.jdks\corretto-11.0.22\bin\server
+
+VM Arguments:
+jvm_args: -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2024.1\lib\idea_rt.jar=56225:C:\Program Files\JetBrains\IntelliJ IDEA 2024.1\bin -Dfile.encoding=UTF-8 
+java_command: com.pao.ApplicationKt
+java_class_path (initial): C:\Users\Gustavo\Documents\USP\Sistemas\Paozim\backend\build\classes\kotlin\main;C:\Users\Gustavo\Documents\USP\Sistemas\Paozim\backend\build\tmp\kapt3\classes\main;C:\Users\Gustavo\Documents\USP\Sistemas\Paozim\backend\build\resources\main;C:\Users\Gustavo\.gradle\caches\modules-2\files-2.1\org.jetbrains.exposed\exposed-dao\0.41.1\a125d583f35b0611953de7607e1fecffa1bc8685\exposed-dao-0.41.1.jar;C:\Users\Gustavo\.gradle\caches\modules-2\files-2.1\org.jetbrains.exposed\exposed-jdbc\0.41.1\13aa3881ac29ae4890196d74812cfded1fae4b90\exposed-jdbc-0.41.1.jar;C:\Users\Gustavo\.gradle\caches\modules-2\files-2.1\org.jetbrains.exposed\exposed-core\0.41.1\9beb750a4ebd55009dc9cb138f62adae21772c65\exposed-core-0.41.1.jar;C:\Users\Gustavo\.gradle\caches\modules-2\files-2.1\io.ktor\ktor-server-auth-jwt-jvm\2.3.10\ff0ff484bb574d1bfa62f63c1e0c3f9d06ff6e18\ktor-server-auth-jwt-jvm-2.3.10.jar;C:\Users\Gustavo\.gradle\caches\modules-2\files-2.1\io.ktor\ktor-server-netty-jvm\2.3.10\e6012ef15337527062bf85be8ccab4684391d2c6\ktor-server-netty-jvm-2.3.10.jar;C:\Users\Gustavo\.gradle\caches\modules-2\files-2.1\io.ktor\ktor-server-host-common-jvm\2.3.10\967a4fbbbd39c4630c88c34662eaffdc967a7397\ktor-server-host-common-jvm-2.3.10.jar;C:\Users\Gustavo\.gradle\caches\modules-2\files-2.1\io.ktor\ktor-server-auth-jvm\2.3.10\48a557ad377d39ad07bd067813b10cd345f9ae57\ktor-server-auth-jvm-2.3.10.jar;C:\Users\Gustavo\.gradle\caches\modules-2\files-2.1\io.ktor\ktor-server-call-logging-jvm\2.3.10\f8f606baca64cbce52c8c5fb838c2a960e1b7365\ktor-server-call-logging-jvm-2.3.10.jar;C:\Users\Gustavo\.gradle\caches\modules-2\files-2.1\io.ktor\ktor-server-content-negotiation-jvm\2.3.10\e0cb40781e1756b9fd1b6108f60be334b3cc2295\ktor-server-content-negotiation-jvm-2.3.10.jar;C:\Users\Gustavo\.gradle\caches\modules-2\files-2.1\io.ktor\ktor-server-sessions-jvm\2.3.10\7748e5ae737ea3afd0bfa1f7cd00362ff9bb02b1\ktor-server-sessions-jvm-2.3.10.jar;C:\Users\Gustavo\.gradle\caches\modules-2\files-2.
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 3                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 10                                        {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 1048576                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 98566144                                  {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 1574961152                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 1048576                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5836300                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122910970                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122910970                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+     bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+PATH=C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Users\Gustavo\AppData\Local\Microsoft\WindowsApps;C:\Users\Gustavo\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Gustavo\AppData\Local\GitHubDesktop\bin;
+USERNAME=Gustavo
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=AMD64 Family 23 Model 104 Stepping 1, AuthenticAMD
+TMP=C:\Users\Gustavo\AppData\Local\Temp
+TEMP=C:\Users\Gustavo\AppData\Local\Temp
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 11 , 64 bit Build 22621 (10.0.22621.3527)
+OS uptime: 3 days 16:20 hours
+Hyper-V role detected
+
+CPU:total 12 (initial active 12) (12 cores per cpu, 2 threads per core) family 23 model 104 stepping 1 microcode 0x0, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, mmxext, 3dnowpref, lzcnt, sse4a, ht, tsc, tscinvbit, tscinv, bmi1, bmi2, adx, sha, fma
+
+Memory: 4k page, system-wide physical 6005M (1059M free)
+TotalPageFile size 24437M (AvailPageFile size 90M)
+current process WorkingSet (physical memory assigned to process): 11M, peak: 11M
+current process commit charge ("private bytes"): 64M, peak: 158M
+
+vm_info: OpenJDK 64-Bit Server VM (11.0.22+7-LTS) for windows-amd64 JRE (11.0.22+7-LTS), built on Jan 10 2024 19:54:00 by "Administrator" with MS VC++ 16.10 / 16.11 (VS2019)
+
+END.
