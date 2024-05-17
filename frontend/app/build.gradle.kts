@@ -80,7 +80,10 @@ dependencies {
 
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-extensions:2.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+
     // intuit
     implementation("com.intuit.sdp:sdp-android:$intuitVersion")
     implementation("com.intuit.ssp:ssp-android:$intuitVersion")
@@ -102,6 +105,8 @@ dependencies {
     implementation(libs.okHttp)
     implementation(libs.series.json)
     implementation(libs.serialization.converter)
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+    implementation("com.squareup.okhttp3:okhttp-urlconnection:5.0.0-alpha.2")
 
     // Dagger - Hilt
     implementation(libs.hilt)

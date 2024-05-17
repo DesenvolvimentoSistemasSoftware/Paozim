@@ -17,17 +17,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Find the TextView by its ID
-        val buttonSignup = findViewById<TextView>(R.id.button_signup)
-        val buttonSignin = findViewById<TextView>(R.id.button_signin)
+        val buttonNext = findViewById<TextView>(R.id.btn_next)
 
-        // Set OnClickListener on the TextView
-        buttonSignup.setOnClickListener {
-            // Inside OnClickListener, start the new activity using an Intent
-            val intent = Intent(this@MainActivity, RegisterActivity::class.java)
-            startActivity(intent)
-        }
-
-        buttonSignin.setOnClickListener {
+        buttonNext.setOnClickListener {
             // Inside OnClickListener, start the new activity using an Intent
             val intent = Intent(this@MainActivity, LoginActivity::class.java)
             startActivity(intent)
