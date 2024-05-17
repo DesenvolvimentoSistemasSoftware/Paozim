@@ -5,16 +5,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mobile.paozim.classes.Product
-import com.mobile.paozim.retrofit.RetrofitInstance
+import com.mobile.paozim.retrofit.ProductAPI
+import com.mobile.paozim.retrofit.RetroInsta
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class HomeViewModel() : ViewModel() {
     private var randomProductLiveData = MutableLiveData<Product>()
+    val retIn = RetroInsta.getRetrofitInstance().create(ProductAPI::class.java)
 
     fun getRandomProduct(){
-        RetrofitInstance.api.getRandomProduct().enqueue(object : Callback<Product> {
+        retIn.getRandomProduct().enqueue(object : Callback<Product> {
             override fun onResponse(call: Call<Product>, response: Response<Product>) {
                 if(response.body() != null){
                     val randomProduct: Product = response.body()!!

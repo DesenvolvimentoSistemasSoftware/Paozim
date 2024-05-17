@@ -12,13 +12,10 @@ import com.mobile.paozim.data.remote.models.SimpleResponse
 import com.mobile.paozim.data.remote.models.UserF
 import com.mobile.paozim.databinding.ActivityRegisterBinding
 import com.mobile.paozim.retrofit.UserAPI
-//import com.mobile.paozim.utils.AuthToken
-import com.mobile.paozim.utils.RetroInsta
+import com.mobile.paozim.retrofit.RetroInsta
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
-//https://www.geeksforgeeks.org/android-session-management-with-kotlin/
 
 class RegisterActivity : ComponentActivity() {
    private lateinit var binding: ActivityRegisterBinding
@@ -57,7 +54,7 @@ class RegisterActivity : ComponentActivity() {
     private fun funfa(simpleResponse: SimpleResponse){
         if (simpleResponse.message != "Some error ocurred" && simpleResponse.message != "Missing some fields") {
             Log.d("CADASTRO", "Chegou")
-            val i = Intent(this@RegisterActivity, HomeActivity::class.java)
+            val i = Intent(this@RegisterActivity, TabActivity::class.java)
             startActivity(i)
         } else {
             Log.d("CADASTRO", "OHMYGOD!!!")

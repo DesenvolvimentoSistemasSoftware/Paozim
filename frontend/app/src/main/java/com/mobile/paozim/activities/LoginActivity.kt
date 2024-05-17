@@ -7,13 +7,12 @@ import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import com.mobile.paozim.data.remote.models.SimpleResponse
 import com.mobile.paozim.data.remote.models.UserF
 import com.mobile.paozim.databinding.ActivityLoginBinding
 import com.mobile.paozim.retrofit.UserAPI
-import com.mobile.paozim.utils.RetroInsta
+import com.mobile.paozim.retrofit.RetroInsta
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -63,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
         if (email.isNotEmpty() && pwd.isNotEmpty()) {
 //            signin(email, pwd)
-            val i = Intent(this@LoginActivity, HomeActivity::class.java)
+            val i = Intent(this@LoginActivity, TabActivity::class.java)
             startActivity(i)
             finish()
         }
@@ -72,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
     private fun funfa(simpleResponse: SimpleResponse){
         if (simpleResponse.message != "NAO") {
             Log.d("LOGIN", "Chegou")
-            val i = Intent(this@LoginActivity, HomeActivity::class.java)
+            val i = Intent(this@LoginActivity, TabActivity::class.java)
             startActivity(i)
             finish()
         } else {
