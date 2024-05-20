@@ -29,7 +29,7 @@ object CartInstance {
             safeCart(context)
         }
     }
-    fun removeItem(context: Context, item: Product) {
+    fun removeItem(context: Context, item: CartItem) {
         val index = Carro.itens.indexOfFirst { it.id == item.id }
         Carro.itens.removeAt(index)
         if(Carro.itens.isEmpty()){
@@ -39,7 +39,7 @@ object CartInstance {
         safeCart(context)
     }
 
-    fun decreaseItem(context: Context, item: Product) {
+    fun decreaseItem(context: Context, item: CartItem) {
         val index = Carro.itens.indexOfFirst { it.id == item.id }
         if (Carro.itens[index].qtd > 1) {
             Carro.itens[index].qtd--
@@ -48,7 +48,7 @@ object CartInstance {
         }
         safeCart(context)
     }
-    fun increaseItem(context: Context, item: Product) {
+    fun increaseItem(context: Context, item: CartItem) {
         val index = Carro.itens.indexOfFirst { it.id == item.id }
         Carro.itens[index].qtd++
         safeCart(context)
