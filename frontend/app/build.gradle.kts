@@ -107,6 +107,7 @@ dependencies {
     implementation(libs.serialization.converter)
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
     implementation("com.squareup.okhttp3:okhttp-urlconnection:5.0.0-alpha.2")
+    implementation("com.google.code.gson:gson:2.10")
 
     // Dagger - Hilt
     implementation(libs.hilt)

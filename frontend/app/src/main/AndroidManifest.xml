@@ -39,13 +39,7 @@
             android:name=".activities.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.ProductInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.HomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.BackendActivity"
+            android:name=".activities.TabActivity"
             android:exported="false" />
         <activity
             android:name=".activities.LoginActivity"
