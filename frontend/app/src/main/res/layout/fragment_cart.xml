@@ -45,6 +45,7 @@
                 android:clipToPadding="false" />
 
             <LinearLayout
+                android:id="@+id/ll_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
@@ -77,6 +78,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_resumo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -86,6 +88,7 @@
                 android:textStyle="bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -200,22 +203,23 @@
                     app:layout_constraintTop_toBottomOf="@+id/view">
 
                     <TextView
+                        style="@style/textStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/textStyle"
                         android:text="R$ "
+                        android:textColor="#4B4E5A"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="#4B4E5A"/>
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/tv_total_cart"
+                        style="@style/textStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/textStyle"
                         android:text="0.00"
+                        android:textColor="#4B4E5A"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="#4B4E5A" />
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

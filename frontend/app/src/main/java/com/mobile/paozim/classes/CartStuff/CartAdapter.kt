@@ -7,10 +7,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.mobile.paozim.R
 
+
 class CartAdapter (
-    var itens: List<CartItem>
+    var itens: List<CartItem>,
+    private val cartViewModel: CartViewModel
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     inner class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -34,20 +38,24 @@ class CartAdapter (
         holder.qtd.text = currentItem.qtd.toString()
         holder.price.text = "R$ %.2f".format(currentItem.price)
         holder.total.text = "%.2f".format(currentItem.price * currentItem.qtd)
+
         Glide.with(holder.itemView.context)
             .load(currentItem.image)
+            .transform(CenterCrop(), RoundedCorners(20))
             .into(holder.image)
 
         holder.add.setOnClickListener {
-            currentItem.qtd++
+            CartInstance.increaseItem(holder.itemView.context, currentItem)
             holder.qtd.text = currentItem.qtd.toString()
             holder.total.text = "%.2f".format(currentItem.price * currentItem.qtd)
+            cartViewModel.triggerUpdateInfo.value = true
         }
         holder.minus.setOnClickListener {
             if (currentItem.qtd > 1) {
-                currentItem.qtd--
+                CartInstance.decreaseItem(holder.itemView.context, currentItem)
                 holder.qtd.text = currentItem.qtd.toString()
                 holder.total.text = "%.2f".format(currentItem.price * currentItem.qtd)
+                cartViewModel.triggerUpdateInfo.value = true
             }
         }
     }
