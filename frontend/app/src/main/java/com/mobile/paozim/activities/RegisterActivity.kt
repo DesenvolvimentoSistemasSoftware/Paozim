@@ -9,7 +9,8 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.mobile.paozim.data.remote.models.SimpleResponse
-import com.mobile.paozim.data.remote.models.UserF
+import com.mobile.paozim.classes.UserStuff.User
+import com.mobile.paozim.classes.UserStuff.UserInstance
 import com.mobile.paozim.databinding.ActivityRegisterBinding
 import com.mobile.paozim.retrofit.UserAPI
 import com.mobile.paozim.retrofit.RetroInsta
@@ -18,74 +19,28 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class RegisterActivity : ComponentActivity() {
-   private lateinit var binding: ActivityRegisterBinding
-    private lateinit var sharedPreferences: SharedPreferences
-    var PREFS_KEY = "prefs"
-    var EMAIL_KEY = "email"
-    var PWD_KEY = "pwd"
+    private lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sharedPreferences = getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE)
-
         binding.fabBack.setOnClickListener(){
             finish()
         }
 
         binding.btnSignUp.setOnClickListener(){
-            if(validateName() && validadeEmail() && validadePassword() && validadePasswordAndConfirm()){
-                val editor: SharedPreferences.Editor = sharedPreferences.edit()
-                editor.putString(EMAIL_KEY, binding.etEmail.text.toString())
-                editor.putString(PWD_KEY, binding.etPassword.text.toString())
-                editor.apply()
-
-                signup(
-                    binding.etEmail.text.toString(),
-                    binding.etNome.text.toString(),
-                    binding.etPassword.text.toString()
-                )
+            if(checkName() && checkEmail() && checkPassword() && checkPasswordAndConfirm()){
+                UserInstance.Usuario.nome = binding.etNome.text.toString()
+                UserInstance.Usuario.email = binding.etEmail.text.toString()
+                UserInstance.Usuario.senha = binding.etPassword.text.toString()
+                startActivity(Intent(this, RegisterActivity2::class.java))
             }
         }
     }
 
-    private fun funfa(simpleResponse: SimpleResponse){
-        if (simpleResponse.message != "Some error ocurred" && simpleResponse.message != "Missing some fields") {
-            Log.d("CADASTRO", "Chegou")
-            val i = Intent(this@RegisterActivity, TabActivity::class.java)
-            startActivity(i)
-        } else {
-            Log.d("CADASTRO", "OHMYGOD!!!")
-        }
-    }
-
-    private fun signup(email: String, name: String,password: String){
-        val retIn = RetroInsta.getRetrofitInstance().create(UserAPI::class.java)
-        val registerInfo = UserF(name,email,password)
-
-        retIn.register(registerInfo).enqueue(object : Callback<SimpleResponse> {
-            override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
-                Toast.makeText(this@RegisterActivity,t.message,Toast.LENGTH_SHORT).show()
-            }
-            override fun onResponse(call: Call<SimpleResponse>, response: Response<SimpleResponse>) {
-                var simpleResponse = response.body()
-                if(simpleResponse != null) {
-                    Log.d("CADASTRO", "${simpleResponse.message} e ${simpleResponse.sucess}")
-                    Toast.makeText(this@RegisterActivity,"Registration success!", Toast.LENGTH_SHORT).show()
-                    funfa(simpleResponse)
-//                    AuthToken.getInstance(application.baseContext).token = simpleResponse.message
-                } else {
-                    val errorBody = response.errorBody()?.string()
-                    Log.d("CADASTRO", "Error: $errorBody")
-                    Toast.makeText(this@RegisterActivity,"Registration failed!", Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
-    }
-
-    private fun validateName(): Boolean{
+    private fun checkName(): Boolean{
         var error: String? = null
         val value: String = binding.etNome.text.toString()
         if(value.isEmpty()){
@@ -96,7 +51,7 @@ class RegisterActivity : ComponentActivity() {
         }
         return error == null
     }
-    private fun validadeEmail(): Boolean{
+    private fun checkEmail(): Boolean{
         var error: String? = null
         val value: String = binding.etEmail.text.toString()
         if(value.isEmpty()){
@@ -109,7 +64,7 @@ class RegisterActivity : ComponentActivity() {
         }
         return error == null
     }
-    private fun validadePassword(): Boolean{
+    private fun checkPassword(): Boolean{
         var error: String? = null
         val value: String = binding.etPassword.text.toString()
         if(value.isEmpty()){
@@ -122,7 +77,7 @@ class RegisterActivity : ComponentActivity() {
         }
         return error == null
     }
-    private fun validadePasswordAndConfirm(): Boolean{
+    private fun checkPasswordAndConfirm(): Boolean{
         var error: String? = null
         val value: String = binding.etPassword.text.toString()
         val value2: String = binding.etConfirmPassword.text.toString()

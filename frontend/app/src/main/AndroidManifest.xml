@@ -31,6 +31,12 @@
         android:theme="@style/Theme.Paozim"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.RegisterActivity3"
+            android:exported="false" />
+        <activity
+            android:name=".activities.RegisterActivity2"
+            android:exported="false" />
+        <activity
             android:name=".activities.RegisterActivity"
             android:exported="false"
             android:label="@string/title_activity_register"

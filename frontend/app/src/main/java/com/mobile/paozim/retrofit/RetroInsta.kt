@@ -5,7 +5,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val BASE_URL = "https://e661-2804-14c-71-4054-8967-f33d-f75e-ce39.ngrok-free.app"
+const val BASE_URL = "https://39b6-2804-14c-71-4054-3129-38c7-3b1a-2a9.ngrok-free.app"
 const val API_VERSION = "/v1"
 
 class RetroInsta {

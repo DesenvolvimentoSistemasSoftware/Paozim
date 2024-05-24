@@ -1,10 +1,9 @@
-package com.pao.data.classes
+package com.mobile.paozim.classes.UserStuff
 
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class LoginRequest(
-    val nome: String,
     val email: String,
     val senha: String
 )

@@ -1,7 +1,6 @@
 package com.pao.repositories
 
-import com.pao.data.table.PedidoTable
-import com.pao.data.table.UserTable
+import com.pao.data.table.*
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +15,12 @@ object DatabaseFactory {
         Database.connect(hikari())
         transaction {
             SchemaUtils.create(UserTable)
-            SchemaUtils.create(PedidoTable)
+            SchemaUtils.create(ItemTable)
+            SchemaUtils.create(CategoryTable)
+            SchemaUtils.create(OrderTable)
+            SchemaUtils.create(OrderItemTable)
+            SchemaUtils.create(RatingTable)
+            SchemaUtils.create(SellerTable)
         }
     }
 

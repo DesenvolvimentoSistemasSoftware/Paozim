@@ -1,10 +1,9 @@
-package com.mobile.paozim.data.remote.models
+package com.pao.data.classes.userStuff
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserF(
-    val nome:String? = null,
+data class LoginRequest(
     val email: String,
     val senha: String
 )

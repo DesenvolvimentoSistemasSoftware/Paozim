@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.mobile.paozim.R
 import com.mobile.paozim.classes.CartStuff.CartInstance
+import com.mobile.paozim.classes.UserStuff.UserInstance
 import com.mobile.paozim.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -18,12 +19,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         CartInstance.loadCart(this)
+        UserInstance.loadUser(this)
 
-        // Find the TextView by its ID
-        val buttonNext = findViewById<TextView>(R.id.btn_next)
-
-        buttonNext.setOnClickListener {
-            // Inside OnClickListener, start the new activity using an Intent
+        binding.btnNext.setOnClickListener {
             val intent = Intent(this@MainActivity, LoginActivity::class.java)
             startActivity(intent)
         }
