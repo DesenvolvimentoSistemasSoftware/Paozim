@@ -1,43 +1,40 @@
 package com.pao.routes
 
 // https://ktor.io/docs/server-requests.html#request_information
-import com.pao.authentication.hash
-import com.pao.data.classes.User
+import com.pao.data.classes.userStuff.User
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import com.pao.authentication.JwtService
-import com.pao.data.classes.LoginRequest
-import com.pao.data.classes.RegisterRequest
+import com.pao.data.classes.userStuff.LoginRequest
 import com.pao.data.classes.SimpleResponse
+import com.pao.data.classes.UserResponse
+import com.pao.data.classes.userStuff.UpdateRequest
+import com.pao.plugins.API_VERSION
 import com.pao.repositories.Repo
 import io.ktor.server.request.*
 
-const val API_VERSION = "/v1"
 const val USERS = "$API_VERSION/users"
 const val REGISTER_REQUEST = "$USERS/register"
 const val LOGIN_REQUEST = "$USERS/login"
+const val UPDATE_REQUEST = "$USERS/update"
 
-fun Route.UserRoutes(db:Repo, jwtService:JwtService, hashFunction: (String) -> String){
+fun Route.UserRoute(db:Repo, jwtService:JwtService, hashFunction: (String) -> String){
     post(REGISTER_REQUEST){
         val registerRequest = try {
-            call.receive<RegisterRequest>()
+            call.receive<User>()
         } catch (e: Exception){
-            call.respond(HttpStatusCode.BadRequest,SimpleResponse("false","Missing some fields"))
+            call.respond(HttpStatusCode.BadRequest,SimpleResponse("false","Faltam alguns campos"))
             return@post
         }
 
         try {
-            val newUser = User(
-                nome = registerRequest.nome,
-                senha = hashFunction(registerRequest.senha),
-                email = registerRequest.email
-            )
-            db.addUser(newUser)
-            call.respond(HttpStatusCode.OK,SimpleResponse(success="true",message=jwtService.generateToken(newUser)))
+            registerRequest.senha = hashFunction(registerRequest.senha)
+            db.addUser(registerRequest)
+            call.respond(HttpStatusCode.OK,SimpleResponse(success="true",message="Cadastro com sucesso"))
         } catch (e: Exception){
-            call.respond(HttpStatusCode.Conflict,SimpleResponse("false",e.message ?: "Some error ocurred"))
+            call.respond(HttpStatusCode.Conflict,SimpleResponse("false",e.message ?: "Algo deu errado"))
             return@post
         }
     }
@@ -45,16 +42,41 @@ fun Route.UserRoutes(db:Repo, jwtService:JwtService, hashFunction: (String) -> S
         val loginRequest = try {
             call.receive<LoginRequest>()
         } catch (e: Exception){
-            call.respond(HttpStatusCode.BadRequest,SimpleResponse("false","NAO"))
+            call.respond(HttpStatusCode.BadRequest,UserResponse("false","Faltam alguns campos",null))
             return@post
         }
         try {
             val user = db.findUserByEmail(loginRequest.email)
             if(user == null){
-                call.respond(HttpStatusCode.BadRequest,SimpleResponse("false","NAO"))
+                call.respond(HttpStatusCode.BadRequest,UserResponse("false","Usuário não encontrado",null))
             } else {
                 if(user.senha == hashFunction(loginRequest.senha)){
-                    call.respond(HttpStatusCode.OK,SimpleResponse("true",jwtService.generateToken(user)))
+                    call.respond(HttpStatusCode.OK,UserResponse("true","Login com sucesso!",user))
+                } else {
+                    call.respond(HttpStatusCode.BadRequest,UserResponse("false","Senha incorreta",null))
+                }
+            }
+        } catch (e: Exception){
+            call.respond(HttpStatusCode.Conflict,UserResponse("false",e.message ?: "Algo deu errado",null))
+        }
+    }
+    post(UPDATE_REQUEST){
+        val updateRequest = try {
+            call.receive<UpdateRequest>()
+        } catch (e: Exception){
+            call.respond(HttpStatusCode.BadRequest,SimpleResponse("false","Missing some fields"))
+            return@post
+        }
+
+        try {
+            val user = db.findUserByEmail(updateRequest.email)
+            if(user == null){
+                call.respond(HttpStatusCode.BadRequest,SimpleResponse("false","NAO"))
+            } else {
+                if(user.senha == hashFunction(updateRequest.oldSenha)){
+                    updateRequest.newSenha = hashFunction(updateRequest.newSenha)
+                    db.updateUser(updateRequest)
+                    call.respond(HttpStatusCode.OK,SimpleResponse("true",jwtService.generateToken(updateRequest.email)))
                 } else {
                     call.respond(HttpStatusCode.BadRequest,SimpleResponse("false","NAO"))
                 }

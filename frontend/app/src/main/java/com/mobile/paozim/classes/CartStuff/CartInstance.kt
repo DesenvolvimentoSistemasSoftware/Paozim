@@ -18,7 +18,7 @@ object CartInstance {
                     Carro.itens.add(CartItem(item.id, item.nome, item.imagens[0], item.preco, qtd))
                 }
                 Carro.shippingPrice = delivery
-                safeCart(context)
+                saveCart(context)
             } else {
                 Log.d("CART", "Carrinho de outra loja")
             }
@@ -26,7 +26,7 @@ object CartInstance {
             Carro.storeID = storeId
             Carro.itens = mutableListOf(CartItem(item.id, item.nome, item.imagens[0], item.preco, qtd))
             Carro.shippingPrice = delivery
-            safeCart(context)
+            saveCart(context)
         }
     }
     fun removeItem(context: Context, item: CartItem) {
@@ -36,7 +36,7 @@ object CartInstance {
             Carro.storeID = null
             Carro.shippingPrice = null
         }
-        safeCart(context)
+        saveCart(context)
     }
 
     fun decreaseItem(context: Context, item: CartItem) {
@@ -46,12 +46,12 @@ object CartInstance {
         } else {
             Carro.itens.removeAt(index)
         }
-        safeCart(context)
+        saveCart(context)
     }
     fun increaseItem(context: Context, item: CartItem) {
         val index = Carro.itens.indexOfFirst { it.id == item.id }
         Carro.itens[index].qtd++
-        safeCart(context)
+        saveCart(context)
     }
 
     fun getSubtotal(): Double {
@@ -62,14 +62,14 @@ object CartInstance {
         return subtotal
     }
 
-    private fun safeCart(context: Context) {
-        val sharedPreferences = context.getSharedPreferences("Carrinho", Context.MODE_PRIVATE)
+    private fun saveCart(context: Context) {
+        val sharedPreferences = context.getSharedPreferences("CarrinhoPrefs", Context.MODE_PRIVATE)
         val jsonString = GsonBuilder().create().toJson(Carro)
         sharedPreferences.edit().putString("CartF", jsonString).apply()
         Log.d("CART", jsonString)
     }
     fun loadCart(context: Context) {
-        val sharedPreferences = context.getSharedPreferences("Carrinho", Context.MODE_PRIVATE)
+        val sharedPreferences = context.getSharedPreferences("CarrinhoPrefs", Context.MODE_PRIVATE)
         val json = sharedPreferences.getString("CartF", null)
         if (!json.isNullOrEmpty()) {
             Log.d("CART", json)

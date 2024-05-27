@@ -2,6 +2,7 @@ package com.pao
 
 import com.pao.authentication.JwtService
 import com.pao.authentication.hash
+import com.pao.data.classes.userStuff.User
 import com.pao.plugins.*
 import com.pao.repositories.DatabaseFactory
 import com.pao.repositories.Repo
@@ -13,6 +14,8 @@ import io.ktor.server.http.content.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 data class UserSession(val count: Int = 0)
 
@@ -34,7 +37,6 @@ fun Application.module() {
             cookie.extensions["SameSite"] = "lax"
         }
     }
-
     install(Authentication) {
         jwt("jwt") {
             verifier(jwtService.verifier)
@@ -47,22 +49,6 @@ fun Application.module() {
             }
         }
     }
-
-    routing {
-        randomProduct()
-        getProduct()
-
-        UserRoutes(db, jwtService, hashFunction)
-        PedidoRoute(db)
-
-        // garante pegar as imagens de uma pasta
-        static{
-            resources("static")
-        }
-    }
     configureSerialization()
-//    configureRouting()
+    configureRouting(db, jwtService, hashFunction)
 }
-//    irrelevante no momento
-//    configureSecurity()
-//    configureMonitoring()

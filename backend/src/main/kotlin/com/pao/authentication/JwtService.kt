@@ -3,7 +3,7 @@ package com.pao.authentication
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
-import com.pao.data.classes.User
+import com.pao.data.classes.userStuff.User
 
 class JwtService {
 
@@ -16,11 +16,11 @@ class JwtService {
         .withIssuer(issuer)
         .build()
 
-    fun generateToken(user:User): String {
+    fun generateToken(email: String): String {
         return JWT.create()
             .withSubject("Authentication")
             .withIssuer(issuer)
-            .withClaim("email", user.email)
+            .withClaim("email", email)
             .sign(algorithm)
     }
 }
