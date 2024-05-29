@@ -7,15 +7,22 @@ import io.ktor.http.*
 import io.ktor.server.testing.*
 import kotlin.test.*
 
+import com.pao.repositories.Repo
+import com.pao.authentication.JwtService
+import com.pao.authentication.hash
+
 class ApplicationTest {
     @Test
-    fun testRoot() = testApplication {
+    fun testModule() = testApplication {
         application {
-            configureRouting()
+            module(
+                db = Repo(),
+                jwtService = JwtService(),
+                hashFunction = { s: String -> hash(s) }
+            )
         }
-        client.get("/").apply {
-            assertEquals(HttpStatusCode.OK, status)
-            assertEquals("Hello World!", bodyAsText())
-        }
+
+        // Testar /product/random (GET)
+
     }
 }

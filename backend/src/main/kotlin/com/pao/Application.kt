@@ -23,14 +23,13 @@ fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
 }
 
-fun Application.module() {
+fun Application.module(db: Repo = Repo(),
+                       jwtService: JwtService = JwtService(),
+                       hashFunction: (String) -> String = { s: String -> hash(s) }) {
     install(CORS) {
         anyHost()
     }
     DatabaseFactory.init()
-    val db = Repo()
-    val jwtService = JwtService()
-    val hashFunction = {s: String -> hash(s)}
 
     install(Sessions){
         cookie<UserSession>("SESSION"){

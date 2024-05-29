@@ -24,7 +24,7 @@ object DatabaseFactory {
         }
     }
 
-    fun hikari(): HikariDataSource {
+    private fun hikari(): HikariDataSource {
         val config = HikariConfig().apply {
             jdbcUrl = "jdbc:postgresql:pao?user=postgres&password=database"
             driverClassName = "org.postgresql.Driver"
