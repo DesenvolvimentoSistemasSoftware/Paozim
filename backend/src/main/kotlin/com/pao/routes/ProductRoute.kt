@@ -31,20 +31,23 @@ val products = listOf<Product>(
     )
 )
 fun Route.randomProduct() {
-    get("product/random") {
-        call.respond(HttpStatusCode.OK, products.random())
+    route("/product") {
+        get("/random") {
+            call.respond(HttpStatusCode.OK, products.random())
+        }
     }
+
 }
 fun Route.getProduct() {
-    get("product/{id}") {
-        val id = call.parameters["id"]?.toInt()
-        var found = false
-        for(product in products)
-            if(product.id == id){
-                call.respond(HttpStatusCode.OK, product)
-                found = true
+    route("/product") {
+        get("/{id}") {
+            val id = call.parameters["id"]?.toInt()
+            val product = products.find { it.id == id }
+            if (product == null) {
+                call.respond(HttpStatusCode.NotFound)
+            } else {
+                call.respond(product)
             }
-        if(!found)
-            call.respond(HttpStatusCode.NotFound)
+        }
     }
 }
