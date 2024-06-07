@@ -155,7 +155,10 @@ class ApplicationTest {
             // Apaga o usuário e já testa o DELETE_REQUEST
             handleRequest(HttpMethod.Post, DELETE_REQUEST) {
                 addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                setBody(Json.encodeToString(userTeste))
+                setBody(Json.encodeToString(mapOf(
+                    "email" to userTeste.email,
+                    "senha" to userTeste.senha
+                )))
             }.apply {
                 // Check the response status code
                 assertEquals(HttpStatusCode.OK, response.status())
