@@ -19,6 +19,7 @@ const val USERS = "$API_VERSION/users"
 const val REGISTER_REQUEST = "$USERS/register"
 const val LOGIN_REQUEST = "$USERS/login"
 const val UPDATE_REQUEST = "$USERS/update"
+const val DELETE_REQUEST = "$USERS/delete"
 
 fun Route.UserRoute(db:Repo, jwtService:JwtService, hashFunction: (String) -> String){
     post(REGISTER_REQUEST){
@@ -83,6 +84,15 @@ fun Route.UserRoute(db:Repo, jwtService:JwtService, hashFunction: (String) -> St
             }
         } catch (e: Exception){
             call.respond(HttpStatusCode.Conflict,SimpleResponse("false",e.message ?: "NAO"))
+        }
+    }
+    post(DELETE_REQUEST) {
+        val email = call.receive<String>()
+        try {
+            db.deleteUser(email)
+            call.respond(HttpStatusCode.OK,SimpleResponse("true","Usuário deletado com sucesso"))
+        } catch (e: Exception){
+            call.respond(HttpStatusCode.Conflict,SimpleResponse("false",e.message ?: "Algo deu errado"))
         }
     }
 }

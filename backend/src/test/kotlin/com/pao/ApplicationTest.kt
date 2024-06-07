@@ -11,13 +11,15 @@ import kotlin.test.*
 import io.mockk.mockk
 import io.mockk.every
 
-import com.pao.routes.randomProduct
-import com.pao.routes.products
-import com.pao.routes.getProduct
 import io.ktor.server.routing.*
 
 import com.pao.authentication.isEmail
 import com.pao.data.classes.Product
+import com.pao.data.classes.SimpleResponse
+import com.pao.data.classes.userStuff.User
+import com.pao.routes.*
+import io.mockk.coEvery
+import kotlinx.serialization.encodeToString
 
 import kotlinx.serialization.json.*
 
@@ -85,5 +87,88 @@ class ApplicationTest {
         assertEquals(false, isEmail("teste@teste"))
         assertEquals(true, isEmail("eduardo@gmail.com"))
         assertEquals(true, isEmail("gustavo@gmail.com"))
+    }
+
+    @Test
+    fun testRegisterRoute() {
+        every { mockJwtService.getVerifier() } returns mockJwtVerifier
+
+        // Retorna nulo para simular um usuário a ser cadastrado
+        coEvery { mockRepo.findUserByEmail("test@teste.com") } returns null
+
+        val existentUser = User(
+            "Eduardo",
+            "38maldfjl2###21d",
+            "ja_usado@google.com",
+            "58395745361",
+            "1129240129",
+            "0382765",
+            "São Paulo",
+            "SP",
+            "Rua dos Bobos",
+            "Vila do Chaves",
+            123,
+            "Casa 2",
+            "Próximo ao mercado"
+        )
+        coEvery { mockRepo.findUserByEmail("ja_usado@google.com") } returns existentUser
+
+        withTestApplication({
+            module(mockRepo, mockJwtService, mockHashFunction)
+            routing {
+                UserRoute(mockRepo, mockJwtService, mockHashFunction)
+            }
+        }) {
+
+        val userTeste = User(
+            "Gustavaz",
+            "38maldfjl2###21d",
+            "test@teste.com",
+            "58395745361",
+            "1129240129",
+            "0382765",
+            "São Paulo",
+            "SP",
+            "Rua dos Bobos",
+            "Vila do Chaves",
+            123,
+            "Casa 2",
+            "Próximo ao mercado"
+        )
+        handleRequest(HttpMethod.Post, REGISTER_REQUEST) {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody(Json.encodeToString(userTeste))
+            }.apply {
+                // Check the response status code
+                assertEquals(HttpStatusCode.OK, response.status())
+
+                // Deserialize the response content
+                val simpleResponse = Json.decodeFromString<SimpleResponse>(response.content!!)
+
+                // Check the success field in the response
+                assertEquals("true", simpleResponse.success)
+
+                // Check the message field in the response
+                assertEquals("Cadastro com sucesso", simpleResponse.message)
+            }
+
+            // Apaga o usuário e já testa o DELETE_REQUEST
+            handleRequest(HttpMethod.Post, DELETE_REQUEST) {
+                addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                setBody(Json.encodeToString(userTeste))
+            }.apply {
+                // Check the response status code
+                assertEquals(HttpStatusCode.OK, response.status())
+
+                // Deserialize the response content
+                val simpleResponse = Json.decodeFromString<SimpleResponse>(response.content!!)
+
+                // Check the success field in the response
+                assertEquals("true", simpleResponse.success)
+
+                // Check the message field in the response
+                assertEquals("Usuário deletado com sucesso", simpleResponse.message)
+            }
+        }
     }
 }

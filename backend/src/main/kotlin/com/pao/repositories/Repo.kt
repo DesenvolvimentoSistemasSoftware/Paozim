@@ -8,6 +8,7 @@ import com.pao.data.table.OrderTable
 import com.pao.data.table.UserTable
 import com.pao.repositories.DatabaseFactory.dbQuery
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class Repo {
     // User functions in database
@@ -121,6 +122,12 @@ class Repo {
             image = row[ItemTable.image],
             description = row[ItemTable.description]
         )
+    }
+
+    suspend fun deleteUser(email: String) {
+        dbQuery {
+            UserTable.deleteWhere { UserTable.email eq email }
+        }
     }
 
     // Order functions in database
