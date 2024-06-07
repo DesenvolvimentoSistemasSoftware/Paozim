@@ -1,5 +1,8 @@
 package com.pao
 
+import com.auth0.jwt.JWTVerifier
+import com.pao.authentication.JwtService
+import com.pao.repositories.Repo
 import io.ktor.client.request.*
 
 import io.ktor.http.*
@@ -9,6 +12,9 @@ import kotlin.test.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 
+import io.mockk.mockk
+import io.mockk.every
+
 import com.pao.routes.randomProduct
 import com.pao.routes.getProduct
 import io.ktor.server.routing.*
@@ -16,23 +22,37 @@ import io.ktor.server.routing.*
 import com.pao.authentication.isEmail
 
 class ApplicationTest {
+    // Mock the dependencies
+    private val mockRepo = mockk<Repo>()
+    private val mockJwtService = mockk<JwtService>()
+    private val mockHashFunction: (String) -> String = { it } // Simple identity function for hashing
+
+    private val mockJwtVerifier = mockk<JWTVerifier>()
+
+
     @Test
-    fun testRandomProduct() = testApplication {
-        // Define the application module for testing
-        application {
-            // Use the existing routes from your main project
+    fun testRandomProduct() {
+        every { mockJwtService.getVerifier() } returns mockJwtVerifier
+
+        // Run the test application with the mocked dependencies
+        withTestApplication({
+            module(mockRepo, mockJwtService, mockHashFunction)
             routing {
                 randomProduct()
-                getProduct()
+            }
+        }) {
+            // Perform a test request
+            handleRequest(HttpMethod.Get, "/product/random").apply {
+                // Assert the response
+                assertEquals(HttpStatusCode.OK, response.status())
+//                assertEquals("Expected response", response.content)
+                println(response.content)
             }
         }
 
-        // Create the client
-        val client = HttpClient(CIO)
-
-        // Make the request
-        val response = client.get("/product/random")
-        assertEquals(HttpStatusCode.OK, response.status)
+//        // Make the request
+//        val response = client.get("http://127.0.0.1:8000/product/random")
+//        assertEquals(HttpStatusCode.OK, response.status)
         // Printa o corpo da resposta
 //        println(response.body<String>())
 //        // Converte de JSON para um objeto

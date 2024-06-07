@@ -32,7 +32,7 @@ fun Application.module(db: Repo = Repo(),
     }
     install(Authentication) {
         jwt("jwt") {
-            verifier(jwtService.verifier)
+            verifier(jwtService.getVerifier())
             realm = "com.pao"
             validate {
                 val payload = it.payload
