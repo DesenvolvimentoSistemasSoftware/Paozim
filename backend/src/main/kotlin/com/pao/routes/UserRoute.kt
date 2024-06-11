@@ -8,6 +8,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import com.pao.authentication.JwtService
 import com.pao.data.classes.userStuff.LoginRequest
+import com.pao.data.classes.userStuff.DeleteRequest
 import com.pao.data.classes.SimpleResponse
 import com.pao.data.classes.UserResponse
 import com.pao.data.classes.userStuff.UpdateRequest
@@ -19,6 +20,7 @@ const val USERS = "$API_VERSION/users"
 const val REGISTER_REQUEST = "$USERS/register"
 const val LOGIN_REQUEST = "$USERS/login"
 const val UPDATE_REQUEST = "$USERS/update"
+const val DELETE_REQUEST = "$USERS/delete"
 
 fun Route.UserRoute(db:Repo, jwtService:JwtService, hashFunction: (String) -> String){
     post(REGISTER_REQUEST){
@@ -83,6 +85,28 @@ fun Route.UserRoute(db:Repo, jwtService:JwtService, hashFunction: (String) -> St
             }
         } catch (e: Exception){
             call.respond(HttpStatusCode.Conflict,SimpleResponse("false",e.message ?: "NAO"))
+        }
+    }
+    post(DELETE_REQUEST) {
+        val deleteRequest = call.receive<DeleteRequest>()
+        try {
+            val user = db.findUserByEmail(deleteRequest.email)
+            if(user == null){
+                call.respond(HttpStatusCode.BadRequest,UserResponse("false","Usuário não encontrado",null))
+            } else {
+                if(user.senha != hashFunction(deleteRequest.senha)){
+                    call.respond(HttpStatusCode.BadRequest,UserResponse("false","Senha incorreta",null))
+                }
+            }
+        } catch (e: Exception){
+            call.respond(HttpStatusCode.Conflict,UserResponse("false",e.message ?: "Algo deu errado",null))
+        }
+
+        try {
+            db.deleteUser(deleteRequest.email)
+            call.respond(HttpStatusCode.OK,SimpleResponse("true","Usuário deletado com sucesso"))
+        } catch (e: Exception){
+            call.respond(HttpStatusCode.Conflict,SimpleResponse("false",e.message ?: "Algo deu errado"))
         }
     }
 }

@@ -4,10 +4,10 @@ import com.pao.data.classes.itemStuff.Item
 import com.pao.data.classes.userStuff.UpdateRequest
 import com.pao.data.classes.userStuff.User
 import com.pao.data.table.ItemTable
-import com.pao.data.table.OrderTable
 import com.pao.data.table.UserTable
 import com.pao.repositories.DatabaseFactory.dbQuery
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class Repo {
     // User functions in database
@@ -121,6 +121,13 @@ class Repo {
             image = row[ItemTable.image],
             description = row[ItemTable.description]
         )
+    }
+
+    suspend fun deleteUser(email: String) {
+        val user = findUserByEmail(email) ?: throw NoSuchElementException("User with email $email not found")
+        dbQuery {
+            UserTable.deleteWhere { UserTable.email eq email }
+        }
     }
 
     // Order functions in database

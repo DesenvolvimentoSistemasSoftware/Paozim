@@ -11,7 +11,7 @@ class JwtService {
     private val jwtSecret = System.getenv("JWT_SECRET")
     private val algorithm = Algorithm.HMAC512(jwtSecret)
 
-    val verifier: JWTVerifier = JWT
+    private val verifier: JWTVerifier = JWT
         .require(algorithm)
         .withIssuer(issuer)
         .build()
@@ -22,5 +22,10 @@ class JwtService {
             .withIssuer(issuer)
             .withClaim("email", email)
             .sign(algorithm)
+    }
+
+    // Retorna o verifier
+    fun getVerifier(): JWTVerifier {
+        return verifier
     }
 }
