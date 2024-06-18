@@ -84,6 +84,7 @@
                     android:drawableStart="@drawable/ic_profile"
                     android:drawablePadding="20dp"
                     android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
 
                     android:text="Configurações da conta"
                     android:textAlignment="viewStart" />
@@ -100,6 +101,7 @@
                     android:drawableStart="@drawable/ic_history"
                     android:drawablePadding="20dp"
                     android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
 
                     android:text="Histórico de pedidos"
                     android:textAlignment="viewStart" />
@@ -116,6 +118,7 @@
                     android:drawableStart="@drawable/ic_star"
                     android:drawablePadding="20dp"
                     android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
 
                     android:text="Minhas avaliações"
                     android:textAlignment="viewStart" />
@@ -132,6 +135,7 @@
                     android:drawableStart="@drawable/ic_logout"
                     android:drawablePadding="20dp"
                     android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
 
                     android:text="Sair do aplicativo"
                     android:textColor="@color/red"
