@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.mobile.paozim.activities.DetailActivity
-import com.mobile.paozim.classes.Product
+import com.mobile.paozim.classes.Item
 import com.mobile.paozim.databinding.FragmentHomeBinding
 import com.mobile.paozim.viewModel.HomeViewModel
 
@@ -17,7 +17,7 @@ import com.mobile.paozim.viewModel.HomeViewModel
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeMvvm: HomeViewModel
-    private lateinit var randomProduct: Product
+    private lateinit var randomItem: Item
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        homeMvvm.getRandomProduct()
+        homeMvvm.getRandomItem()
         observeRandomProduct()
         onRandomProductClick()
     }
@@ -42,18 +42,18 @@ class HomeFragment : Fragment() {
     private fun onRandomProductClick() {
         binding.cvComidaRandom.setOnClickListener {
             val intent = Intent(activity, DetailActivity::class.java)
-            intent.putExtra("escolhido", randomProduct)
+            intent.putExtra("escolhido", randomItem)
             startActivity(intent)
         }
     }
 
     private fun observeRandomProduct() {
-        homeMvvm.observeRandomProductLiveData().observe(viewLifecycleOwner
+        homeMvvm.observeRandomItemLiveData().observe(viewLifecycleOwner
         ) { value ->
             Glide.with(this@HomeFragment)
-                .load(value.imagens[0])
+                .load(value.image)
                 .into(binding.imgComidaRandom)
-            this.randomProduct = value
+            this.randomItem = value
         }
     }
 }

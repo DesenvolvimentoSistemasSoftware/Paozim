@@ -12,3 +12,5 @@ interface ProductAPI {
     @GET("product/{id}")
     fun getProduct(@Path("id") id : String):Call<Product>
 }
+
+//INUTILIZAR

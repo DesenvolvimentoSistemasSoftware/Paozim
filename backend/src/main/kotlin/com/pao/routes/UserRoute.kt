@@ -10,7 +10,7 @@ import com.pao.authentication.JwtService
 import com.pao.data.classes.userStuff.LoginRequest
 import com.pao.data.classes.userStuff.DeleteRequest
 import com.pao.data.classes.SimpleResponse
-import com.pao.data.classes.UserResponse
+import com.pao.data.classes.userStuff.UserResponse
 import com.pao.data.classes.userStuff.UpdateRequest
 import com.pao.plugins.API_VERSION
 import com.pao.repositories.Repo
@@ -44,22 +44,22 @@ fun Route.UserRoute(db:Repo, jwtService:JwtService, hashFunction: (String) -> St
         val loginRequest = try {
             call.receive<LoginRequest>()
         } catch (e: Exception){
-            call.respond(HttpStatusCode.BadRequest,UserResponse("false","Faltam alguns campos",null))
+            call.respond(HttpStatusCode.BadRequest, UserResponse("false","Faltam alguns campos",null))
             return@post
         }
         try {
             val user = db.findUserByEmail(loginRequest.email)
             if(user == null){
-                call.respond(HttpStatusCode.BadRequest,UserResponse("false","Usuário não encontrado",null))
+                call.respond(HttpStatusCode.BadRequest, UserResponse("false","Usuário não encontrado",null))
             } else {
                 if(user.senha == hashFunction(loginRequest.senha)){
-                    call.respond(HttpStatusCode.OK,UserResponse("true","Login com sucesso!",user))
+                    call.respond(HttpStatusCode.OK, UserResponse("true","Login com sucesso!",user))
                 } else {
-                    call.respond(HttpStatusCode.BadRequest,UserResponse("false","Senha incorreta",null))
+                    call.respond(HttpStatusCode.BadRequest, UserResponse("false","Senha incorreta",null))
                 }
             }
         } catch (e: Exception){
-            call.respond(HttpStatusCode.Conflict,UserResponse("false",e.message ?: "Algo deu errado",null))
+            call.respond(HttpStatusCode.Conflict, UserResponse("false",e.message ?: "Algo deu errado",null))
         }
     }
     post(UPDATE_REQUEST){
@@ -92,14 +92,14 @@ fun Route.UserRoute(db:Repo, jwtService:JwtService, hashFunction: (String) -> St
         try {
             val user = db.findUserByEmail(deleteRequest.email)
             if(user == null){
-                call.respond(HttpStatusCode.BadRequest,UserResponse("false","Usuário não encontrado",null))
+                call.respond(HttpStatusCode.BadRequest, UserResponse("false","Usuário não encontrado",null))
             } else {
                 if(user.senha != hashFunction(deleteRequest.senha)){
-                    call.respond(HttpStatusCode.BadRequest,UserResponse("false","Senha incorreta",null))
+                    call.respond(HttpStatusCode.BadRequest, UserResponse("false","Senha incorreta",null))
                 }
             }
         } catch (e: Exception){
-            call.respond(HttpStatusCode.Conflict,UserResponse("false",e.message ?: "Algo deu errado",null))
+            call.respond(HttpStatusCode.Conflict, UserResponse("false",e.message ?: "Algo deu errado",null))
         }
 
         try {
