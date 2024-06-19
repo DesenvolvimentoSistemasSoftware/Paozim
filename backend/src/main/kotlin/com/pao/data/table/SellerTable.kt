@@ -1,9 +1,8 @@
 package com.pao.data.table
 
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.dao.id.IntIdTable
 
-object SellerTable: Table() {
-    val id = integer("id").autoIncrement()
+object SellerTable: IntIdTable() {
     val nome = varchar("nome", 100)
     val description = varchar("description", 1024)
     val image = varchar("image", 512)
@@ -15,6 +14,4 @@ object SellerTable: Table() {
     val endereco = varchar("endereco", 200)
     var bairro = varchar("bairro", 50)
     val numResidencia = integer("numResidencia")
-
-    override val primaryKey: PrimaryKey = PrimaryKey(id)
 }

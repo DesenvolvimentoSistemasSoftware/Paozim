@@ -14,10 +14,10 @@ fun Application.configureRouting(db:Repo, jwtService:JwtService, hashFunction: (
     routing {
         UserRoute(db, jwtService, hashFunction)
         ItemRoute(db)
+        OrderRoute(db)
 
         randomProduct()
         getProduct()
-
 
         static{
             resources("static")

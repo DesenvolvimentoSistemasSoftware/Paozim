@@ -3,28 +3,28 @@ package com.mobile.paozim.classes.CartStuff
 import android.content.Context
 import android.util.Log
 import com.google.gson.GsonBuilder
-import com.mobile.paozim.classes.Product
+import com.mobile.paozim.classes.Item
 
 object CartInstance {
     var Carro = Cart(mutableListOf(), null, null)
 
-    fun addItem(context: Context, storeId: String, item: Product, qtd: Int, delivery: Double) {
+    fun addItem(context: Context, storeId: String, item: Item, qtd: Int, delivery: Double) {
         if (Carro.storeID != null) {
             if (Carro.storeID == storeId) {
                 val index = Carro.itens.indexOfFirst { it.id == item.id }
                 if (index != -1) {
                     Carro.itens[index].qtd += qtd
                 } else {
-                    Carro.itens.add(CartItem(item.id, item.nome, item.imagens[0], item.preco, qtd))
+                    Carro.itens.add(CartItem(item.id, item.name, item.image, item.price, qtd))
                 }
                 Carro.shippingPrice = delivery
                 saveCart(context)
             } else {
-                Log.d("CART", "Carrinho de outra loja")
+                Log.d("CART2", "Carrinho de outra loja")
             }
         } else {
             Carro.storeID = storeId
-            Carro.itens = mutableListOf(CartItem(item.id, item.nome, item.imagens[0], item.preco, qtd))
+            Carro.itens = mutableListOf(CartItem(item.id, item.name, item.image, item.price, qtd))
             Carro.shippingPrice = delivery
             saveCart(context)
         }

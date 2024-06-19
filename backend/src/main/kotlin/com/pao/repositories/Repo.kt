@@ -1,19 +1,26 @@
 package com.pao.repositories
 
 import com.pao.data.classes.itemStuff.Item
+import com.pao.data.classes.orderStuff.Order
+import com.pao.data.classes.orderStuff.OrderItemResponse
+import com.pao.data.classes.orderStuff.OrderResponse
 import com.pao.data.classes.userStuff.UpdateRequest
 import com.pao.data.classes.userStuff.User
 import com.pao.data.table.ItemTable
+import com.pao.data.table.OrderItemTable
+import com.pao.data.table.OrderTable
 import com.pao.data.table.UserTable
 import com.pao.repositories.DatabaseFactory.dbQuery
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import java.time.format.DateTimeFormatter
+import java.time.LocalDateTime
 
 class Repo {
     // User functions in database
     suspend fun addUser(user: User) {
-        dbQuery{
-            UserTable.insert { ut->
+        dbQuery {
+            UserTable.insert { ut ->
                 ut[UserTable.email] = user.email
                 ut[UserTable.nome] = user.nome
                 ut[UserTable.senha] = user.senha
@@ -30,7 +37,7 @@ class Repo {
             }
         }
     }
-    suspend fun findUserByEmail(email:String): User?{
+    suspend fun findUserByEmail(email: String): User? {
         return dbQuery {
             UserTable
                 .select { UserTable.email.eq(email) }
@@ -38,7 +45,7 @@ class Repo {
                 .singleOrNull()
         }
     }
-    suspend fun updateUser(newUserInfo: UpdateRequest){
+    suspend fun updateUser(newUserInfo: UpdateRequest) {
         dbQuery {
             UserTable.update(
                 where = { UserTable.email eq newUserInfo.email })
@@ -55,7 +62,7 @@ class Repo {
             }
         }
     }
-    private fun rowToUser(row:ResultRow?): User? {
+    private fun rowToUser(row: ResultRow?): User? {
         if (row == null) {
             return null
         }
@@ -75,6 +82,12 @@ class Repo {
             referencia = row[UserTable.referencia]
         )
     }
+    suspend fun deleteUser(email: String) {
+        val user = findUserByEmail(email) ?: throw NoSuchElementException("User with email $email not found")
+        dbQuery {
+            UserTable.deleteWhere { UserTable.email eq email }
+        }
+    }
 
     // Itens function in database
     suspend fun randomItem(): Item? {
@@ -86,7 +99,7 @@ class Repo {
                 .firstOrNull()
         }
     }
-    suspend fun findItemById(id:Int): Item? {
+    suspend fun findItemById(id: Int): Item? {
         return dbQuery {
             ItemTable
                 .select { ItemTable.id.eq(id) }
@@ -94,26 +107,26 @@ class Repo {
                 .singleOrNull()
         }
     }
-    suspend fun findItemsBySeller(sellerID:Int): List<Item> {
+    suspend fun findItemsBySeller(sellerID: Int): List<Item> {
         return dbQuery {
             ItemTable
                 .select { ItemTable.sellerID.eq(sellerID) }
                 .mapNotNull { rowToItem(it) }
         }
     }
-    suspend fun findItemsByName(name:String): List<Item> {
+    suspend fun findItemsByName(name: String): List<Item> {
         return dbQuery {
             ItemTable
                 .select { ItemTable.name.lowerCase().like("%$name%") }
                 .mapNotNull { rowToItem(it) }
         }
     }
-    private fun rowToItem(row:ResultRow?): Item? {
+    private fun rowToItem(row: ResultRow?): Item? {
         if (row == null) {
             return null
         }
         return Item(
-            id = row[ItemTable.id],
+            id = row[ItemTable.id].value,
             name = row[ItemTable.name],
             sellerID = row[ItemTable.sellerID],
             price = row[ItemTable.price],
@@ -123,48 +136,84 @@ class Repo {
         )
     }
 
-    suspend fun deleteUser(email: String) {
-        val user = findUserByEmail(email) ?: throw NoSuchElementException("User with email $email not found")
-        dbQuery {
-            UserTable.deleteWhere { UserTable.email eq email }
+    // Order functions in database
+    suspend fun addOrder(order: Order) {
+        val timeStart = LocalDateTime.now()
+        val timeFinish = timeStart.plusMinutes(order.shippingDuration.toLong())
+
+        val id = dbQuery {
+            OrderTable.insertAndGetId { ot ->
+                ot[OrderTable.sellerID] = order.sellerID
+                ot[OrderTable.userEmail] = order.userEmail
+                ot[OrderTable.status] = "Pendente"
+                ot[OrderTable.timeStart] = timeStart.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                ot[OrderTable.timeFinish] = timeFinish.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                ot[OrderTable.totalPrice] = order.totalPrice
+                ot[OrderTable.shippingPrice] = order.shippingPrice
+            }.value
+        }
+        for (item in order.items) {
+            dbQuery {
+                OrderItemTable.insert { oit ->
+                    oit[OrderItemTable.orderID] = id
+                    oit[OrderItemTable.itemID] = item.itemID
+                    oit[OrderItemTable.quantity] = item.quantity
+                    oit[OrderItemTable.price] = item.price
+                }
+            }
         }
     }
-
-    // Order functions in database
-//    suspend fun addOrder(ord: Pedido, email: String) {
-//        dbQuery {
-//            OrderTable.insert { pt->
-//                pt[OrderTable.id] = ord.id
-//                pt[OrderTable.userEmail] = email
-//                pt[OrderTable.valorTotal] = ord.valorTotal
-//                pt[OrderTable.status] = ord.status
-//            }
-//        }
-//    }
-//    suspend fun getAllOrders(email: String):List<Pedido> = dbQuery {
-//        OrderTable.select {
-//            OrderTable.userEmail.eq(email)
-//        }.mapNotNull { rowToOrder(it) }
-//    }
-//    suspend fun updateOrderStatus(id:String, email:String, newStatus:String){
-//        dbQuery {
-//            OrderTable.update(
-//                where = {
-//                    (OrderTable.id eq id) and (OrderTable.userEmail eq email)
-//                },
-//            ){
-//                it[OrderTable.status] = newStatus
-//            }
-//        }
-//    }
-//    private fun rowToOrder(row:ResultRow?): Pedido? {
-//        if (row == null) {
-//            return null
-//        }
-//        return Pedido(
-//            id = row[OrderTable.id],
-//            valorTotal = row[OrderTable.valorTotal],
-//            status = row[OrderTable.status]
-//        )
-//    }
+    suspend fun findOrdersByUser(email: String): List<OrderResponse> {
+        return dbQuery {
+            OrderTable
+                .select { OrderTable.userEmail.eq(email) }
+                .mapNotNull { rowToOrder(it) }
+        }
+    }
+    suspend fun updateStatus(orderID: Int, newStatus: String) {
+        dbQuery {
+            OrderTable.update(
+                where = { OrderTable.id eq orderID })
+            {
+                it[OrderTable.status] = newStatus
+            }
+        }
+    }
+    private fun rowToOrder(row: ResultRow?): OrderResponse {
+        if (row == null) {
+            return OrderResponse(
+                id = null,
+                sellerID = null,
+                status = null,
+                timeStart = null,
+                timeFinish = null,
+                totalPrice = null,
+                shippingPrice = null
+            )
+        }
+        return OrderResponse(
+            id = row[OrderTable.id].value,
+            sellerID = row[OrderTable.sellerID],
+            status = row[OrderTable.status],
+            timeStart = row[OrderTable.timeStart],
+            timeFinish = row[OrderTable.timeFinish],
+            totalPrice = row[OrderTable.totalPrice],
+            shippingPrice = row[OrderTable.shippingPrice],
+        )
+    }
+    suspend fun findOrderItems(orderID: Int): List<OrderItemResponse> {
+        return dbQuery {
+            (OrderItemTable innerJoin ItemTable)
+                .select { OrderItemTable.orderID eq orderID }
+                .map {
+                    OrderItemResponse(
+                        itemID = it[OrderItemTable.itemID],
+                        quantity = it[OrderItemTable.quantity],
+                        price = it[OrderItemTable.price],
+                        image = it[ItemTable.image],
+                        name = it[ItemTable.name]
+                    )
+                }
+        }
+    }
 }
