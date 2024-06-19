@@ -33,23 +33,14 @@
                     android:id="@+id/textView11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Usuário"
+                    android:text="Mudar nome de usuário"
+                    android:textAlignment="center"
                     android:textSize="25dp"
 
                     android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView"
-                    tools:layout_editor_absoluteX="162dp" />
-
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="email@email.com"
-                    android:textSize="20sp"
-                    android:textColor="@color/blue_gray"
-                    app:layout_constraintEnd_toEndOf="@+id/textView11"
-                    app:layout_constraintStart_toStartOf="@+id/textView11"
-                    app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
                 <EditText
                     android:id="@+id/et_name"
@@ -69,7 +60,47 @@
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@color/white"
+                    android:drawableLeft="@drawable/ic_pen"
+                    android:drawablePadding="8dp"
+                    android:ems="10"
+                    android:hint="Email atual"
+                    android:inputType="text"
+                    android:padding="8dp"
+                    android:textColorHint="#989393"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/et_name" />
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@color/white"
+                    android:drawableLeft="@drawable/ic_pen"
+                    android:drawablePadding="8dp"
+                    android:ems="10"
+                    android:hint="Senha atual"
+                    android:inputType="textPassword"
+                    android:padding="8dp"
+                    android:textColorHint="#989393"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/et_email" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
@@ -80,7 +111,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/et_email">
+                    app:layout_constraintTop_toBottomOf="@+id/et_password">
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/button_change_name"

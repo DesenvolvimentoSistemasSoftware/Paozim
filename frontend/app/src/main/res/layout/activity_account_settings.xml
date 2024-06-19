@@ -30,26 +30,27 @@
                     app:srcCompat="@drawable/topbackground" />
 
                 <TextView
-                    android:id="@+id/textView11"
+                    android:id="@+id/et_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Usuário"
                     android:textSize="25dp"
 
                     android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView"
-                    tools:layout_editor_absoluteX="162dp" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/et_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="email@email.com"
                     android:textSize="20sp"
                     android:textColor="@color/blue_gray"
-                    app:layout_constraintEnd_toEndOf="@+id/textView11"
-                    app:layout_constraintStart_toStartOf="@+id/textView11"
-                    app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                    app:layout_constraintEnd_toEndOf="@+id/et_name"
+                    app:layout_constraintStart_toStartOf="@+id/et_name"
+                    app:layout_constraintTop_toBottomOf="@+id/et_name" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -59,10 +60,10 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView12">
+                    app:layout_constraintTop_toBottomOf="@+id/et_email">
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button_1"
+                        android:id="@+id/btn_change_name"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginStart="32dp"
@@ -79,7 +80,7 @@
                         android:textAlignment="viewStart" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button_4"
+                        android:id="@+id/btn_logout"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginStart="32dp"
@@ -97,7 +98,7 @@
                         android:textColor="@color/red" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button_5"
+                        android:id="@+id/btn_delete_account"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginStart="32dp"
@@ -113,6 +114,22 @@
                         android:text="Deletar conta"
                         android:textAlignment="viewStart"
                         android:textColor="@color/red" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_back"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/btn_background_1"
+                        android:drawablePadding="20dp"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+
+                        android:text="Voltar"
+                        android:textAlignment="viewStart" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
