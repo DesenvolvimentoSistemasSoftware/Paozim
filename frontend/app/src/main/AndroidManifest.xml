@@ -31,10 +31,15 @@
         android:theme="@style/Theme.Paozim"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.profile.HistoryActivity"
+            android:exported="false"
+            android:label="@string/title_activity_history"
+            android:theme="@style/Theme.Paozim" />
+        <activity
             android:name=".activities.profile.AccountSettingsActivity"
             android:exported="false"
             android:label="AccountSettingsActivity"
-            android:theme="@style/Theme.Paozim"/>
+            android:theme="@style/Theme.Paozim" />
         <activity
             android:name=".activities.profile.ChangeNameActivity"
             android:exported="false"

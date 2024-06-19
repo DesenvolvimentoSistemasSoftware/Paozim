@@ -2,7 +2,9 @@ package com.mobile.paozim.classes
 
 import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Product(
     val id: Int,
     val nome: String,
