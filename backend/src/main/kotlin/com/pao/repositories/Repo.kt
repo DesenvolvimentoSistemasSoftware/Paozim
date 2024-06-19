@@ -89,6 +89,16 @@ class Repo {
         }
     }
 
+    suspend fun changeUserName(email: String, newName: String) {
+        dbQuery {
+            UserTable.update(
+                where = { UserTable.email eq email })
+            {
+                it[UserTable.nome] = newName
+            }
+        }
+    }
+
     // Itens function in database
     suspend fun randomItem(): Item? {
         return dbQuery {

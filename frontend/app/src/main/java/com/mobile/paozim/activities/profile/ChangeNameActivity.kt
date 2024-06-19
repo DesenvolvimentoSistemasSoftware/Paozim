@@ -3,7 +3,6 @@ package com.mobile.paozim.activities.profile
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.mobile.paozim.activities.TabActivity
 
 import com.mobile.paozim.databinding.ActivityChangeNameBinding
 import com.mobile.paozim.retrofit.RetroInsta

@@ -1,17 +1,13 @@
 package com.pao.routes
 
 // https://ktor.io/docs/server-requests.html#request_information
-import com.pao.data.classes.userStuff.User
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import com.pao.authentication.JwtService
-import com.pao.data.classes.userStuff.LoginRequest
-import com.pao.data.classes.userStuff.DeleteRequest
 import com.pao.data.classes.SimpleResponse
-import com.pao.data.classes.userStuff.UserResponse
-import com.pao.data.classes.userStuff.UpdateRequest
+import com.pao.data.classes.userStuff.*
 import com.pao.plugins.API_VERSION
 import com.pao.repositories.Repo
 import io.ktor.server.request.*
@@ -21,6 +17,7 @@ const val REGISTER_REQUEST = "$USERS/register"
 const val LOGIN_REQUEST = "$USERS/login"
 const val UPDATE_REQUEST = "$USERS/update"
 const val DELETE_REQUEST = "$USERS/delete"
+const val CHANGE_NAME_REQUEST = "$USERS/changeName"
 
 fun Route.UserRoute(db:Repo, jwtService:JwtService, hashFunction: (String) -> String){
     post(REGISTER_REQUEST){
@@ -107,6 +104,30 @@ fun Route.UserRoute(db:Repo, jwtService:JwtService, hashFunction: (String) -> St
             call.respond(HttpStatusCode.OK,SimpleResponse("true","Usuário deletado com sucesso"))
         } catch (e: Exception){
             call.respond(HttpStatusCode.Conflict,SimpleResponse("false",e.message ?: "Algo deu errado"))
+        }
+    }
+    post(CHANGE_NAME_REQUEST) {
+        val updateRequest = try {
+            call.receive<ChangeNameRequest>()
+        } catch (e: Exception){
+            call.respond(HttpStatusCode.BadRequest,SimpleResponse("false","Missing some fields"))
+            return@post
+        }
+
+        try {
+            val user = db.findUserByEmail(updateRequest.email)
+            if(user == null){
+                call.respond(HttpStatusCode.BadRequest,SimpleResponse("false","NAO"))
+            } else {
+                if(user.senha == hashFunction(updateRequest.senha)){
+                    db.changeUserName(updateRequest.email, updateRequest.newName)
+                    call.respond(HttpStatusCode.OK,SimpleResponse("true","Nome atualizado com sucesso"))
+                } else {
+                    call.respond(HttpStatusCode.BadRequest,SimpleResponse("false","NAO"))
+                }
+            }
+        } catch (e: Exception){
+            call.respond(HttpStatusCode.Conflict,SimpleResponse("false",e.message ?: "NAO"))
         }
     }
 }
