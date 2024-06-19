@@ -1,6 +1,5 @@
-package com.pao.data.classes
+package com.pao.data.classes.userStuff
 
-import com.pao.data.classes.userStuff.User
 import kotlinx.serialization.Serializable
 
 @Serializable

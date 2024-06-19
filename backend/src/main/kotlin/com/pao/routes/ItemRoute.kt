@@ -39,11 +39,7 @@ fun Route.ItemRoute(db: Repo){
         val sellerID = call.parameters["sellerID"]?.toInt()
         try {
             val items = db.findItemsBySeller(sellerID!!)
-            if(items.isEmpty()){
-                call.respond(HttpStatusCode.NotFound, SimpleResponse("false","NAO"))
-            } else {
-                call.respond(HttpStatusCode.OK, items)
-            }
+            call.respond(HttpStatusCode.OK, items)
         } catch (e: Exception){
             call.respond(HttpStatusCode.NotFound, SimpleResponse("false","NAO"))
         }
@@ -52,11 +48,7 @@ fun Route.ItemRoute(db: Repo){
         val name = call.parameters["name"]
         try {
             val items = db.findItemsByName(name!!)
-            if(items.isEmpty()){
-                call.respond(HttpStatusCode.NotFound, SimpleResponse("false","NAO"))
-            } else {
-                call.respond(HttpStatusCode.OK, items)
-            }
+            call.respond(HttpStatusCode.OK, items)
         } catch (e: Exception){
             call.respond(HttpStatusCode.NotFound, SimpleResponse("false","NAO"))
         }

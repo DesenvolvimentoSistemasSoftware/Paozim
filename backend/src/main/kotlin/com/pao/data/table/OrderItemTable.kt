@@ -7,5 +7,4 @@ object OrderItemTable: Table() {
     val itemID = integer("itemID").references(ItemTable.id)
     val quantity = integer("quantity")
     val price = double("price")
-    val total = double("total")
 }
