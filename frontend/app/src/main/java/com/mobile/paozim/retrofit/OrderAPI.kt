@@ -1,14 +1,5 @@
 //package com.mobile.paozim.retrofit
 //
-//import com.mobile.paozim.data.remote.models.Pedido
-//import com.mobile.paozim.data.remote.models.SimpleResponse
-//import retrofit2.Call
-//import retrofit2.http.Body
-//import retrofit2.http.GET
-//import retrofit2.http.Header
-//import retrofit2.http.Headers
-//import retrofit2.http.POST
-//
 //interface PedidoAPI {
 //    @Headers("Content-Type: application/json")
 //    @POST("$API_VERSION/pedido/create")

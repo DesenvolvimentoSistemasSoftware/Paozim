@@ -17,4 +17,12 @@ interface ItemAPI {
     @Headers("Content-Type: application/json")
     @GET(RANDOM_REQUEST)
     fun getRandomItens(): Call<Item>
+    @GET(ITEM_REQUEST)
+    fun getItemById(@Header("id") id: String): Call<Item>
+
+    @GET(SELLER_ITEM_REQUEST)
+    fun getItemsBySeller(@Header("sellerID") sellerID: String): Call<List<Item>>
+
+    @GET(NAME_ITEM_REQUEST)
+    fun getItemsByName(@Header("name") name: String): Call<List<Item>>
 }
