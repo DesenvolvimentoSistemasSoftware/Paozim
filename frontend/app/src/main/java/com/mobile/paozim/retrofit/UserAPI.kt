@@ -1,5 +1,6 @@
 package com.mobile.paozim.retrofit
 
+import com.mobile.paozim.classes.UserStuff.ChangeNameRequest
 import com.mobile.paozim.classes.UserStuff.LoginRequest
 import com.mobile.paozim.classes.Responses.SimpleResponse
 import com.mobile.paozim.classes.UserStuff.User
@@ -20,4 +21,9 @@ interface UserAPI {
     @Headers("Content-Type: application/json")
     @POST(LOGIN_REQUEST)
     fun login(@Body user: LoginRequest): Call<UserResponse>
+
+    // Change name
+    @Headers("Content-Type: application/json")
+    @POST("$USERS/changeName")
+    fun changeName(@Body user: ChangeNameRequest): Call<SimpleResponse>
 }

@@ -31,6 +31,21 @@
         android:theme="@style/Theme.Paozim"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.profile.HistoryActivity"
+            android:exported="false"
+            android:label="@string/title_activity_history"
+            android:theme="@style/Theme.Paozim" />
+        <activity
+            android:name=".activities.profile.AccountSettingsActivity"
+            android:exported="false"
+            android:label="AccountSettingsActivity"
+            android:theme="@style/Theme.Paozim" />
+        <activity
+            android:name=".activities.profile.ChangeNameActivity"
+            android:exported="false"
+            android:label="@string/title_activity_change_name"
+            android:theme="@style/Theme.Paozim" />
+        <activity
             android:name=".activities.PaymentActivity"
             android:exported="false" />
         <activity
