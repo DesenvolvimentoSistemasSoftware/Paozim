@@ -1,15 +1,20 @@
 package com.mobile.paozim.fragments
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mobile.paozim.activities.PaymentActivity
 import com.mobile.paozim.classes.CartStuff.CartAdapter
 import com.mobile.paozim.classes.CartStuff.CartInstance
 import com.mobile.paozim.classes.CartStuff.CartViewModel
@@ -18,6 +23,13 @@ import com.mobile.paozim.databinding.FragmentCartBinding
 class CartFragment : Fragment() {
     private lateinit var binding: FragmentCartBinding
     private lateinit var cartViewModel: CartViewModel
+    private val next = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == RESULT_OK) {
+            updateInfo()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +40,10 @@ class CartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCartBinding.inflate(inflater,container,false)
+        binding.btnPedido.setOnClickListener(){
+            val intent = Intent(activity, PaymentActivity::class.java)
+            next.launch(intent)
+        }
         return binding.root
     }
 

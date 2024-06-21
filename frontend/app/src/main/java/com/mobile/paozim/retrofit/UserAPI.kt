@@ -1,9 +1,9 @@
 package com.mobile.paozim.retrofit
 
 import com.mobile.paozim.classes.UserStuff.LoginRequest
-import com.mobile.paozim.data.remote.models.SimpleResponse
+import com.mobile.paozim.classes.Responses.SimpleResponse
 import com.mobile.paozim.classes.UserStuff.User
-import com.mobile.paozim.data.remote.models.UserResponse
+import com.mobile.paozim.classes.Responses.UserResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Headers

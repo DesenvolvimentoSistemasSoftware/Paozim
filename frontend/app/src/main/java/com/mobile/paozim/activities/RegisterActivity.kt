@@ -1,25 +1,25 @@
 package com.mobile.paozim.activities
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import com.mobile.paozim.data.remote.models.SimpleResponse
-import com.mobile.paozim.classes.UserStuff.User
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import com.mobile.paozim.classes.UserStuff.UserInstance
 import com.mobile.paozim.databinding.ActivityRegisterBinding
-import com.mobile.paozim.retrofit.UserAPI
-import com.mobile.paozim.retrofit.RetroInsta
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RegisterActivity : ComponentActivity() {
     private lateinit var binding: ActivityRegisterBinding
+    private val next = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == RESULT_OK) {
+            Intent().apply { setResult(RESULT_OK, this) }
+            finish()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +35,8 @@ class RegisterActivity : ComponentActivity() {
                 UserInstance.Usuario.nome = binding.etNome.text.toString()
                 UserInstance.Usuario.email = binding.etEmail.text.toString()
                 UserInstance.Usuario.senha = binding.etPassword.text.toString()
-                startActivity(Intent(this, RegisterActivity2::class.java))
+                val intent = Intent(this, RegisterActivity2::class.java)
+                next.launch(intent)
             }
         }
     }
