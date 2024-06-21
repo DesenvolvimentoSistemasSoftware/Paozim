@@ -3,6 +3,7 @@ package com.mobile.paozim.activities.profile
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.paozim.classes.OrderStuff.OrderAdapter
 import com.mobile.paozim.classes.OrderStuff.OrderCallback
 import com.mobile.paozim.classes.UserStuff.UserInstance
@@ -27,7 +28,7 @@ class HistoryActivity : ComponentActivity() {
         getHistory(UserInstance.Usuario.email, object : OrdersCallback {
             override fun onSuccess(orders: List<OrderCallback>) {
                 binding.ivProductCard.adapter = OrderAdapter(orders)
-                Log.d("VEJA", "Sucesso: ${orders}")
+                binding.ivProductCard.layoutManager = LinearLayoutManager(this@HistoryActivity)
             }
 
             override fun onFailure(t: Throwable) {
