@@ -1,4 +1,4 @@
-package com.pao.data.classes.orderStuff
+package com.mobile.paozim.classes.OrderStuff
 
 import kotlinx.serialization.Serializable
 

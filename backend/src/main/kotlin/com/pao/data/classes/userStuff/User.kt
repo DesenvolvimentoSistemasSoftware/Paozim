@@ -18,6 +18,4 @@ data class User(
     val numResidencia: Int,
     val complemento: String,
     val referencia: String
-    // Adicionar foto usuário
-    // Adicionar data de cadastro
 ):Principal

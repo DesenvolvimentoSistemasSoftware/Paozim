@@ -1,4 +1,4 @@
-package com.mobile.paozim.data.remote.models
+package com.mobile.paozim.classes.Responses
 
 import com.mobile.paozim.classes.UserStuff.User
 import kotlinx.serialization.Serializable

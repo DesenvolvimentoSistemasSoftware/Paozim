@@ -35,11 +35,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homeMvvm.getRandomItem()
-        observeRandomProduct()
-        onRandomProductClick()
+        observeRandomItem()
+        onRandomItemClick()
     }
 
-    private fun onRandomProductClick() {
+    private fun onRandomItemClick() {
         binding.cvComidaRandom.setOnClickListener {
             val intent = Intent(activity, DetailActivity::class.java)
             intent.putExtra("escolhido", randomItem)
@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun observeRandomProduct() {
+    private fun observeRandomItem() {
         homeMvvm.observeRandomItemLiveData().observe(viewLifecycleOwner
         ) { value ->
             Glide.with(this@HomeFragment)

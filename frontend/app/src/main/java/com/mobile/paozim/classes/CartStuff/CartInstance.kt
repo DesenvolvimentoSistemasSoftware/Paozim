@@ -38,6 +38,12 @@ object CartInstance {
         }
         saveCart(context)
     }
+    fun clearCart(context: Context) {
+        Carro.itens.clear()
+        Carro.storeID = null
+        Carro.shippingPrice = null
+        saveCart(context)
+    }
 
     fun decreaseItem(context: Context, item: CartItem) {
         val index = Carro.itens.indexOfFirst { it.id == item.id }

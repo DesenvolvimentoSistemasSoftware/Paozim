@@ -42,9 +42,9 @@ fun Route.OrderRoute(db: Repo){
                 if(order.status == "Pendente"){
                     val currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                     val currentTimeParsed = LocalDateTime.parse(currentTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                    val orderTime = LocalDateTime.parse(order.timeFinish!!, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                    val orderTime = LocalDateTime.parse(order.timeFinish, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                     if(currentTimeParsed >= orderTime) {
-                        db.updateStatus(order.id!!, "Entregue")
+                        db.updateStatus(order.id, "Entregue")
                         order.status = "Entregue"
                     }
                 }

@@ -6,9 +6,9 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.mobile.paozim.classes.UserStuff.UserInstance
-import com.mobile.paozim.data.remote.models.SimpleResponse
+import com.mobile.paozim.classes.Responses.SimpleResponse
 import com.mobile.paozim.databinding.ActivityRegister3Binding
-import com.mobile.paozim.retrofit.RetroInsta
+import com.mobile.paozim.retrofit.RetrofitInstance
 import com.mobile.paozim.retrofit.UserAPI
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,7 +39,7 @@ class RegisterActivity3 : ComponentActivity() {
     }
 
     private fun signUp(){
-        val retIn = RetroInsta.getRetrofitInstance().create(UserAPI::class.java)
+        val retIn = RetrofitInstance.getRetrofitInstance().create(UserAPI::class.java)
         val registerInfo = UserInstance.Usuario
 
         retIn.register(registerInfo).enqueue(object : Callback<SimpleResponse> {
@@ -54,7 +54,9 @@ class RegisterActivity3 : ComponentActivity() {
                     if(simpleResponse.success == "true"){
                         UserInstance.logged = true
                         UserInstance.saveUser(this@RegisterActivity3)
+                        Intent().apply { setResult(RESULT_OK, this) }
                         startActivity(Intent(this@RegisterActivity3, TabActivity::class.java))
+                        finish()
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()

@@ -11,7 +11,6 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.mobile.paozim.R
-import com.mobile.paozim.classes.Product
 import com.mobile.paozim.classes.CartStuff.CartInstance
 import com.mobile.paozim.classes.Item
 import com.mobile.paozim.databinding.ActivityDetailBinding
@@ -19,7 +18,7 @@ import java.util.concurrent.CompletableFuture
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var prodSelec: Item
+    private lateinit var itemSelected: Item
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,21 +26,21 @@ class DetailActivity : AppCompatActivity() {
 
         setContentView(binding.root)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            prodSelec = intent.getParcelableExtra("escolhido",Item::class.java)!!
+            itemSelected = intent.getParcelableExtra("escolhido",Item::class.java)!!
         else
-            prodSelec = intent.getParcelableExtra<Item>("escolhido")!!
+            itemSelected = intent.getParcelableExtra<Item>("escolhido")!!
 
         setInformationViews()
         setCliqueListeners()
     }
     private fun setInformationViews(){
-        binding.tvName.text = prodSelec.name
-        binding.tvDescricao.text = prodSelec.description
-        binding.tvPrice.text = "R$ %.2f".format(prodSelec.price)
-        binding.tvLoja.text = prodSelec.sellerID.toString()
+        binding.tvName.text = itemSelected.name
+        binding.tvDescricao.text = itemSelected.description
+        binding.tvPrice.text = "R$ %.2f".format(itemSelected.price)
+        binding.tvLoja.text = itemSelected.sellerID.toString()
 //        binding.ratingBar.rating = prodSelec.aveAvaliacao.toFloat()
         Glide.with(this@DetailActivity)
-            .load(prodSelec.image)
+            .load(itemSelected.image)
             .into(binding.ivThumb)
     }
     private fun setCliqueListeners(){
@@ -49,16 +48,16 @@ class DetailActivity : AppCompatActivity() {
             var qtd = binding.tvQtd.text.toString().toInt()
             if(qtd > 0){
                 qtd--
-                var total = prodSelec.price * qtd
+                var total = itemSelected.price * qtd
                 binding.tvQtd.text = qtd.toString()
                 binding.tvTotal.text = "%.2f".format(total)
             }
         }
         binding.ivMais.setOnClickListener(){
             var qtd = binding.tvQtd.text.toString().toInt()
-            if(qtd < prodSelec.stock){
+            if(qtd < itemSelected.stock){
                 qtd++
-                var total = prodSelec.price * qtd
+                var total = itemSelected.price * qtd
                 binding.tvQtd.text = qtd.toString()
                 binding.tvTotal.text = "%.2f".format(total)
             }
@@ -68,16 +67,14 @@ class DetailActivity : AppCompatActivity() {
         }
         binding.btnAddCarrinho.setOnClickListener() {
             if (binding.tvQtd.text.toString().toInt() != 0){
-                if(CartInstance.Carro.storeID != null && CartInstance.Carro.storeID != prodSelec.sellerID.toString()){
+                if(CartInstance.Carro.storeID != null && CartInstance.Carro.storeID != itemSelected.sellerID.toString()){
                     showDialogBox().thenAccept { result ->
                         if(result){
-                            CartInstance.Carro.itens.clear()
-                            CartInstance.Carro.storeID = null
-                            CartInstance.Carro.shippingPrice = null
+                            CartInstance.clearCart(this)
                             CartInstance.addItem(
                                 this,
-                                prodSelec.sellerID.toString(),
-                                prodSelec,
+                                itemSelected.sellerID.toString(),
+                                itemSelected,
                                 binding.tvQtd.text.toString().toInt(),
                                 0.0
                             )
@@ -96,8 +93,8 @@ class DetailActivity : AppCompatActivity() {
                 else {
                     CartInstance.addItem(
                         this,
-                        prodSelec.sellerID.toString(),
-                        prodSelec,
+                        itemSelected.sellerID.toString(),
+                        itemSelected,
                         binding.tvQtd.text.toString().toInt(),
                         0.0
                     )
@@ -118,7 +115,7 @@ class DetailActivity : AppCompatActivity() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
-        dialog.setContentView(R.layout.dialog_box)
+        dialog.setContentView(R.layout.dialog_box_new_cart)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val yesBtn : Button = dialog.findViewById(R.id.btn_accept)
