@@ -12,7 +12,7 @@ import com.mobile.paozim.databinding.ItemOrderBinding
 class OrderAdapter(private val orders: List<OrderCallback>) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
     class OrderViewHolder(private val binding: ItemOrderBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(order: OrderCallback) {
-            binding.orderId.text = order.id.toString()
+            binding.orderId.text = "ID do pedido: " + order.id.toString()
             binding.orderPrice.text = order.totalPrice.toString()
             binding.orderArrived.text = order.status
         }

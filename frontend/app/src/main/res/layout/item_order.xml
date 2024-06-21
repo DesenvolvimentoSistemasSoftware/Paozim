@@ -2,7 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="32dp"
+    android:background="@drawable/btn_background_gray">
 
     <TextView
         android:id="@+id/order_id"
