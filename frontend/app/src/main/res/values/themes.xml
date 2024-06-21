@@ -21,7 +21,7 @@
     <style name="custom_card_view_style" parent="Widget.MaterialComponents.CardView">
         <item name="shapeAppearanceOverlay">@style/custom_card_view</item>
     </style>
-    
+
     <style name="textStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/blue_gray</item>

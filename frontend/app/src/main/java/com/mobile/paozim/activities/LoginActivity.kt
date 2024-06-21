@@ -49,6 +49,11 @@ class LoginActivity : AppCompatActivity() {
                 )
             }
         }
+        binding.btnGuest.setOnClickListener {
+            val i = Intent(this@LoginActivity, TabActivity::class.java)
+            startActivity(i)
+            finish()
+        }
     }
 
     override fun onStart() {

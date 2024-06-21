@@ -89,6 +89,16 @@ class Repo {
         }
     }
 
+    suspend fun changeUserName(email: String, newName: String) {
+        dbQuery {
+            UserTable.update(
+                where = { UserTable.email eq email })
+            {
+                it[UserTable.nome] = newName
+            }
+        }
+    }
+
     // Itens function in database
     suspend fun randomItem(): Item? {
         return dbQuery {
@@ -97,6 +107,19 @@ class Repo {
                 .mapNotNull { rowToItem(it) }
                 .shuffled()
                 .firstOrNull()
+        }
+    }
+
+    suspend fun addItem(item: Item) {
+        dbQuery {
+            ItemTable.insert { it ->
+                it[name] = item.name
+                it[sellerID] = item.sellerID
+                it[price] = item.price
+                it[stock] = item.stock
+                it[image] = item.image
+                it[description] = item.description
+            }
         }
     }
     suspend fun findItemById(id: Int): Item? {
