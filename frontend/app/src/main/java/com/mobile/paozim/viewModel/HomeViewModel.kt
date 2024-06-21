@@ -17,7 +17,7 @@ class HomeViewModel() : ViewModel() {
     val retIn = RetrofitInstance.getRetrofitInstance().create(ItemAPI::class.java)
 
     fun getRandomItem(){
-        retIn.getRandomItens().enqueue(object : Callback<Item> {
+        retIn.getRandomItem().enqueue(object : Callback<Item> {
             override fun onResponse(call: Call<Item>, response: Response<Item>) {
                 if(response.body() != null){
                     var randomItem: Item = response.body()!!

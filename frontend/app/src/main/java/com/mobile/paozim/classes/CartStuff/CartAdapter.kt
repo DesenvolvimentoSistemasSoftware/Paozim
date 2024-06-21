@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.mobile.paozim.R
+import com.mobile.paozim.viewModel.CartViewModel
 
 
 class CartAdapter (

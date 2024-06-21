@@ -2,10 +2,9 @@ package com.mobile.paozim.retrofit
 
 import com.mobile.paozim.classes.Item
 import retrofit2.Call
-import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Headers
+import retrofit2.http.Path
 
 const val ITENS = "$API_VERSION/itens"
 const val RANDOM_REQUEST = "$ITENS/random"
@@ -16,5 +15,13 @@ const val NAME_ITEM_REQUEST = "$ITENS/name/{name}"
 interface ItemAPI {
     @Headers("Content-Type: application/json")
     @GET(RANDOM_REQUEST)
-    fun getRandomItens(): Call<Item>
+    fun getRandomItem(): Call<Item>
+
+    @Headers("Content-Type: application/json")
+    @GET(SELLER_ITEM_REQUEST)
+    fun getItemsBySeller(@Path("sellerID") sellerID: Int): Call<List<Item>>
+
+    @Headers("Content-Type: application/json")
+    @GET(NAME_ITEM_REQUEST)
+    fun getItemsByName(@Path("name") name: String): Call<List<Item>>
 }
