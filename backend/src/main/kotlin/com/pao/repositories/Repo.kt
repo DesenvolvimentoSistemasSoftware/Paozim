@@ -109,6 +109,19 @@ class Repo {
                 .firstOrNull()
         }
     }
+
+    suspend fun addItem(item: Item) {
+        dbQuery {
+            ItemTable.insert { it ->
+                it[name] = item.name
+                it[sellerID] = item.sellerID
+                it[price] = item.price
+                it[stock] = item.stock
+                it[image] = item.image
+                it[description] = item.description
+            }
+        }
+    }
     suspend fun findItemById(id: Int): Item? {
         return dbQuery {
             ItemTable

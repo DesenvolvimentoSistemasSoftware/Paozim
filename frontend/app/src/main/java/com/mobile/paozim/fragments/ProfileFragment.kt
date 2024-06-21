@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.mobile.paozim.R
 import com.mobile.paozim.activities.profile.AccountSettingsActivity
+import com.mobile.paozim.activities.profile.HistoryActivity
 import com.mobile.paozim.classes.UserStuff.UserInstance
 import com.mobile.paozim.databinding.FragmentProfileBinding
 
@@ -31,6 +32,12 @@ class ProfileFragment : Fragment() {
         binding.btnAccountSettings.setOnClickListener {
             val context = requireContext()
             val intent = Intent(context, AccountSettingsActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnHistory.setOnClickListener {
+            val context = requireContext()
+            val intent = Intent(context, HistoryActivity::class.java)
             startActivity(intent)
         }
 

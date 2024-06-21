@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mobile.paozim.classes.UserStuff.ChangeNameRequest
 
 import com.mobile.paozim.databinding.ActivityChangeNameBinding
-import com.mobile.paozim.retrofit.RetroInsta
+import com.mobile.paozim.retrofit.RetrofitInstance
 import com.mobile.paozim.retrofit.UserAPI
 
 import retrofit2.Call
@@ -14,7 +14,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 import android.widget.Toast
-import com.mobile.paozim.data.remote.models.SimpleResponse
+import com.mobile.paozim.classes.Responses.SimpleResponse
 
 
 class ChangeNameActivity: AppCompatActivity() {
@@ -35,7 +35,7 @@ class ChangeNameActivity: AppCompatActivity() {
     }
 
     private fun changeName(newName: String, email: String, password: String) {
-        val retIn = RetroInsta.getRetrofitInstance().create(UserAPI::class.java)
+        val retIn = RetrofitInstance.getRetrofitInstance().create(UserAPI::class.java)
         val changeNameRequest = ChangeNameRequest(email, password, newName)
         
         retIn.changeName(changeNameRequest).enqueue(object: Callback<SimpleResponse> {
