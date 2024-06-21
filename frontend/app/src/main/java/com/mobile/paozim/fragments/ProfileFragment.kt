@@ -14,20 +14,17 @@ import com.mobile.paozim.classes.UserStuff.UserInstance
 import com.mobile.paozim.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
-    private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentProfileBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    // Escrever UserInstance.email e UserInstance.nome nos campos visíveis (etEmail e etName)
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    ): View? {
+        binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         binding.btnAccountSettings.setOnClickListener {
             val context = requireContext()
@@ -41,8 +38,8 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
-        val etEmail = view.findViewById<TextView>(R.id.et_email)
-        val etName = view.findViewById<TextView>(R.id.et_name)
+        val etEmail = binding.etEmail
+        val etName = binding.etName
 
         if (UserInstance.logged) {
             etEmail.text = UserInstance.Usuario.email
@@ -51,5 +48,7 @@ class ProfileFragment : Fragment() {
             etEmail.text = "convidado@convidado.com"
             etName.text = "Convidado"
         }
+
+        return binding.root
     }
 }

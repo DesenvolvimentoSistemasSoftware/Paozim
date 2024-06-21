@@ -10,6 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 const val ORDER = "$API_VERSION/order"
 const val ORDER_REQUEST = "$ORDER/{id}"
@@ -24,5 +25,5 @@ interface OrderAPI {
     fun createOrder(@Body order: Order): Call<SimpleResponse>
 
     @GET(LIST_ORDER_REQUEST)
-    fun getOrdersByEmail(@Header("email") email: String): Call<List<OrderCallback>>
+    fun getOrdersByEmail(@Path("email") email: String): Call<List<OrderCallback>>
 }

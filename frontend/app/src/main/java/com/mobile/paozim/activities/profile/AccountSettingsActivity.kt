@@ -18,26 +18,26 @@ class AccountSettingsActivity: AppCompatActivity() {
         binding = ActivityAccountSettingsBinding.inflate(layoutInflater)
 
         binding.btnChangeName.setOnClickListener() {
-            val i = Intent(this@AccountSettingsActivity, ChangeNameActivity::class.java)
+            val i = Intent(this, ChangeNameActivity::class.java)
             startActivity(i)
         }
 
         binding.btnBack.setOnClickListener() {
-            val i = Intent(this@AccountSettingsActivity, TabActivity::class.java)
+            val i = Intent(this, TabActivity::class.java)
             startActivity(i)
         }
 
         binding.btnLogout.setOnClickListener() {
             // Limpar o UserInstance e voltar para a tela de login
             UserInstance.clearUser(this)
-            val i = Intent(this@AccountSettingsActivity, LoginActivity::class.java)
+            val i = Intent(this, LoginActivity::class.java)
             startActivity(i)
         }
 
         binding.btnDeleteAccount.setOnClickListener() {
             // TODO - apagar usuário do banco de dados
             UserInstance.clearUser(this)
-            val i = Intent(this@AccountSettingsActivity, LoginActivity::class.java)
+            val i = Intent(this, LoginActivity::class.java)
             startActivity(i)
         }
 

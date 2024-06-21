@@ -21,6 +21,7 @@ class ChangeNameActivity: AppCompatActivity() {
     private lateinit var binding: ActivityChangeNameBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityChangeNameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.buttonChangeName.setOnClickListener() {
