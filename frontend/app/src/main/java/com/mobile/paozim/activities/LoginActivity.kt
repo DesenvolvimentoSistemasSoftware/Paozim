@@ -5,19 +5,29 @@ import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.mobile.paozim.classes.UserStuff.LoginRequest
 import com.mobile.paozim.classes.UserStuff.UserInstance
-import com.mobile.paozim.data.remote.models.UserResponse
+import com.mobile.paozim.classes.Responses.UserResponse
 import com.mobile.paozim.databinding.ActivityLoginBinding
 import com.mobile.paozim.retrofit.UserAPI
-import com.mobile.paozim.retrofit.RetroInsta
+import com.mobile.paozim.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+    private val next = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == RESULT_OK) {
+            Intent().apply { setResult(RESULT_OK, this) }
+            finish()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +35,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.tvSignUp.setOnClickListener {
-            val i = Intent(this@LoginActivity, RegisterActivity::class.java)
-            startActivity(i)
+            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+            next.launch(intent)
         }
         binding.fabBack.setOnClickListener {
             finish()
@@ -49,14 +59,14 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (UserInstance.logged) {
-            val i = Intent(this@LoginActivity, TabActivity::class.java)
-            startActivity(i)
+            val intent = Intent(this@LoginActivity, TabActivity::class.java)
+            startActivity(intent)
             finish()
         }
     }
 
     private fun signIn(email: String, password: String){
-        val retIn = RetroInsta.getRetrofitInstance().create(UserAPI::class.java)
+        val retIn = RetrofitInstance.getRetrofitInstance().create(UserAPI::class.java)
         val loginRequest = LoginRequest(email,password)
 
         retIn.login(loginRequest).enqueue(object : Callback<UserResponse> {

@@ -7,14 +7,14 @@ import androidx.lifecycle.ViewModel
 import com.mobile.paozim.classes.Item
 import com.mobile.paozim.retrofit.BASE_URL
 import com.mobile.paozim.retrofit.ItemAPI
-import com.mobile.paozim.retrofit.RetroInsta
+import com.mobile.paozim.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class HomeViewModel() : ViewModel() {
     private var randomItemLiveData = MutableLiveData<Item>()
-    val retIn = RetroInsta.getRetrofitInstance().create(ItemAPI::class.java)
+    val retIn = RetrofitInstance.getRetrofitInstance().create(ItemAPI::class.java)
 
     fun getRandomItem(){
         retIn.getRandomItens().enqueue(object : Callback<Item> {

@@ -189,17 +189,9 @@ class Repo {
             }
         }
     }
-    private fun rowToOrder(row: ResultRow?): OrderResponse {
+    private fun rowToOrder(row: ResultRow?): OrderResponse? {
         if (row == null) {
-            return OrderResponse(
-                id = null,
-                sellerID = null,
-                status = null,
-                timeStart = null,
-                timeFinish = null,
-                totalPrice = null,
-                shippingPrice = null
-            )
+            return null
         }
         return OrderResponse(
             id = row[OrderTable.id].value,

@@ -46,6 +46,9 @@
             android:label="@string/title_activity_change_name"
             android:theme="@style/Theme.Paozim" />
         <activity
+            android:name=".activities.PaymentActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.RegisterActivity3"
             android:exported="false" />
         <activity

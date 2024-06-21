@@ -1,12 +1,10 @@
-package com.pao.data.classes.orderStuff
+package com.mobile.paozim.classes.OrderStuff
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class OrderItemResponse(
+data class OrderItem(
     val itemID: Int,
     val quantity: Int,
     val price: Double,
-    val image: String,
-    val name: String
 )
