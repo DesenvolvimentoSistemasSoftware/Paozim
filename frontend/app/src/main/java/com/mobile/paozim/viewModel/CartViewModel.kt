@@ -1,4 +1,4 @@
-package com.mobile.paozim.classes.CartStuff
+package com.mobile.paozim.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

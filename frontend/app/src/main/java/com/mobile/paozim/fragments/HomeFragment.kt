@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.mobile.paozim.R
 import com.mobile.paozim.activities.DetailActivity
 import com.mobile.paozim.classes.Item
 import com.mobile.paozim.databinding.FragmentHomeBinding
@@ -37,6 +39,7 @@ class HomeFragment : Fragment() {
         homeMvvm.getRandomItem()
         observeRandomItem()
         onRandomItemClick()
+        onSearchIconClick()
     }
 
     private fun onRandomItemClick() {
@@ -46,7 +49,6 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
     }
-
     private fun observeRandomItem() {
         homeMvvm.observeRandomItemLiveData().observe(viewLifecycleOwner
         ) { value ->
@@ -54,6 +56,11 @@ class HomeFragment : Fragment() {
                 .load(value.image)
                 .into(binding.imgComidaRandom)
             this.randomItem = value
+        }
+    }
+    private fun onSearchIconClick() {
+        binding.imgSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
     }
 }
