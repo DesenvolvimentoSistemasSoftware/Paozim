@@ -6,10 +6,7 @@ import com.pao.data.classes.orderStuff.OrderItemResponse
 import com.pao.data.classes.orderStuff.OrderResponse
 import com.pao.data.classes.userStuff.UpdateRequest
 import com.pao.data.classes.userStuff.User
-import com.pao.data.table.ItemTable
-import com.pao.data.table.OrderItemTable
-import com.pao.data.table.OrderTable
-import com.pao.data.table.UserTable
+import com.pao.data.table.*
 import com.pao.repositories.DatabaseFactory.dbQuery
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -88,7 +85,6 @@ class Repo {
             UserTable.deleteWhere { UserTable.email eq email }
         }
     }
-
     suspend fun changeUserName(email: String, newName: String) {
         dbQuery {
             UserTable.update(
@@ -109,7 +105,6 @@ class Repo {
                 .firstOrNull()
         }
     }
-
     suspend fun addItem(item: Item) {
         dbQuery {
             ItemTable.insert { it ->
@@ -229,6 +224,15 @@ class Repo {
                         name = it[ItemTable.name]
                     )
                 }
+        }
+    }
+
+    // Category functions in database
+    suspend fun findItemsByCategory(category: String): List<Item> {
+        return dbQuery {
+            (ItemTable innerJoin CategoryTable)
+                .select { CategoryTable.category.eq(category) }
+                .mapNotNull { rowToItem(it) }
         }
     }
 }
