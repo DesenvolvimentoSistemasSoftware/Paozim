@@ -38,6 +38,11 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.btnExit.setOnClickListener {
+            // Fecha o aplicativo
+            requireActivity().finish()
+        }
+
         val etEmail = binding.etEmail
         val etName = binding.etName
 
