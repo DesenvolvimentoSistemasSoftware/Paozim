@@ -107,7 +107,7 @@
                     android:textAlignment="viewStart" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_4"
+                    android:id="@+id/btn_exit"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginStart="32dp"

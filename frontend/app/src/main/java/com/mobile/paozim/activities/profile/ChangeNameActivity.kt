@@ -15,6 +15,7 @@ import retrofit2.Response
 
 import android.widget.Toast
 import com.mobile.paozim.classes.Responses.SimpleResponse
+import com.mobile.paozim.classes.UserStuff.UserInstance
 
 
 class ChangeNameActivity: AppCompatActivity() {
@@ -29,8 +30,6 @@ class ChangeNameActivity: AppCompatActivity() {
         }
 
         binding.buttonCancel.setOnClickListener() {
-            val i = Intent(this@ChangeNameActivity, AccountSettingsActivity::class.java)
-            startActivity(i)
             finish()
         }
     }
@@ -42,7 +41,7 @@ class ChangeNameActivity: AppCompatActivity() {
         retIn.changeName(changeNameRequest).enqueue(object: Callback<SimpleResponse> {
             override fun onResponse(call: Call<SimpleResponse>, response: Response<SimpleResponse>) {
                 if (response.isSuccessful) {
-                    // TODO - mudar nome no UserInstance
+                    UserInstance.Usuario.nome = newName
                     val i = Intent(this@ChangeNameActivity, AccountSettingsActivity::class.java)
                     startActivity(i)
                     finish()
