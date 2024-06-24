@@ -23,8 +23,7 @@ class AccountSettingsActivity: AppCompatActivity() {
         }
 
         binding.btnBack.setOnClickListener() {
-            val i = Intent(this, TabActivity::class.java)
-            startActivity(i)
+            finish()
         }
 
         binding.btnLogout.setOnClickListener() {

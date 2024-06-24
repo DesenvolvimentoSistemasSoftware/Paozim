@@ -36,7 +36,7 @@ class MembershipFragment : Fragment() {
     private lateinit var binding: FragmentMembershipBinding
     private lateinit var membershipViewModel: MembershipViewModel
     private lateinit var adapters: MutableList<MembershipAdapter>
-    val retIn = RetrofitInstance.getRetrofitInstance().create(ItemAPI::class.java)
+    private val retIn = RetrofitInstance.getRetrofitInstance().create(ItemAPI::class.java)
     
     private val next = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()

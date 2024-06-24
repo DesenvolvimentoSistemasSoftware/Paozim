@@ -1,5 +1,6 @@
 package com.mobile.paozim.retrofit
 
+import SignatureOrder
 import com.mobile.paozim.classes.Item
 import retrofit2.Call
 import retrofit2.http.Body
@@ -36,7 +37,7 @@ interface ItemAPI {
 
     @Headers("Content-Type: application/json")
     @POST(ADD_SIGNATURE_REQUEST)
-    fun addSignature(@Body item: Item): Call<Item>
+    fun addSignature(@Body req: SignatureOrder): Call<Item>
 
     @Headers("Content-Type: application/json")
     @GET(GET_SIGNATURE_REQUEST)
