@@ -4,12 +4,10 @@ import com.pao.data.classes.itemStuff.Item
 import com.pao.data.classes.orderStuff.Order
 import com.pao.data.classes.orderStuff.OrderItemResponse
 import com.pao.data.classes.orderStuff.OrderResponse
+import com.pao.data.classes.orderStuff.SignatureOrder
 import com.pao.data.classes.userStuff.UpdateRequest
 import com.pao.data.classes.userStuff.User
-import com.pao.data.table.ItemTable
-import com.pao.data.table.OrderItemTable
-import com.pao.data.table.OrderTable
-import com.pao.data.table.UserTable
+import com.pao.data.table.*
 import com.pao.repositories.DatabaseFactory.dbQuery
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -45,6 +43,26 @@ class Repo {
                 .singleOrNull()
         }
     }
+
+    suspend fun addSignature(signatureOrder: SignatureOrder) {
+        dbQuery {
+            SignaturedItemTable.insert { sit ->
+                sit[SignaturedItemTable.itemId] = signatureOrder.productId
+                sit[SignaturedItemTable.userEmail] = signatureOrder.userEmail
+                sit[SignaturedItemTable.frequency] = "Semanalmente"
+            }
+        }
+    }
+
+    suspend fun findSignaturedItems(userEmail: String): List<Item> {
+        // Obtém o item na ItemTable com ID registrado na SignaturedItemTable
+        return dbQuery {
+            (SignaturedItemTable innerJoin ItemTable)
+                .select { SignaturedItemTable.userEmail.eq(userEmail) }
+                .mapNotNull { rowToItem(it) }
+        }
+    }
+
     suspend fun updateUser(newUserInfo: UpdateRequest) {
         dbQuery {
             UserTable.update(

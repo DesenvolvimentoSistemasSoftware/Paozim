@@ -1,55 +1,113 @@
 package com.mobile.paozim.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mobile.paozim.R
+import com.mobile.paozim.activities.PaymentActivity
+import com.mobile.paozim.classes.CartStuff.CartAdapter
+import com.mobile.paozim.classes.CartStuff.CartInstance
+import com.mobile.paozim.classes.Item
+import com.mobile.paozim.classes.OrderStuff.MembershipAdapter
+import com.mobile.paozim.classes.OrderStuff.MembershipViewModel
+import com.mobile.paozim.classes.SignaturedItem
+import com.mobile.paozim.classes.UserStuff.UserInstance
+import com.mobile.paozim.databinding.FragmentMembershipBinding
+import com.mobile.paozim.retrofit.ItemAPI
+import com.mobile.paozim.retrofit.RetrofitInstance
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MembershipFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MembershipFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentMembershipBinding
+    private lateinit var MembershipViewModel: MembershipViewModel
+    val retIn = RetrofitInstance.getRetrofitInstance().create(ItemAPI::class.java)
+    
+    private val next = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            updateSignedItems()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString("bla1")
-            param2 = it.getString("bla2")
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_membership, container, false)
+        binding = FragmentMembershipBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MembershipFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MembershipFragment().apply {
-                arguments = Bundle().apply {
-                    putString("bla1", param1)
-                    putString("bla2", param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        MembershipViewModel = ViewModelProvider(requireActivity()).get(MembershipViewModel::class.java)
+        MembershipViewModel.triggerUpdateInfo.observe(viewLifecycleOwner, Observer {shouldUpdate ->
+            if(shouldUpdate){
+                updateSignedItems()
+                MembershipViewModel.triggerUpdateInfo.value = false
+            }
+        })
+
+        updateSignedItems()
+
+//        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
+//            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+//                return false
+//            }
+//
+//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                val position = viewHolder.adapterPosition
+//                val item = CartInstance.Carro.itens[position]
+//                CartInstance.removeItem(requireContext(), item)
+//                MembershipViewModel.triggerUpdateInfo.value = true
+//            }
+//        }
+//        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+//        itemTouchHelper.attachToRecyclerView(binding.rvItens)
+    }
+
+    fun updateInfo(items: List<Item>){
+        // TODO - atualizar os RecyclerView com os itens assinados
+//        binding.rvItens.adapter = CartAdapter(CartInstance.Carro.itens, MembershipViewModel)
+//        binding.rvItens.layoutManager = LinearLayoutManager(context)
+        binding.rvItens.adapter = MembershipAdapter(items, MembershipViewModel)
+        binding.rvItens.layoutManager = LinearLayoutManager(context)
+    }
+
+    fun updateSignedItems() {
+        // Obtém os itens com a API
+//        val items = getSignedItems(UserInstance.Usuario.email)
+        return retIn.getSignedItems(UserInstance.Usuario.email).enqueue(object :
+            Callback<List<Item>> {
+            override fun onResponse(call: Call<List<Item>>, response: Response<List<Item>>) {
+                if(response.body() != null){
+                    var signedItems: List<Item> = response.body()!!
+                    updateInfo(signedItems)
+                } else {
+                    return
                 }
             }
+            override fun onFailure(call: Call<List<Item>>, t: Throwable) {
+                Log.d("VEJA", "Falhou")
+            }
+        })
     }
 }

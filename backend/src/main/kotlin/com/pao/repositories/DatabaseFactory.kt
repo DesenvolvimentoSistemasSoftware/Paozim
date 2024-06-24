@@ -21,6 +21,7 @@ object DatabaseFactory {
             SchemaUtils.create(OrderItemTable)
             SchemaUtils.create(RatingTable)
             SchemaUtils.create(SellerTable)
+            SchemaUtils.create(SignaturedItemTable)
         }
     }
 

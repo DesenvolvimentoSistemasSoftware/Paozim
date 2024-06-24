@@ -13,8 +13,8 @@ class OrderAdapter(private val orders: List<OrderCallback>) : RecyclerView.Adapt
     class OrderViewHolder(private val binding: ItemOrderBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(order: OrderCallback) {
             binding.orderId.text = "ID do pedido: " + order.id.toString()
-            binding.orderPrice.text = order.totalPrice.toString()
-            binding.orderArrived.text = order.status
+            binding.orderPrice.text = "Valor total: R$" + order.totalPrice.toString()
+            binding.orderArrived.text = "Situação do pedido: " + order.status
         }
     }
 
