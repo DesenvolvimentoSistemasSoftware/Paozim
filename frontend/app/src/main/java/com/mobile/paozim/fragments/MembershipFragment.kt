@@ -26,6 +26,7 @@ import com.mobile.paozim.classes.OrderStuff.MembershipViewModel
 import com.mobile.paozim.classes.SignaturedItem
 import com.mobile.paozim.classes.UserStuff.UserInstance
 import com.mobile.paozim.databinding.FragmentMembershipBinding
+import com.mobile.paozim.retrofit.BASE_URL
 import com.mobile.paozim.retrofit.ItemAPI
 import com.mobile.paozim.retrofit.RetrofitInstance
 import retrofit2.Call
@@ -94,6 +95,10 @@ class MembershipFragment : Fragment() {
             override fun onResponse(call: Call<List<Item>>, response: Response<List<Item>>) {
                 if(response.body() != null){
                     var signedItems: List<Item> = response.body()!!
+                    // Atualizar as imagens com BASE_URL + item.image
+                    for (item in signedItems){
+                        item.image = BASE_URL + item.image
+                    }
                     updateInfo(signedItems)
                 } else {
                     return
