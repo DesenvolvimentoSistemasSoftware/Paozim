@@ -6,6 +6,7 @@ import com.pao.data.classes.orderStuff.OrderItemResponse
 import com.pao.data.classes.orderStuff.OrderResponse
 import com.pao.data.classes.orderStuff.SignatureOrder
 import com.pao.data.classes.rateStuff.Rate
+import com.pao.data.classes.sellerStuff.Seller
 import com.pao.data.classes.userStuff.UpdateRequest
 import com.pao.data.classes.userStuff.User
 import com.pao.data.table.*
@@ -44,34 +45,6 @@ class Repo {
                 .singleOrNull()
         }
     }
-
-    suspend fun addSignature(signatureOrder: SignatureOrder) {
-        dbQuery {
-            SignaturedItemTable.insert { sit ->
-                sit[SignaturedItemTable.itemId] = signatureOrder.productId
-                sit[SignaturedItemTable.userEmail] = signatureOrder.userEmail
-                sit[SignaturedItemTable.frequency] = "Semanalmente"
-            }
-        }
-    }
-
-    suspend fun findSignaturedItems(userEmail: String): List<Item> {
-        // Obtém o item na ItemTable com ID registrado na SignaturedItemTable
-        return dbQuery {
-            val rows = (SignaturedItemTable innerJoin ItemTable)
-                .select { SignaturedItemTable.userEmail.eq(userEmail) }
-                .mapNotNull { it }
-            rows.mapNotNull {
-                val avgRate = RatingTable
-                    .slice(RatingTable.rating.avg())
-                    .select { RatingTable.itemID.eq(it[ItemTable.id].value) }
-                    .mapNotNull { it[RatingTable.rating.avg()] }
-                    .singleOrNull() ?: 6.0
-                rowToItem(it, avgRate)
-            }
-        }
-    }
-
     suspend fun updateUser(newUserInfo: UpdateRequest) {
         dbQuery {
             UserTable.update(
@@ -123,6 +96,32 @@ class Repo {
                 it[UserTable.nome] = newName
             }
         }
+    }
+
+    // Seller functions in database
+    suspend fun findSeller(id: Int): Seller? {
+        return dbQuery {
+            SellerTable
+                .select { SellerTable.id.eq(id) }
+                .mapNotNull { rowToSeller(it) }
+                .singleOrNull()
+        }
+    }
+    private fun rowToSeller(row: ResultRow?): Seller? {
+        if (row == null) {
+            return null
+        }
+        return Seller(
+            nome = row[SellerTable.nome],
+            description = row[SellerTable.description],
+            image = row[SellerTable.image],
+            telefone = row[SellerTable.telefone],
+            CEP = row[SellerTable.CEP],
+            cidade = row[SellerTable.cidade],
+            estado = row[SellerTable.estado],
+            bairro = row[SellerTable.bairro],
+            numResidencia = row[SellerTable.numResidencia]
+        )
     }
 
     // Itens function in database
@@ -242,6 +241,12 @@ class Repo {
                     oit[OrderItemTable.price] = item.price
                 }
             }
+            // Update the stock of the item
+            ItemTable.update({ ItemTable.id eq item.itemID }) {
+                with(SqlExpressionBuilder) {
+                    it.update(ItemTable.stock, ItemTable.stock - item.quantity)
+                }
+            }
         }
     }
     suspend fun findOrdersByUser(email: String): List<OrderResponse> {
@@ -296,6 +301,33 @@ class Repo {
                 .select { OrderTable.id.eq(orderID) }
                 .mapNotNull { it[OrderTable.userEmail] }
                 .singleOrNull() ?: ""
+        }
+    }
+
+    // Signature functions in database
+    suspend fun addSignature(signatureOrder: SignatureOrder) {
+        dbQuery {
+            SignaturedItemTable.insert { sit ->
+                sit[SignaturedItemTable.itemId] = signatureOrder.productId
+                sit[SignaturedItemTable.userEmail] = signatureOrder.userEmail
+                sit[SignaturedItemTable.frequency] = "Semanalmente"
+            }
+        }
+    }
+    suspend fun findSignaturedItems(userEmail: String): List<Item> {
+        // Obtém o item na ItemTable com ID registrado na SignaturedItemTable
+        return dbQuery {
+            val rows = (SignaturedItemTable innerJoin ItemTable)
+                .select { SignaturedItemTable.userEmail.eq(userEmail) }
+                .mapNotNull { it }
+            rows.mapNotNull {
+                val avgRate = RatingTable
+                    .slice(RatingTable.rating.avg())
+                    .select { RatingTable.itemID.eq(it[ItemTable.id].value) }
+                    .mapNotNull { it[RatingTable.rating.avg()] }
+                    .singleOrNull() ?: 6.0
+                rowToItem(it, avgRate)
+            }
         }
     }
 

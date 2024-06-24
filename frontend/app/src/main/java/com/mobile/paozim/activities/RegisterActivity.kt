@@ -70,8 +70,10 @@ class RegisterActivity : ComponentActivity() {
         val value: String = binding.etPassword.text.toString()
         if(value.isEmpty()){
             error = "Coloque a senha"
-        } else if(value.length < 6 || value.length > 15){
-            error = "Senha inválida"
+        } else if(value.length < 6){
+            error = "Senha menor que 6 dígitos"
+        } else if(value.length > 15){
+            error = "Senha maior que 15 dígitos"
         }
         if(error != null){
             Toast.makeText(this, error,Toast.LENGTH_SHORT).show()

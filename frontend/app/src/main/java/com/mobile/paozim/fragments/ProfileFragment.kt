@@ -39,7 +39,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.btnExit.setOnClickListener {
-            // Fecha o aplicativo
+            UserInstance.logout()
             requireActivity().finish()
         }
 

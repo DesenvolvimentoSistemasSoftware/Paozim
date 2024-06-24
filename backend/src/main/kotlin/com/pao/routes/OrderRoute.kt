@@ -62,11 +62,9 @@ fun Route.OrderRoute(db: Repo){
             launch {
                 val items = db.findOrderItems(id!!)
                 val userEmail = db.findUserByOrder(id)
-                println(userEmail)
                 for (item in items) {
                     val rating = db.findRating(item.itemID, userEmail)
                     if (rating != null) {
-                        println(rating)
                         item.myRate = rating
                     }
                 }

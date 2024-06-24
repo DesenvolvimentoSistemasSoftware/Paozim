@@ -16,6 +16,8 @@ fun Application.configureRouting(db:Repo, jwtService:JwtService, hashFunction: (
         ItemRoute(db)
         OrderRoute(db)
         RateRoute(db)
+        SellerRoute(db)
+        SignatureRoute(db)
 
         randomProduct()
         getProduct()

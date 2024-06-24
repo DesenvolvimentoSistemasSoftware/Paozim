@@ -35,4 +35,8 @@ object UserInstance {
             Log.d("USER", "null")
         }
     }
+    fun logout() {
+        Usuario = User("", "", "", "", "", "", "", "", "", "", 0, "", "")
+        logged = false
+    }
 }
