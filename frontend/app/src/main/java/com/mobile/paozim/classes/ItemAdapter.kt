@@ -20,6 +20,8 @@ class ItemAdapter (
         val name:TextView = itemView.findViewById(R.id.tv_title_search_vh)
         val image:ImageView = itemView.findViewById(R.id.iv_search_vh)
         val price:TextView = itemView.findViewById(R.id.tv_price_search_vh)
+        val star:ImageView = itemView.findViewById(R.id.iv_star_search_vh)
+        val avg:TextView = itemView.findViewById(R.id.tv_rating_search_vh)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -31,6 +33,11 @@ class ItemAdapter (
         val currentItem = itens[position]
         holder.name.text = currentItem.name
         holder.price.text = "R$ %.2f".format(currentItem.price)
+        if(currentItem.avgRate != 6.0){
+            holder.star.visibility = View.VISIBLE
+            holder.avg.visibility = View.VISIBLE
+            holder.avg.text = "%.1f".format(currentItem.avgRate)
+        }
 
         Glide.with(holder.itemView.context)
             .load(currentItem.image)

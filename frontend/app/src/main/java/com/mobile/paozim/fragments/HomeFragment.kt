@@ -11,12 +11,15 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.mobile.paozim.R
 import com.mobile.paozim.activities.DetailActivity
+import com.mobile.paozim.classes.CategoryStuff.Category
+import com.mobile.paozim.classes.CategoryStuff.CategoryAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.paozim.classes.Item
 import com.mobile.paozim.databinding.FragmentHomeBinding
 import com.mobile.paozim.viewModel.HomeViewModel
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), CategoryAdapter.OnItemClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeMvvm: HomeViewModel
     private lateinit var randomItem: Item
@@ -29,7 +32,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -40,6 +43,20 @@ class HomeFragment : Fragment() {
         observeRandomItem()
         onRandomItemClick()
         onSearchIconClick()
+        setRecyclerView()
+    }
+
+    private fun setRecyclerView() {
+        val categoryList : List<Category> = listOf(
+            Category("Pão", "ic_pao"),
+            Category("Bebida", "ic_bebida"),
+            Category("Doce", "ic_doce"),
+            Category("Frios", "ic_frios"),
+            Category("Salgado", "ic_salgado"),
+            Category("Bolo", "ic_bolo"),
+        )
+        binding.rvCategories.adapter = CategoryAdapter(categoryList, this)
+        binding.rvCategories.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun onRandomItemClick() {
@@ -62,5 +79,10 @@ class HomeFragment : Fragment() {
         binding.imgSearch.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
+    }
+    override fun onItemClick(category: Category) {
+        val bundle = Bundle()
+        bundle.putString("category", category.name)
+        findNavController().navigate(R.id.action_homeFragment_to_categoryFragment, bundle)
     }
 }

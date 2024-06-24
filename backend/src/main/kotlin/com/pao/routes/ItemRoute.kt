@@ -13,6 +13,7 @@ import io.ktor.server.routing.*
 const val ITENS = "$API_VERSION/itens"
 const val RANDOM_REQUEST = "$ITENS/random"
 const val ITEM_REQUEST = "$ITENS/{id}"
+const val CATEGORY_ITEM_REQUEST = "$ITENS/category/{category}"
 const val SELLER_ITEM_REQUEST = "$ITENS/seller/{sellerID}"
 const val NAME_ITEM_REQUEST = "$ITENS/name/{name}"
 const val CREATE_ITEM_REQUEST = "$ITENS/create"
@@ -34,6 +35,15 @@ fun Route.ItemRoute(db: Repo){
             } else {
                 call.respond(HttpStatusCode.OK, item)
             }
+        } catch (e: Exception){
+            call.respond(HttpStatusCode.NotFound, SimpleResponse("false","NAO"))
+        }
+    }
+    get(CATEGORY_ITEM_REQUEST){
+        val category = call.parameters["category"]
+        try {
+            val items = db.findItemsByCategory(category!!)
+            call.respond(HttpStatusCode.OK, items)
         } catch (e: Exception){
             call.respond(HttpStatusCode.NotFound, SimpleResponse("false","NAO"))
         }

@@ -4,12 +4,10 @@ import com.pao.data.classes.itemStuff.Item
 import com.pao.data.classes.orderStuff.Order
 import com.pao.data.classes.orderStuff.OrderItemResponse
 import com.pao.data.classes.orderStuff.OrderResponse
+import com.pao.data.classes.rateStuff.Rate
 import com.pao.data.classes.userStuff.UpdateRequest
 import com.pao.data.classes.userStuff.User
-import com.pao.data.table.ItemTable
-import com.pao.data.table.OrderItemTable
-import com.pao.data.table.OrderTable
-import com.pao.data.table.UserTable
+import com.pao.data.table.*
 import com.pao.repositories.DatabaseFactory.dbQuery
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -88,7 +86,6 @@ class Repo {
             UserTable.deleteWhere { UserTable.email eq email }
         }
     }
-
     suspend fun changeUserName(email: String, newName: String) {
         dbQuery {
             UserTable.update(
@@ -102,14 +99,21 @@ class Repo {
     // Itens function in database
     suspend fun randomItem(): Item? {
         return dbQuery {
-            ItemTable
+            val row = ItemTable
                 .select { ItemTable.stock.greater(0) }
-                .mapNotNull { rowToItem(it) }
+                .mapNotNull { it }
                 .shuffled()
                 .firstOrNull()
+            val avgRate = row?.let {
+                RatingTable
+                    .slice(RatingTable.rating.avg())
+                    .select { RatingTable.itemID.eq(it[ItemTable.id].value) }
+                    .mapNotNull { it[RatingTable.rating.avg()] }
+                    .singleOrNull() ?: 6.0
+            }
+            rowToItem(row, avgRate ?: 6.0)
         }
     }
-
     suspend fun addItem(item: Item) {
         dbQuery {
             ItemTable.insert { it ->
@@ -124,27 +128,51 @@ class Repo {
     }
     suspend fun findItemById(id: Int): Item? {
         return dbQuery {
-            ItemTable
+            val row = ItemTable
                 .select { ItemTable.id.eq(id) }
-                .mapNotNull { rowToItem(it) }
+                .mapNotNull { it }
                 .singleOrNull()
+            val avgRate = row?.let {
+                RatingTable
+                    .slice(RatingTable.rating.avg())
+                    .select { RatingTable.itemID.eq(it[ItemTable.id].value) }
+                    .mapNotNull { it[RatingTable.rating.avg()] }
+                    .singleOrNull() ?: 6.0
+            }
+            rowToItem(row, avgRate ?: 6.0)
         }
     }
     suspend fun findItemsBySeller(sellerID: Int): List<Item> {
         return dbQuery {
-            ItemTable
+            val row = ItemTable
                 .select { ItemTable.sellerID.eq(sellerID) }
-                .mapNotNull { rowToItem(it) }
+                .mapNotNull { it }
+            row.mapNotNull {
+                val avgRate = RatingTable
+                    .slice(RatingTable.rating.avg())
+                    .select { RatingTable.itemID.eq(it[ItemTable.id].value) }
+                    .mapNotNull { it[RatingTable.rating.avg()] }
+                    .singleOrNull() ?: 6.0
+                rowToItem(it, avgRate)
+            }
         }
     }
     suspend fun findItemsByName(name: String): List<Item> {
         return dbQuery {
-            ItemTable
+            val rows = ItemTable
                 .select { ItemTable.name.lowerCase().like("%$name%") }
-                .mapNotNull { rowToItem(it) }
+                .mapNotNull { it }
+            rows.mapNotNull {
+                val avgRate = RatingTable
+                    .slice(RatingTable.rating.avg())
+                    .select { RatingTable.itemID.eq(it[ItemTable.id].value) }
+                    .mapNotNull { it[RatingTable.rating.avg()] }
+                    .singleOrNull() ?: 6.0
+                rowToItem(it, avgRate)
+            }
         }
     }
-    private fun rowToItem(row: ResultRow?): Item? {
+    private fun rowToItem(row: ResultRow?, rate: Number): Item? {
         if (row == null) {
             return null
         }
@@ -155,7 +183,8 @@ class Repo {
             price = row[ItemTable.price],
             stock = row[ItemTable.stock],
             image = row[ItemTable.image],
-            description = row[ItemTable.description]
+            description = row[ItemTable.description],
+            avgRate = rate.toDouble()
         )
     }
 
@@ -226,9 +255,54 @@ class Repo {
                         quantity = it[OrderItemTable.quantity],
                         price = it[OrderItemTable.price],
                         image = it[ItemTable.image],
-                        name = it[ItemTable.name]
+                        name = it[ItemTable.name],
+                        myRate = 6
                     )
                 }
+        }
+    }
+    suspend fun findUserByOrder(orderID: Int): String {
+        return dbQuery {
+            OrderTable
+                .select { OrderTable.id.eq(orderID) }
+                .mapNotNull { it[OrderTable.userEmail] }
+                .singleOrNull() ?: ""
+        }
+    }
+
+    // Category functions in database
+    suspend fun findItemsByCategory(category: String): List<Item> {
+        return dbQuery {
+            val rows = (ItemTable innerJoin CategoryTable)
+                .select { CategoryTable.category.eq(category) }
+                .mapNotNull { it }
+            rows.mapNotNull {
+                val avgRate = RatingTable
+                    .slice(RatingTable.rating.avg())
+                    .select { RatingTable.itemID.eq(it[ItemTable.id].value) }
+                    .mapNotNull { it[RatingTable.rating.avg()] }
+                    .singleOrNull() ?: 6.0
+                rowToItem(it, avgRate)
+            }
+        }
+    }
+
+    // Rating functions in database
+    suspend fun addRating(rate: Rate) {
+        dbQuery {
+            RatingTable.insert {
+                it[RatingTable.itemID] = rate.itemID
+                it[RatingTable.userEmail] = rate.userEmail
+                it[RatingTable.rating] = rate.rating
+            }
+        }
+    }
+    suspend fun findRating(itemID: Int, userEmail: String): Int? {
+        return dbQuery {
+            RatingTable
+                .select { RatingTable.itemID.eq(itemID) and RatingTable.userEmail.eq(userEmail) }
+                .mapNotNull { it[RatingTable.rating] }
+                .singleOrNull()
         }
     }
 }

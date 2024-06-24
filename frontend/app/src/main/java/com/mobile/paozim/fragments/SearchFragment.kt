@@ -41,7 +41,6 @@ class SearchFragment : Fragment() {
         }
         binding.edSearchBox.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER)) {
-                binding.rvSearchedItens.visibility = View.GONE
                 binding.tvEmpty.visibility = View.GONE
                 binding.tvTitleSearch.visibility = View.VISIBLE
                 binding.pbWhileSearching.visibility = View.VISIBLE
@@ -72,6 +71,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun searchItem(name: String){
+        binding.rvSearchedItens.visibility = View.GONE
         val retIn = RetrofitInstance.getRetrofitInstance().create(ItemAPI::class.java)
         retIn.getItemsByName(name).enqueue(object : Callback<List<Item>>{
             override fun onFailure(call: Call<List<Item>>, t: Throwable) {
