@@ -1,5 +1,6 @@
 package com.mobile.paozim.activities
 
+import SignatureOrder
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,17 +9,22 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Window
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.mobile.paozim.R
 import com.mobile.paozim.classes.CartStuff.CartInstance
 import com.mobile.paozim.classes.Item
+import com.mobile.paozim.classes.UserStuff.UserInstance
 import com.mobile.paozim.databinding.ActivityDetailBinding
+import com.mobile.paozim.retrofit.ItemAPI
+import com.mobile.paozim.retrofit.RetrofitInstance
 import java.util.concurrent.CompletableFuture
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private lateinit var itemSelected: Item
+    private val retIn = RetrofitInstance.getRetrofitInstance().create(ItemAPI::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,6 +121,26 @@ class DetailActivity : AppCompatActivity() {
                     finish()
                 }
             }
+        }
+        binding.btnAddAssinatura.setOnClickListener(){
+            // Fazer request ao POST (addSignature) da API
+            val signatureOrder = SignatureOrder(itemSelected.id, UserInstance.Usuario.email)
+            retIn.addSignature(signatureOrder).enqueue(object : retrofit2.Callback<Item> {
+                override fun onResponse(call: retrofit2.Call<Item>, response: retrofit2.Response<Item>) {
+                    if (response.body() != null) {
+                        Log.d("VEJA", "Adicionado com sucesso")
+                        // Volta ao home fragment
+                        Toast.makeText(this@DetailActivity, "Item assinado com sucesso", Toast.LENGTH_SHORT).show()
+                        finish()
+                    } else {
+                        Log.d("VEJA", "Falhou")
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<Item>, t: Throwable) {
+                    Log.d("VEJA", "Falhou")
+                }
+            })
         }
     }
     private fun showDialogBox(): CompletableFuture<Boolean> {

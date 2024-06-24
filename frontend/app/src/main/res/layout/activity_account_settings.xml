@@ -35,7 +35,6 @@
                     android:layout_height="wrap_content"
                     android:text="Usuário"
                     android:textSize="25dp"
-
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -97,23 +96,6 @@
                         android:textAlignment="viewStart"
                         android:textColor="@color/red" />
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_delete_account"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="32dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/btn_background_1"
-                        android:drawableStart="@drawable/trash_up"
-                        android:drawablePadding="20dp"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-
-                        android:text="Deletar conta"
-                        android:textAlignment="viewStart"
-                        android:textColor="@color/red" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_back"
@@ -127,7 +109,6 @@
                         android:drawablePadding="20dp"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
-
                         android:text="Voltar"
                         android:textAlignment="viewStart" />
                 </LinearLayout>

@@ -4,6 +4,7 @@ import com.pao.data.classes.itemStuff.Item
 import com.pao.data.classes.orderStuff.Order
 import com.pao.data.classes.orderStuff.OrderItemResponse
 import com.pao.data.classes.orderStuff.OrderResponse
+import com.pao.data.classes.orderStuff.SignatureOrder
 import com.pao.data.classes.rateStuff.Rate
 import com.pao.data.classes.userStuff.UpdateRequest
 import com.pao.data.classes.userStuff.User
@@ -43,6 +44,34 @@ class Repo {
                 .singleOrNull()
         }
     }
+
+    suspend fun addSignature(signatureOrder: SignatureOrder) {
+        dbQuery {
+            SignaturedItemTable.insert { sit ->
+                sit[SignaturedItemTable.itemId] = signatureOrder.productId
+                sit[SignaturedItemTable.userEmail] = signatureOrder.userEmail
+                sit[SignaturedItemTable.frequency] = "Semanalmente"
+            }
+        }
+    }
+
+    suspend fun findSignaturedItems(userEmail: String): List<Item> {
+        // Obtém o item na ItemTable com ID registrado na SignaturedItemTable
+        return dbQuery {
+            val rows = (SignaturedItemTable innerJoin ItemTable)
+                .select { SignaturedItemTable.userEmail.eq(userEmail) }
+                .mapNotNull { it }
+            rows.mapNotNull {
+                val avgRate = RatingTable
+                    .slice(RatingTable.rating.avg())
+                    .select { RatingTable.itemID.eq(it[ItemTable.id].value) }
+                    .mapNotNull { it[RatingTable.rating.avg()] }
+                    .singleOrNull() ?: 6.0
+                rowToItem(it, avgRate)
+            }
+        }
+    }
+
     suspend fun updateUser(newUserInfo: UpdateRequest) {
         dbQuery {
             UserTable.update(

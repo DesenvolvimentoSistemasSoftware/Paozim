@@ -42,6 +42,7 @@ class ChangeNameActivity: AppCompatActivity() {
         retIn.changeName(changeNameRequest).enqueue(object: Callback<SimpleResponse> {
             override fun onResponse(call: Call<SimpleResponse>, response: Response<SimpleResponse>) {
                 if (response.isSuccessful) {
+                    // TODO - mudar nome no UserInstance
                     val i = Intent(this@ChangeNameActivity, AccountSettingsActivity::class.java)
                     startActivity(i)
                     finish()

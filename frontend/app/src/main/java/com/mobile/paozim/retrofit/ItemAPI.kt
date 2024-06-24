@@ -1,9 +1,12 @@
 package com.mobile.paozim.retrofit
 
+import SignatureOrder
 import com.mobile.paozim.classes.Item
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 const val ITENS = "$API_VERSION/itens"
@@ -12,6 +15,8 @@ const val ITEM_REQUEST = "$ITENS/{id}"
 const val CATEGORY_ITEM_REQUEST = "$ITENS/category/{category}"
 const val SELLER_ITEM_REQUEST = "$ITENS/seller/{sellerID}"
 const val NAME_ITEM_REQUEST = "$ITENS/name/{name}"
+const val ADD_SIGNATURE_REQUEST = "$ITENS/signature"
+const val GET_SIGNATURE_REQUEST = "$ITENS/signature/{email}"
 
 interface ItemAPI {
     @Headers("Content-Type: application/json")
@@ -29,4 +34,12 @@ interface ItemAPI {
     @Headers("Content-Type: application/json")
     @GET(CATEGORY_ITEM_REQUEST)
     fun getItemsByCategory(@Path("category") category: String): Call<List<Item>>
+
+    @Headers("Content-Type: application/json")
+    @POST(ADD_SIGNATURE_REQUEST)
+    fun addSignature(@Body req: SignatureOrder): Call<Item>
+
+    @Headers("Content-Type: application/json")
+    @GET(GET_SIGNATURE_REQUEST)
+    fun getSignedItems(@Path("email") email: String): Call<List<Item>>
 }
