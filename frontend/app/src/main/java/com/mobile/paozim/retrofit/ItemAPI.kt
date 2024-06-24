@@ -2,6 +2,7 @@ package com.mobile.paozim.retrofit
 
 import com.mobile.paozim.classes.Item
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -32,4 +33,12 @@ interface ItemAPI {
     @Headers("Content-Type: application/json")
     @GET(CATEGORY_ITEM_REQUEST)
     fun getItemsByCategory(@Path("category") category: String): Call<List<Item>>
+
+    @Headers("Content-Type: application/json")
+    @POST(ADD_SIGNATURE_REQUEST)
+    fun addSignature(@Body item: Item): Call<Item>
+
+    @Headers("Content-Type: application/json")
+    @GET(GET_SIGNATURE_REQUEST)
+    fun getSignedItems(@Path("email") email: String): Call<List<Item>>
 }

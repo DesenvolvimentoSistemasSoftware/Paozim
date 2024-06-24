@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -33,7 +34,8 @@ import retrofit2.Response
 
 class MembershipFragment : Fragment() {
     private lateinit var binding: FragmentMembershipBinding
-    private lateinit var MembershipViewModel: MembershipViewModel
+    private lateinit var membershipViewModel: MembershipViewModel
+    private lateinit var adapters: MutableList<MembershipAdapter>
     val retIn = RetrofitInstance.getRetrofitInstance().create(ItemAPI::class.java)
     
     private val next = registerForActivityResult(
@@ -53,48 +55,40 @@ class MembershipFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMembershipBinding.inflate(inflater,container,false)
+
+        adapters = mutableListOf()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        MembershipViewModel = ViewModelProvider(requireActivity()).get(MembershipViewModel::class.java)
-        MembershipViewModel.triggerUpdateInfo.observe(viewLifecycleOwner, Observer {shouldUpdate ->
+        membershipViewModel = ViewModelProvider(requireActivity()).get(MembershipViewModel::class.java)
+        membershipViewModel.triggerUpdateInfo.observe(viewLifecycleOwner, Observer {shouldUpdate ->
             if(shouldUpdate){
                 updateSignedItems()
-                MembershipViewModel.triggerUpdateInfo.value = false
+                membershipViewModel.triggerUpdateInfo.value = false
             }
         })
 
         updateSignedItems()
-
-//        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
-//            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-//                return false
-//            }
-//
-//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                val position = viewHolder.adapterPosition
-//                val item = CartInstance.Carro.itens[position]
-//                CartInstance.removeItem(requireContext(), item)
-//                MembershipViewModel.triggerUpdateInfo.value = true
-//            }
-//        }
-//        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-//        itemTouchHelper.attachToRecyclerView(binding.rvItens)
     }
 
     fun updateInfo(items: List<Item>){
-        // TODO - atualizar os RecyclerView com os itens assinados
-//        binding.rvItens.adapter = CartAdapter(CartInstance.Carro.itens, MembershipViewModel)
-//        binding.rvItens.layoutManager = LinearLayoutManager(context)
-        binding.rvItens.adapter = MembershipAdapter(items, MembershipViewModel)
+        if (items.isEmpty()){
+            binding.tvEmpty.visibility = View.VISIBLE
+        } else {
+            binding.tvEmpty.visibility = View.GONE
+        }
+
+        val adapter = MembershipAdapter(items)
+        adapters.add(adapter)
+        binding.rvItens.adapter = adapter
         binding.rvItens.layoutManager = LinearLayoutManager(context)
     }
 
     fun updateSignedItems() {
         // Obtém os itens com a API
-//        val items = getSignedItems(UserInstance.Usuario.email)
         return retIn.getSignedItems(UserInstance.Usuario.email).enqueue(object :
             Callback<List<Item>> {
             override fun onResponse(call: Call<List<Item>>, response: Response<List<Item>>) {
@@ -109,5 +103,10 @@ class MembershipFragment : Fragment() {
                 Log.d("VEJA", "Falhou")
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateSignedItems()
     }
 }

@@ -16,25 +16,28 @@ import com.mobile.paozim.classes.SignaturedItem
 
 class MembershipAdapter (
     var itens: List<Item>,
-    private val cartViewModel: MembershipViewModel
 ) : RecyclerView.Adapter<MembershipAdapter.MembershipViewHolder>() {
+    interface OnDataChangedListener {
+        fun onDataChanged()
+    }
 
     inner class MembershipViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val name:TextView = itemView.findViewById(R.id.tv_nome_card)
         val image:ImageView = itemView.findViewById(R.id.iv_image_item)
         val price:TextView = itemView.findViewById(R.id.tv_unit_price)
+        val totalPrice: TextView = itemView.findViewById(R.id.tv_total_item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MembershipViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.viewholder_cart, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.viewholder_membership, parent, false)
         return MembershipViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MembershipViewHolder, position: Int) {
         val currentItem = itens[position]
-        // TODO - definir itens exibidos no item assinado
         holder.name.text = currentItem.name
         holder.price.text = "R$ %.2f".format(currentItem.price)
+        holder.totalPrice.text = "%.2f".format(currentItem.price)
 
         Glide.with(holder.image)
             .load(currentItem.image)

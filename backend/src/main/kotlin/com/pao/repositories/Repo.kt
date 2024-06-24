@@ -58,9 +58,17 @@ class Repo {
     suspend fun findSignaturedItems(userEmail: String): List<Item> {
         // Obtém o item na ItemTable com ID registrado na SignaturedItemTable
         return dbQuery {
-            (SignaturedItemTable innerJoin ItemTable)
+            val rows = (SignaturedItemTable innerJoin ItemTable)
                 .select { SignaturedItemTable.userEmail.eq(userEmail) }
-                .mapNotNull { rowToItem(it) }
+                .mapNotNull { it }
+            rows.mapNotNull {
+                val avgRate = RatingTable
+                    .slice(RatingTable.rating.avg())
+                    .select { RatingTable.itemID.eq(it[ItemTable.id].value) }
+                    .mapNotNull { it[RatingTable.rating.avg()] }
+                    .singleOrNull() ?: 6.0
+                rowToItem(it, avgRate)
+            }
         }
     }
 
