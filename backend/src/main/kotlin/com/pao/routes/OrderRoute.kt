@@ -9,6 +9,7 @@ import io.ktor.server.response.*
 import com.pao.data.classes.SimpleResponse
 import com.pao.data.classes.orderStuff.Order
 import io.ktor.server.request.*
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -58,8 +59,19 @@ fun Route.OrderRoute(db: Repo){
     get(ORDER_REQUEST){
         val id = call.parameters["id"]?.toInt()
         try {
-            val items = db.findOrderItems(id!!)
-            call.respond(HttpStatusCode.OK,items)
+            launch {
+                val items = db.findOrderItems(id!!)
+                val userEmail = db.findUserByOrder(id)
+                println(userEmail)
+                for (item in items) {
+                    val rating = db.findRating(item.itemID, userEmail)
+                    if (rating != null) {
+                        println(rating)
+                        item.myRate = rating
+                    }
+                }
+                call.respond(HttpStatusCode.OK,items)
+            }.join()
         } catch (e: Exception){
             call.respond(HttpStatusCode.NotFound,SimpleResponse("false","Algo deu errado"))
         }

@@ -16,46 +16,38 @@ import retrofit2.Response
 
 class HistoryActivity : ComponentActivity() {
     private lateinit var binding: ActivityHistoryBinding
-    val retIn = RetrofitInstance.getRetrofitInstance().create(OrderAPI::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityHistoryBinding.inflate(layoutInflater)
+        binding.ivBackHistory.setOnClickListener {
+            finish()
+        }
         setContentView(binding.root)
-
-        // Ao renderizar a página, obter o histórico de pedidos do usuário logado e mostrar cada pedido no recyclerview de ID iv_product_card
-        getHistory(UserInstance.Usuario.email, object : OrdersCallback {
-            override fun onSuccess(orders: List<OrderCallback>) {
-                binding.ivProductCard.adapter = OrderAdapter(orders)
-                binding.ivProductCard.layoutManager = LinearLayoutManager(this@HistoryActivity)
-            }
-
-            override fun onFailure(t: Throwable) {
-                Log.d("VEJA", "Falhou")
-            }
-        })
+        setOrders()
     }
 
-    interface OrdersCallback {
-        fun onSuccess(orders: List<OrderCallback>)
-        fun onFailure(t: Throwable)
-    }
-
-    fun getHistory(email: String, callback: OrdersCallback) {
-        retIn.getOrdersByEmail(email).enqueue(object : Callback<List<OrderCallback>> {
-            override fun onResponse(call: Call<List<OrderCallback>>, response: Response<List<OrderCallback>>) {
-                if (response.body() != null) {
-                    val orders: List<OrderCallback> = response.body()!!
-                    callback.onSuccess(orders)
-                } else {
-                    callback.onFailure(Throwable("No orders found"))
-                }
-            }
-
+    private fun setOrders(){
+        binding.pbWhileSearchingHistory.visibility = android.view.View.VISIBLE
+        val retIn = RetrofitInstance.getRetrofitInstance().create(OrderAPI::class.java)
+        retIn.getOrdersByEmail(UserInstance.Usuario.email).enqueue(object : Callback<List<OrderCallback>> {
             override fun onFailure(call: Call<List<OrderCallback>>, t: Throwable) {
                 Log.d("VEJA", "Falhou")
-                callback.onFailure(t)
+                binding.pbWhileSearchingHistory.visibility = android.view.View.GONE
+                binding.tvEmptyHistory.visibility = android.view.View.VISIBLE
+            }
+            override fun onResponse(call: Call<List<OrderCallback>>, response: Response<List<OrderCallback>>) {
+                val orderList = response.body()
+                if(!orderList.isNullOrEmpty()){
+                    binding.rvHistory.layoutManager = LinearLayoutManager(this@HistoryActivity)
+                    binding.rvHistory.adapter = OrderAdapter(orderList)
+                    binding.rvHistory.visibility = android.view.View.VISIBLE
+                    binding.pbWhileSearchingHistory.visibility = android.view.View.GONE
+                }
+                else{
+                    binding.pbWhileSearchingHistory.visibility = android.view.View.GONE
+                    binding.tvEmptyHistory.visibility = android.view.View.VISIBLE
+                }
             }
         })
     }

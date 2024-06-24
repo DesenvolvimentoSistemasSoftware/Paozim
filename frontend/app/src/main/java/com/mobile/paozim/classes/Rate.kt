@@ -3,8 +3,8 @@ package com.mobile.paozim.classes
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class OrderItem(
+data class Rate (
     val itemID: Int,
-    val quantity: Int,
-    val price: Double,
+    val userEmail: String,
+    val rating: Int
 )

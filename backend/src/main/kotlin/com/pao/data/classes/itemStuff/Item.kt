@@ -10,5 +10,6 @@ data class Item(
     val price: Double,
     val stock: Int,
     val image: String,
-    val description: String
+    val description: String,
+    val avgRate: Double
 )

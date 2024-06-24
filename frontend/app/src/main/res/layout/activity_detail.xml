@@ -35,20 +35,6 @@
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab_favorite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|bottom"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="@color/white"
-                    android:clickable="true"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_thumb"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_thumb"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                    app:srcCompat="@drawable/ic_favorite" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -106,6 +92,20 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp">
 
+                <TextView
+                    android:id="@+id/tv_avaliacao_empty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/blue_gray"
+                    android:visibility="gone"
+                    android:text="Ainda não há avaliações"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <RatingBar
                     android:id="@+id/ratingBar"
                     style="@android:style/Widget.DeviceDefault.Light.RatingBar.Indicator"
@@ -113,8 +113,9 @@
                     android:layout_height="wrap_content"
                     android:numStars="5"
                     android:progressTint="#FFC106"
-                    android:rating="4.5"
+                    android:rating="0"
                     android:stepSize="0.1"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -126,8 +127,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:tint="@color/red"
-                    app:srcCompat="@drawable/ic_delivery_time" />
+                    app:srcCompat="@drawable/ic_delivery_time"
+                    app:tint="@color/red" />
 
                 <TextView
                     android:id="@+id/tv_preparation_time"

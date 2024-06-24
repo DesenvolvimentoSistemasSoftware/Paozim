@@ -34,11 +34,18 @@ class DetailActivity : AppCompatActivity() {
         setCliqueListeners()
     }
     private fun setInformationViews(){
+        if(itemSelected.avgRate != 6.0){
+            binding.ratingBar.visibility = android.view.View.VISIBLE
+            binding.ratingBar.rating = itemSelected.avgRate.toFloat()
+        }
+        else{
+            binding.ratingBar.visibility = android.view.View.GONE
+            binding.tvAvaliacaoEmpty.visibility = android.view.View.VISIBLE
+        }
         binding.tvName.text = itemSelected.name
         binding.tvDescricao.text = itemSelected.description
         binding.tvPrice.text = "R$ %.2f".format(itemSelected.price)
         binding.tvLoja.text = itemSelected.sellerID.toString()
-//        binding.ratingBar.rating = prodSelec.aveAvaliacao.toFloat()
         Glide.with(this@DetailActivity)
             .load(itemSelected.image)
             .into(binding.ivThumb)
