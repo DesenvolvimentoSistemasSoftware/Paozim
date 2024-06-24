@@ -3,7 +3,7 @@ package com.mobile.paozim.classes.OrderStuff
 import kotlinx.serialization.Serializable
 
 @Serializable
-class OrderCallback (
+data class OrderCallback (
     val id: Int,
     val sellerID: Int,
     val status: String,

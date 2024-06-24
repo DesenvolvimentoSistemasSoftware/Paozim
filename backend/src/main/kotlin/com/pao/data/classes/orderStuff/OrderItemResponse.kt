@@ -8,5 +8,6 @@ data class OrderItemResponse(
     val quantity: Int,
     val price: Double,
     val image: String,
-    val name: String
+    val name: String,
+    var myRate: Int
 )

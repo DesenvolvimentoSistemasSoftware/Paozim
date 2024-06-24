@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.paozim.R
 
 class CategoryAdapter (
-    var categories: List<Category>,
+    private val categories: List<Category>,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
