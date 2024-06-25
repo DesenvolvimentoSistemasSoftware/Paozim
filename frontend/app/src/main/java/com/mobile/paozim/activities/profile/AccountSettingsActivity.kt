@@ -34,9 +34,10 @@ class AccountSettingsActivity: AppCompatActivity() {
 
         binding.btnLogout.setOnClickListener() {
             // Limpar o UserInstance e voltar para a tela de login
-            UserInstance.clearUser(this)
+            UserInstance.logout()
             val i = Intent(this, LoginActivity::class.java)
             startActivity(i)
+            finish()
         }
 
         val etEmail = binding.etEmail
