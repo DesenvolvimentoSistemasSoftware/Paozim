@@ -29,6 +29,7 @@ import com.mobile.paozim.databinding.FragmentMembershipBinding
 import com.mobile.paozim.retrofit.BASE_URL
 import com.mobile.paozim.retrofit.ItemAPI
 import com.mobile.paozim.retrofit.RetrofitInstance
+import com.mobile.paozim.retrofit.SignatureAPI
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +38,7 @@ class MembershipFragment : Fragment() {
     private lateinit var binding: FragmentMembershipBinding
     private lateinit var membershipViewModel: MembershipViewModel
     private lateinit var adapters: MutableList<MembershipAdapter>
-    private val retIn = RetrofitInstance.getRetrofitInstance().create(ItemAPI::class.java)
+    private val retIn = RetrofitInstance.getRetrofitInstance().create(SignatureAPI::class.java)
     
     private val next = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -71,7 +72,6 @@ class MembershipFragment : Fragment() {
                 membershipViewModel.triggerUpdateInfo.value = false
             }
         })
-
         updateSignedItems()
     }
 
@@ -89,13 +89,11 @@ class MembershipFragment : Fragment() {
     }
 
     fun updateSignedItems() {
-        // Obtém os itens com a API
         return retIn.getSignedItems(UserInstance.Usuario.email).enqueue(object :
             Callback<List<Item>> {
             override fun onResponse(call: Call<List<Item>>, response: Response<List<Item>>) {
                 if(response.body() != null){
                     var signedItems: List<Item> = response.body()!!
-                    // Atualizar as imagens com BASE_URL + item.image
                     for (item in signedItems){
                         item.image = BASE_URL + item.image
                     }

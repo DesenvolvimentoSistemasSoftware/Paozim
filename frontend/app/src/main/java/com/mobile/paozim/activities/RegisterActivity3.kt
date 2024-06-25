@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import com.mobile.paozim.classes.Adress
 import com.mobile.paozim.classes.UserStuff.UserInstance
 import com.mobile.paozim.classes.Responses.SimpleResponse
 import com.mobile.paozim.databinding.ActivityRegister3Binding
+import com.mobile.paozim.retrofit.AdressAPI
 import com.mobile.paozim.retrofit.RetrofitInstance
 import com.mobile.paozim.retrofit.UserAPI
 import retrofit2.Call
@@ -21,6 +23,8 @@ class RegisterActivity3 : ComponentActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegister3Binding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setFieldsAdress()
 
         binding.fabBack.setOnClickListener(){
             finish()
@@ -36,6 +40,29 @@ class RegisterActivity3 : ComponentActivity() {
             UserInstance.Usuario.referencia = binding.etPontoReferencia.text.toString()
             signUp()
         }
+    }
+
+    private fun setFieldsAdress(){
+        val cep = UserInstance.Usuario.CEP
+        val retIn = RetrofitInstance.getRetrofitInstance().create(AdressAPI::class.java)
+
+        retIn.getAdress(cep).enqueue(object : Callback<Adress> {
+            override fun onFailure(call: Call<Adress>, t: Throwable) {
+                Log.d("CADASTRO", t.message.toString())
+            }
+            override fun onResponse(call: Call<Adress>, response: Response<Adress>) {
+                var adress = response.body()
+                if(adress != null) {
+                    binding.etCidade.setText(adress.localidade)
+                    binding.etEstado.setText(adress.uf)
+                    binding.etEndereco.setText(adress.logradouro)
+                    binding.etBairro.setText(adress.bairro)
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    Log.d("CADASTRO", "Error: $errorBody")
+                }
+            }
+        })
     }
 
     private fun signUp(){

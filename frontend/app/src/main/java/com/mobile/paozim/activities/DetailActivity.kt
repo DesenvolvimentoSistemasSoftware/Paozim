@@ -2,6 +2,7 @@ package com.mobile.paozim.activities
 
 import SignatureOrder
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -15,16 +16,24 @@ import com.bumptech.glide.Glide
 import com.mobile.paozim.R
 import com.mobile.paozim.classes.CartStuff.CartInstance
 import com.mobile.paozim.classes.Item
+import com.mobile.paozim.classes.Seller
 import com.mobile.paozim.classes.UserStuff.UserInstance
 import com.mobile.paozim.databinding.ActivityDetailBinding
+import com.mobile.paozim.retrofit.BASE_URL
 import com.mobile.paozim.retrofit.ItemAPI
 import com.mobile.paozim.retrofit.RetrofitInstance
+import com.mobile.paozim.retrofit.SellerAPI
+import com.mobile.paozim.retrofit.SignatureAPI
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.concurrent.CompletableFuture
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private lateinit var itemSelected: Item
-    private val retIn = RetrofitInstance.getRetrofitInstance().create(ItemAPI::class.java)
+    private lateinit var seller: Seller
+    private val retIn2 = RetrofitInstance.getRetrofitInstance().create(SignatureAPI::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +45,9 @@ class DetailActivity : AppCompatActivity() {
         else
             itemSelected = intent.getParcelableExtra<Item>("escolhido")!!
 
+        getSeller(itemSelected.sellerID)
         setInformationViews()
-        setCliqueListeners()
+        setClickListeners()
     }
     private fun setInformationViews(){
         if(itemSelected.avgRate != 6.0){
@@ -51,12 +61,13 @@ class DetailActivity : AppCompatActivity() {
         binding.tvName.text = itemSelected.name
         binding.tvDescricao.text = itemSelected.description
         binding.tvPrice.text = "R$ %.2f".format(itemSelected.price)
-        binding.tvLoja.text = itemSelected.sellerID.toString()
         Glide.with(this@DetailActivity)
             .load(itemSelected.image)
             .into(binding.ivThumb)
+
+        binding.tvLoja.text = itemSelected.sellerID.toString()
     }
-    private fun setCliqueListeners(){
+    private fun setClickListeners(){
         binding.ivMenos.setOnClickListener(){
             var qtd = binding.tvQtd.text.toString().toInt()
             if(qtd > 0){
@@ -91,17 +102,12 @@ class DetailActivity : AppCompatActivity() {
                                 binding.tvQtd.text.toString().toInt(),
                                 0.0
                             )
-                            //show in the log all the data of the cart
                             CartInstance.Carro.itens.forEach {
-                                Log.d(
-                                    "CART",
-                                    "Item: ${it.name} - Qtd: ${it.qtd} - Total: ${it.qtd * it.price}"
-                                )
+                                Log.d("CART", "Item: ${it.name} - Qtd: ${it.qtd} - Total: ${it.qtd * it.price}")
                             }
                             finish()
                         }
                     }
-                    Log.d("CART1", "Carrinho de outra loja")
                 }
                 else {
                     CartInstance.addItem(
@@ -111,36 +117,35 @@ class DetailActivity : AppCompatActivity() {
                         binding.tvQtd.text.toString().toInt(),
                         0.0
                     )
-                    //show in the log all the data of the cart
                     CartInstance.Carro.itens.forEach {
-                        Log.d(
-                            "CART",
-                            "Item: ${it.name} - Qtd: ${it.qtd} - Total: ${it.qtd * it.price}"
-                        )
+                        Log.d("CART","Item: ${it.name} - Qtd: ${it.qtd} - Total: ${it.qtd * it.price}")
                     }
                     finish()
                 }
             }
         }
         binding.btnAddAssinatura.setOnClickListener(){
-            // Fazer request ao POST (addSignature) da API
             val signatureOrder = SignatureOrder(itemSelected.id, UserInstance.Usuario.email)
-            retIn.addSignature(signatureOrder).enqueue(object : retrofit2.Callback<Item> {
-                override fun onResponse(call: retrofit2.Call<Item>, response: retrofit2.Response<Item>) {
+            retIn2.addSignature(signatureOrder).enqueue(object : Callback<Item> {
+                override fun onResponse(call: Call<Item>, response: Response<Item>) {
                     if (response.body() != null) {
                         Log.d("VEJA", "Adicionado com sucesso")
-                        // Volta ao home fragment
                         Toast.makeText(this@DetailActivity, "Item assinado com sucesso", Toast.LENGTH_SHORT).show()
                         finish()
                     } else {
                         Log.d("VEJA", "Falhou")
                     }
                 }
-
-                override fun onFailure(call: retrofit2.Call<Item>, t: Throwable) {
+                override fun onFailure(call: Call<Item>, t: Throwable) {
                     Log.d("VEJA", "Falhou")
                 }
             })
+        }
+        binding.tvLoja.setOnClickListener(){
+            val intent = Intent(this, SellerActivity::class.java)
+            intent.putExtra("vendedor", seller)
+            intent.putExtra("id", itemSelected.sellerID)
+            startActivity(intent)
         }
     }
     private fun showDialogBox(): CompletableFuture<Boolean> {
@@ -165,5 +170,20 @@ class DetailActivity : AppCompatActivity() {
 
         dialog.show()
         return future
+    }
+    private fun getSeller(id: Int) {
+        val retIn = RetrofitInstance.getRetrofitInstance().create(SellerAPI::class.java)
+        retIn.getSeller(id).enqueue(object : Callback<Seller> {
+            override fun onResponse(call: Call<Seller>, response: Response<Seller>) {
+                seller = response.body()!!
+                seller.image = BASE_URL + seller.image
+                binding.tvLoja.text = seller.nome
+                binding.tvLoja.isClickable = true
+            }
+            override fun onFailure(call: Call<Seller>, t: Throwable) {
+                Log.d("VEJA", "Falhou")
+                binding.tvLoja.isClickable = false
+            }
+        })
     }
 }

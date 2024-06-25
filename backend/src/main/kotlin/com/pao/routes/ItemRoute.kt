@@ -18,8 +18,6 @@ const val CATEGORY_ITEM_REQUEST = "$ITENS/category/{category}"
 const val SELLER_ITEM_REQUEST = "$ITENS/seller/{sellerID}"
 const val NAME_ITEM_REQUEST = "$ITENS/name/{name}"
 const val CREATE_ITEM_REQUEST = "$ITENS/create"
-const val ADD_SIGNATURE = "$ITENS/signature"
-const val GET_SIGNATURE = "$ITENS/signature/{email}"
 
 fun Route.ItemRoute(db: Repo){
     get(RANDOM_REQUEST){
@@ -82,32 +80,6 @@ fun Route.ItemRoute(db: Repo){
             call.respond(HttpStatusCode.OK, SimpleResponse("true","Item criado com sucesso"))
         } catch (e: Exception){
             call.respond(HttpStatusCode.Conflict, SimpleResponse("false",e.message ?: "Algo deu errado"))
-            return@post
-        }
-    }
-    get(GET_SIGNATURE){
-        val email = call.parameters["email"]
-        try {
-            val items = db.findSignaturedItems(email!!)
-            call.respond(HttpStatusCode.OK, items)
-        } catch (e: Exception){
-            call.respond(HttpStatusCode.NotFound, SimpleResponse("false","NAO"))
-        }
-    }
-    post(ADD_SIGNATURE) {
-        // Corpo deve conter o email do usuário e o ID do item a ser assinado (classe SignatureOrder)
-        val signatureOrder = try {
-            call.receive<SignatureOrder>()
-        } catch (e: Exception) {
-            call.respond(HttpStatusCode.BadRequest, SimpleResponse("false", "Faltam alguns campos"))
-            return@post
-        }
-
-        try {
-            db.addSignature(signatureOrder)
-            call.respond(HttpStatusCode.OK, SimpleResponse("true", "Item assinado com sucesso"))
-        } catch (e: Exception) {
-            call.respond(HttpStatusCode.Conflict, SimpleResponse("false", e.message ?: "Algo deu errado"))
             return@post
         }
     }
