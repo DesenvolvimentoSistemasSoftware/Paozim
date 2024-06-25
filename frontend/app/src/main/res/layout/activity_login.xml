@@ -8,7 +8,6 @@
     android:background="@color/login_theme"
     tools:context=".activities.MainActivity">
 
-
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -81,7 +80,7 @@
                 android:drawableLeft="@drawable/ic_email"
                 android:drawablePadding="8dp"
                 android:ems="10"
-                android:hint="Email ou Número de telefone"
+                android:hint="Email"
                 android:inputType="text"
                 android:padding="8dp"
                 android:textColorHint="#989393"

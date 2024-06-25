@@ -54,7 +54,7 @@ class SearchFragment : Fragment() {
 //                    binding.pbWhileSearching.visibility = View.GONE
 
 //                    if(searchedList != null){
-//                        //TODO implementar o adapter
+//                        TODO implementar o adapter
 //                    } else {
 //                        binding.tvEmpty.text = "Não encontramos nenhuma\n loja com esse nome\n : ("
 //                        binding.tvEmpty.visibility = View.VISIBLE

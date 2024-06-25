@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.core.text.isDigitsOnly
 import com.mobile.paozim.classes.Adress
 import com.mobile.paozim.classes.UserStuff.UserInstance
 import com.mobile.paozim.classes.Responses.SimpleResponse
@@ -31,15 +32,75 @@ class RegisterActivity3 : ComponentActivity() {
         }
 
         binding.btnSignUp.setOnClickListener(){
-            UserInstance.Usuario.cidade = binding.etCidade.text.toString()
-            UserInstance.Usuario.estado = binding.etEstado.text.toString()
-            UserInstance.Usuario.endereco = binding.etEndereco.text.toString()
-            UserInstance.Usuario.bairro = binding.etBairro.text.toString()
-            UserInstance.Usuario.numResidencia = binding.etNumeroResidencia.text.toString().toInt()
-            UserInstance.Usuario.complemento = binding.etComplemento.text.toString()
-            UserInstance.Usuario.referencia = binding.etPontoReferencia.text.toString()
-            signUp()
+            if(checkCidade() && checkEstado() && checkEndereco() && checkBairro() && checkNumeroResidencia()) {
+                UserInstance.Usuario.cidade = binding.etCidade.text.toString()
+                UserInstance.Usuario.estado = binding.etEstado.text.toString()
+                UserInstance.Usuario.endereco = binding.etEndereco.text.toString()
+                UserInstance.Usuario.bairro = binding.etBairro.text.toString()
+                UserInstance.Usuario.numResidencia = binding.etNumeroResidencia.text.toString().toInt()
+                UserInstance.Usuario.complemento = binding.etComplemento.text.toString()
+                UserInstance.Usuario.referencia = binding.etPontoReferencia.text.toString()
+                signUp()
+            }
         }
+    }
+
+    private fun checkCidade(): Boolean{
+        var error: String? = null
+        val value: String = binding.etCidade.text.toString()
+        if(value.isEmpty()){
+            error = "Coloque a cidade"
+        }
+        if(error != null){
+            Toast.makeText(this, error,Toast.LENGTH_SHORT).show()
+        }
+        return error == null
+    }
+    private fun checkEstado(): Boolean{
+        var error: String? = null
+        val value: String = binding.etEstado.text.toString()
+        if(value.isEmpty()){
+            error = "Coloque o estado"
+        }
+        if(error != null){
+            Toast.makeText(this, error,Toast.LENGTH_SHORT).show()
+        }
+        return error == null
+    }
+    private fun checkEndereco(): Boolean{
+        var error: String? = null
+        val value: String = binding.etEndereco.text.toString()
+        if(value.isEmpty()){
+            error = "Coloque o endereço"
+        }
+        if(error != null){
+            Toast.makeText(this, error,Toast.LENGTH_SHORT).show()
+        }
+        return error == null
+    }
+    private fun checkBairro(): Boolean{
+        var error: String? = null
+        val value: String = binding.etBairro.text.toString()
+        if(value.isEmpty()){
+            error = "Coloque o bairro"
+        }
+        if(error != null){
+            Toast.makeText(this, error,Toast.LENGTH_SHORT).show()
+        }
+        return error == null
+    }
+    private fun checkNumeroResidencia(): Boolean{
+        var error: String? = null
+        val value: String = binding.etNumeroResidencia.text.toString()
+        if(value.isEmpty()){
+            error = "Coloque o número da residência"
+        } else if(!value.isDigitsOnly()){
+            error = "O número da residência deve ser um número"
+        }
+        if(error != null){
+            Toast.makeText(this, error,Toast.LENGTH_SHORT).show()
+        }
+        return error == null
     }
 
     private fun setFieldsAdress(){
@@ -93,5 +154,4 @@ class RegisterActivity3 : ComponentActivity() {
             }
         })
     }
-    // fazer funções de análise da correturde do input
 }

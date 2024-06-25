@@ -2,9 +2,11 @@ package com.mobile.paozim.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.text.isDigitsOnly
 import com.mobile.paozim.classes.UserStuff.UserInstance
 import com.mobile.paozim.databinding.ActivityRegister2Binding
 
@@ -29,12 +31,51 @@ class RegisterActivity2 : ComponentActivity() {
         }
 
         binding.btnNext.setOnClickListener(){
-            UserInstance.Usuario.CPF = binding.etCpf.text.toString()
-            UserInstance.Usuario.telefone = binding.etTelefone.text.toString()
-            UserInstance.Usuario.CEP = binding.etCep.text.toString()
-            val intent = Intent(this, RegisterActivity3::class.java)
-            next.launch(intent)
+            if(checkCPF() && checkTelefone() && checkCEP()) {
+                UserInstance.Usuario.CPF = binding.etCpf.text.toString()
+                UserInstance.Usuario.telefone = binding.etTelefone.text.toString()
+                UserInstance.Usuario.CEP = binding.etCep.text.toString()
+                val intent = Intent(this, RegisterActivity3::class.java)
+                next.launch(intent)
+            }
         }
     }
-    // TODO fazer funções de análise da correturde do input
+
+    private fun checkCPF(): Boolean{
+        var error: String? = null
+        val value: String = binding.etCpf.text.toString()
+        if(value.isEmpty()){
+            error = "Coloque o CPF"
+        }
+        if(error != null){
+            Toast.makeText(this, error,Toast.LENGTH_SHORT).show()
+        }
+        return error == null
+    }
+    private fun checkTelefone(): Boolean{
+        var error: String? = null
+        val value: String = binding.etTelefone.text.toString()
+        if(value.isEmpty()){
+            error = "Coloque o telefone"
+        } else if (!value.isDigitsOnly()){
+            error = "Telefone inválido"
+        }
+        if(error != null){
+            Toast.makeText(this, error,Toast.LENGTH_SHORT).show()
+        }
+        return error == null
+    }
+    private fun checkCEP(): Boolean{
+        var error: String? = null
+        val value: String = binding.etCep.text.toString()
+        if(value.isEmpty()){
+            error = "Coloque o CEP"
+        } else if (!value.isDigitsOnly() || value.length != 8){
+            error = "CEP inválido"
+        }
+        if(error != null){
+            Toast.makeText(this, error,Toast.LENGTH_SHORT).show()
+        }
+        return error == null
+    }
 }
