@@ -16,6 +16,8 @@ object UserInstance {
     fun clearUser(context: Context) {
         val sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
         sharedPreferences.edit().clear().apply()
+        Usuario = User("", "", "", "", "", "", "", "", "", "", 0, "", "")
+        logged = false
     }
     fun saveUser(context: Context) {
         val sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
