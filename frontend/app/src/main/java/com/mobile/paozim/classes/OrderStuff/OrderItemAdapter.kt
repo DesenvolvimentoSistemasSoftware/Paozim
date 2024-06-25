@@ -72,7 +72,7 @@ class OrderItemAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            if(clickable){
+            if(clickable && status != "Pendente"){
                 showDialogBox().thenAccept { value ->
                     sendReview(value, currentItem.itemID)
                     holder.myRate.rating = value.toFloat()

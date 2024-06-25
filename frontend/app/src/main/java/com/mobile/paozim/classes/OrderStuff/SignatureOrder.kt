@@ -1,7 +1,7 @@
 import kotlinx.serialization.Serializable
 
 @Serializable
-class SignatureOrder(
+data class SignatureOrder(
     val productId: Int,
     val userEmail: String
 )
