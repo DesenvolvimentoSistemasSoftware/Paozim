@@ -3,19 +3,15 @@ package com.pao
 import com.auth0.jwt.JWTVerifier
 import com.pao.authentication.JwtService
 import com.pao.repositories.Repo
-
 import io.ktor.http.*
 import io.ktor.server.testing.*
 import kotlin.test.*
-
 import io.mockk.mockk
 import io.mockk.every
-
 import io.ktor.server.routing.*
-
 import com.pao.authentication.isEmail
-import com.pao.data.classes.Product
 import com.pao.data.classes.SimpleResponse
+import com.pao.data.classes.itemStuff.Item
 import com.pao.data.classes.orderStuff.Order
 import com.pao.data.classes.userStuff.User
 import com.pao.data.classes.userStuff.UserResponse
@@ -40,8 +36,7 @@ class ApplicationTest {
         withTestApplication({
             module(mockRepo, mockJwtService, mockHashFunction)
             routing {
-                randomProduct()
-                getProduct()
+                ItemRoute(mockRepo)
             }
         }) {
             handleRequest(HttpMethod.Get, RANDOM_REQUEST).apply {
@@ -52,14 +47,17 @@ class ApplicationTest {
                     response.contentType()
                 )
 
-                val product = Json.decodeFromString<Product>(response.content!!)
+                val item = Json.decodeFromString<Item>(response.content!!)
 
-                // Verificar se tem os campos da classe Product
-                assertNotNull(product.id)
-                assertNotNull(product.nome)
-                assertNotNull(product.preco)
-                assertNotNull(product.estoque)
-                assertNotNull(product.desconto)
+                // Verificar se tem os campos da classe Item
+                assertNotNull(item.id)
+                assertNotNull(item.name)
+                assertNotNull(item.sellerID)
+                assertNotNull(item.stock)
+                assertNotNull(item.price)
+                assertNotNull(item.image)
+                assertNotNull(item.description)
+                assertNotNull(item.avgRate)
             }
 
             handleRequest(HttpMethod.Get, ITENS + "2").apply {

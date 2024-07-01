@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="wrap_content"
     android:layout_marginStart="4dp"
     android:layout_marginEnd="4dp"
     android:layout_marginTop="8dp"
@@ -16,72 +16,444 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/iv_image_item"
+            android:id="@+id/iv_image_item_membership_vh"
             android:layout_width="118dp"
             android:layout_height="96dp"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/tv_nome_card"
+            android:id="@+id/tv_nome_card_membership_vh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:text="nome"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/iv_image_item"
-            app:layout_constraintTop_toTopOf="@+id/iv_image_item" />
+            app:layout_constraintStart_toEndOf="@+id/iv_image_item_membership_vh"
+            app:layout_constraintTop_toTopOf="@+id/iv_image_item_membership_vh" />
 
         <TextView
-            android:id="@+id/tv_unit_price"
+            android:id="@+id/tv_unit_price_membership_vh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="R$ 0.00"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/tv_nome_card"
-            app:layout_constraintTop_toBottomOf="@+id/tv_nome_card" />
+            app:layout_constraintStart_toStartOf="@+id/tv_nome_card_membership_vh"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nome_card_membership_vh" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/tv_unit_price_membership_vh"
+            app:layout_constraintTop_toBottomOf="@+id/tv_unit_price_membership_vh">
+
+            <TextView
+                android:id="@+id/tv_quantity_membership_vh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" itens"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_image_item_membership_vh"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:srcCompat="@drawable/ic_delivery_time"
+                app:tint="@color/red" />
+
+            <TextView
+                android:id="@+id/tv_delivery_membership_vh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="08h00"
+                android:textColor="@color/red"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_image_item"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp">
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout7"
+            app:layout_constraintTop_toTopOf="@+id/tv_nome_card_membership_vh">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="R$ "
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/red"/>
+                android:text="# "
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
             <TextView
-                android:id="@+id/tv_total_item"
+                android:id="@+id/tv_id_membership_vh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.00"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/red" />
+                android:text="127"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_frequency"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Semanalmente"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/tv_unit_price"
-            app:layout_constraintTop_toBottomOf="@+id/tv_unit_price"
-            android:textColor="@color/blue_gray" />
+            android:layout_marginTop="24dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_image_item_membership_vh">
+
+            <View
+                android:id="@+id/v_connector1_d"
+                android:layout_width="15dp"
+                android:layout_height="8dp"
+                android:background="@color/light_grey2"
+                app:layout_constraintBottom_toBottomOf="@+id/v_day1"
+                app:layout_constraintEnd_toStartOf="@+id/v_day2"
+                app:layout_constraintStart_toEndOf="@+id/v_day1"
+                app:layout_constraintTop_toTopOf="@+id/v_day1" />
+
+            <View
+                android:id="@+id/v_day1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/grey_circle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/v_connector2_d"
+                android:layout_width="15dp"
+                android:layout_height="8dp"
+                android:background="@color/light_grey2"
+                app:layout_constraintBottom_toBottomOf="@+id/v_day2"
+                app:layout_constraintEnd_toStartOf="@+id/v_day3"
+                app:layout_constraintStart_toEndOf="@+id/v_day2"
+                app:layout_constraintTop_toTopOf="@+id/v_day2" />
+
+            <View
+                android:id="@+id/v_day2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/grey_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/v_day1"
+                app:layout_constraintStart_toEndOf="@+id/v_day1"
+                app:layout_constraintTop_toTopOf="@+id/v_day1" />
+
+            <View
+                android:id="@+id/v_connector3_d"
+                android:layout_width="15dp"
+                android:layout_height="8dp"
+                android:background="@color/light_grey2"
+                app:layout_constraintBottom_toBottomOf="@+id/v_day3"
+                app:layout_constraintEnd_toStartOf="@+id/v_day4"
+                app:layout_constraintStart_toEndOf="@+id/v_day3"
+                app:layout_constraintTop_toTopOf="@+id/v_day3" />
+
+            <View
+                android:id="@+id/v_day3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/grey_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/v_day2"
+                app:layout_constraintStart_toEndOf="@+id/v_day2"
+                app:layout_constraintTop_toTopOf="@+id/v_day2" />
+
+            <View
+                android:id="@+id/v_connector4_d"
+                android:layout_width="15dp"
+                android:layout_height="8dp"
+                android:background="@color/light_grey2"
+                app:layout_constraintBottom_toBottomOf="@+id/v_day4"
+                app:layout_constraintEnd_toStartOf="@+id/v_day5"
+                app:layout_constraintStart_toEndOf="@+id/v_day4"
+                app:layout_constraintTop_toTopOf="@+id/v_day4" />
+
+            <View
+                android:id="@+id/v_day4"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/grey_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/v_day3"
+                app:layout_constraintStart_toEndOf="@+id/v_day3"
+                app:layout_constraintTop_toTopOf="@+id/v_day3" />
+
+            <View
+                android:id="@+id/v_connector5_d"
+                android:layout_width="15dp"
+                android:layout_height="8dp"
+                android:background="@color/light_grey2"
+                app:layout_constraintBottom_toBottomOf="@+id/v_day5"
+                app:layout_constraintEnd_toStartOf="@+id/v_day6"
+                app:layout_constraintStart_toEndOf="@+id/v_day5"
+                app:layout_constraintTop_toTopOf="@+id/v_day5" />
+
+            <View
+                android:id="@+id/v_day5"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/grey_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/v_day4"
+                app:layout_constraintStart_toEndOf="@+id/v_day4"
+                app:layout_constraintTop_toTopOf="@+id/v_day4" />
+
+            <View
+                android:id="@+id/v_connector6_d"
+                android:layout_width="15dp"
+                android:layout_height="8dp"
+                android:background="@color/light_grey2"
+                app:layout_constraintBottom_toBottomOf="@+id/v_day6"
+                app:layout_constraintEnd_toStartOf="@+id/v_day7"
+                app:layout_constraintStart_toEndOf="@+id/v_day6"
+                app:layout_constraintTop_toTopOf="@+id/v_day6" />
+
+            <View
+                android:id="@+id/v_day6"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/grey_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/v_day5"
+                app:layout_constraintStart_toEndOf="@+id/v_day5"
+                app:layout_constraintTop_toTopOf="@+id/v_day5" />
+
+            <View
+                android:id="@+id/v_day7"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/grey_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/v_day6"
+                app:layout_constraintStart_toEndOf="@+id/v_day6"
+                app:layout_constraintTop_toTopOf="@+id/v_day6" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_weeks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_image_item_membership_vh">
+
+            <View
+                android:id="@+id/v_connector1_w"
+                android:layout_width="21dp"
+                android:layout_height="8dp"
+                android:background="@color/light_grey2"
+                app:layout_constraintBottom_toBottomOf="@+id/v_week1"
+                app:layout_constraintEnd_toStartOf="@+id/v_week2"
+                app:layout_constraintStart_toEndOf="@+id/v_week1"
+                app:layout_constraintTop_toTopOf="@+id/v_week1" />
+
+            <View
+                android:id="@+id/v_week1"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:background="@drawable/grey_circle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/v_connector2_w"
+                android:layout_width="21dp"
+                android:layout_height="8dp"
+                android:background="@color/light_grey2"
+                app:layout_constraintBottom_toBottomOf="@+id/v_week2"
+                app:layout_constraintEnd_toStartOf="@+id/v_week3"
+                app:layout_constraintStart_toEndOf="@+id/v_week2"
+                app:layout_constraintTop_toTopOf="@+id/v_week2" />
+
+            <View
+                android:id="@+id/v_week2"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/grey_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/v_week1"
+                app:layout_constraintStart_toEndOf="@+id/v_week1"
+                app:layout_constraintTop_toTopOf="@+id/v_week1" />
+
+            <View
+                android:id="@+id/v_connector3_w"
+                android:layout_width="21dp"
+                android:layout_height="8dp"
+                android:background="@color/light_grey2"
+                app:layout_constraintBottom_toBottomOf="@+id/v_week3"
+                app:layout_constraintEnd_toStartOf="@+id/v_week4"
+                app:layout_constraintStart_toEndOf="@+id/v_week3"
+                app:layout_constraintTop_toTopOf="@+id/v_week3" />
+
+            <View
+                android:id="@+id/v_week3"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/grey_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/v_week2"
+                app:layout_constraintStart_toEndOf="@+id/v_week2"
+                app:layout_constraintTop_toTopOf="@+id/v_week2" />
+
+            <View
+                android:id="@+id/v_week4"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/grey_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/v_week3"
+                app:layout_constraintStart_toEndOf="@+id/v_week3"
+                app:layout_constraintTop_toTopOf="@+id/v_week3" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_months"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_image_item_membership_vh">
+
+            <View
+                android:id="@+id/v_connector1_m"
+                android:layout_width="21dp"
+                android:layout_height="8dp"
+                android:background="@color/light_grey2"
+                app:layout_constraintBottom_toBottomOf="@+id/v_month1"
+                app:layout_constraintEnd_toStartOf="@+id/v_month2"
+                app:layout_constraintStart_toEndOf="@+id/v_month1"
+                app:layout_constraintTop_toTopOf="@+id/v_month1" />
+
+            <View
+                android:id="@+id/v_month1"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:background="@drawable/grey_circle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/v_connector2_m"
+                android:layout_width="21dp"
+                android:layout_height="8dp"
+                android:background="@color/light_grey2"
+                app:layout_constraintBottom_toBottomOf="@+id/v_month2"
+                app:layout_constraintEnd_toStartOf="@+id/v_month3"
+                app:layout_constraintStart_toEndOf="@+id/v_month2"
+                app:layout_constraintTop_toTopOf="@+id/v_month2" />
+
+            <View
+                android:id="@+id/v_month2"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/grey_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/v_month1"
+                app:layout_constraintStart_toEndOf="@+id/v_month1"
+                app:layout_constraintTop_toTopOf="@+id/v_month1" />
+
+            <View
+                android:id="@+id/v_month3"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/grey_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/v_month2"
+                app:layout_constraintStart_toEndOf="@+id/v_month2"
+                app:layout_constraintTop_toTopOf="@+id/v_month2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="62dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout7"
+            app:layout_constraintTop_toBottomOf="@id/iv_image_item_membership_vh"
+            app:layout_constraintVertical_bias="0">
+
+            <TextView
+                android:layout_gravity="start"
+                android:id="@+id/tv_passed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 / 7 dias"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Data de início: "
+                android:textColor="@color/blue_gray"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+
+            <TextView
+                android:id="@+id/tv_day_start_membership_vh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2024-06-18"
+                android:textColor="@color/blue_gray"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

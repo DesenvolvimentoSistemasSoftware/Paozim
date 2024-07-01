@@ -1,7 +1,8 @@
 package com.mobile.paozim.retrofit
 
-import SignatureOrder
+import Signature
 import com.mobile.paozim.classes.Item
+import com.mobile.paozim.classes.Responses.SimpleResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -11,14 +12,14 @@ import retrofit2.http.Path
 
 const val SIGNATURE = "$API_VERSION/signature"
 const val ADD_SIGNATURE = "$SIGNATURE/create"
-const val GET_SIGNATURE = "$SIGNATURE/{email}"
+const val LIST_SIGNATURE = "$SIGNATURE/{email}"
 
 interface SignatureAPI {
     @Headers("Content-Type: application/json")
     @POST(ADD_SIGNATURE)
-    fun addSignature(@Body req: SignatureOrder): Call<Item>
+    fun addSignature(@Body req: Signature): Call<SimpleResponse>
 
     @Headers("Content-Type: application/json")
-    @GET(GET_SIGNATURE)
-    fun getSignedItems(@Path("email") email: String): Call<List<Item>>
+    @GET(LIST_SIGNATURE)
+    fun getSignedItems(@Path("email") email: String): Call<List<Signature>>
 }

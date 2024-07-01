@@ -40,6 +40,7 @@ class RegisterActivity3 : ComponentActivity() {
                 UserInstance.Usuario.numResidencia = binding.etNumeroResidencia.text.toString().toInt()
                 UserInstance.Usuario.complemento = binding.etComplemento.text.toString()
                 UserInstance.Usuario.referencia = binding.etPontoReferencia.text.toString()
+                binding.btnSignUp.isClickable = false
                 signUp()
             }
         }
@@ -133,6 +134,7 @@ class RegisterActivity3 : ComponentActivity() {
         retIn.register(registerInfo).enqueue(object : Callback<SimpleResponse> {
             override fun onFailure(call: Call<SimpleResponse>, t: Throwable) {
                 Toast.makeText(this@RegisterActivity3,t.message, Toast.LENGTH_SHORT).show()
+                binding.btnSignUp.isClickable = true
             }
             override fun onResponse(call: Call<SimpleResponse>, response: Response<SimpleResponse>) {
                 var simpleResponse = response.body()
@@ -147,6 +149,7 @@ class RegisterActivity3 : ComponentActivity() {
                         finish()
                     }
                 } else {
+                    binding.btnSignUp.isClickable = true
                     val errorBody = response.errorBody()?.string()
                     Log.d("CADASTRO", "Error: $errorBody")
                     Toast.makeText(this@RegisterActivity3,"O cadastro falhou", Toast.LENGTH_SHORT).show()

@@ -1,12 +1,9 @@
 package com.mobile.paozim.retrofit
 
-import SignatureOrder
 import com.mobile.paozim.classes.Item
 import retrofit2.Call
-import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
-import retrofit2.http.POST
 import retrofit2.http.Path
 
 const val ITENS = "$API_VERSION/itens"
@@ -20,6 +17,10 @@ interface ItemAPI {
     @Headers("Content-Type: application/json")
     @GET(RANDOM_REQUEST)
     fun getRandomItem(): Call<Item>
+
+    @Headers("Content-Type: application/json")
+    @GET(ITEM_REQUEST)
+    fun getItemByID(@Path("id") id: Int): Call<Item>
 
     @Headers("Content-Type: application/json")
     @GET(SELLER_ITEM_REQUEST)

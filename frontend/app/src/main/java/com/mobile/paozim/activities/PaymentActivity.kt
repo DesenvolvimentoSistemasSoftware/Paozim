@@ -80,7 +80,6 @@ class PaymentActivity : AppCompatActivity() {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("PIX Code", code.text.toString())
             clipboard.setPrimaryClip(clip)
-            Toast.makeText(this, "Código copiado para a área de transferência", Toast.LENGTH_SHORT).show()
             aux.complete(true)
             dialog.dismiss()
         }

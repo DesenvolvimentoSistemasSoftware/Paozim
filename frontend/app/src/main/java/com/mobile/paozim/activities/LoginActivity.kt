@@ -43,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
         }
         binding.btnSignIn.setOnClickListener {
             if (checkEmail() && checkPassword()) {
+                binding.btnSignIn.isClickable = false
                 signIn(
                     binding.etEmail.text.toString(),
                     binding.etPassword.text.toString()
@@ -66,6 +67,7 @@ class LoginActivity : AppCompatActivity() {
 
         retIn.login(loginRequest).enqueue(object : Callback<UserResponse> {
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                binding.btnSignIn.isClickable = true
                 Toast.makeText(this@LoginActivity,t.message,Toast.LENGTH_SHORT).show()
             }
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
@@ -78,6 +80,7 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(Intent(this@LoginActivity, TabActivity::class.java))
                     finish()
                 } else {
+                    binding.btnSignIn.isClickable = true
                     val errorBody = response.errorBody()?.string()
                     val regex = """"message":"(.*?)"""".toRegex()
                     val matchResult = regex.find(errorBody.toString())
