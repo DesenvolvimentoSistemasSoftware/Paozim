@@ -1,6 +1,5 @@
 package com.mobile.paozim.activities
 
-import SignatureOrder
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -10,20 +9,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Window
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.mobile.paozim.R
 import com.mobile.paozim.classes.CartStuff.CartInstance
 import com.mobile.paozim.classes.Item
 import com.mobile.paozim.classes.Seller
-import com.mobile.paozim.classes.UserStuff.UserInstance
 import com.mobile.paozim.databinding.ActivityDetailBinding
 import com.mobile.paozim.retrofit.BASE_URL
-import com.mobile.paozim.retrofit.ItemAPI
 import com.mobile.paozim.retrofit.RetrofitInstance
 import com.mobile.paozim.retrofit.SellerAPI
-import com.mobile.paozim.retrofit.SignatureAPI
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,7 +28,6 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private lateinit var itemSelected: Item
     private lateinit var seller: Seller
-    private val retIn2 = RetrofitInstance.getRetrofitInstance().create(SignatureAPI::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,22 +118,14 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
         }
-        binding.btnAddAssinatura.setOnClickListener(){
-            val signatureOrder = SignatureOrder(itemSelected.id, UserInstance.Usuario.email)
-            retIn2.addSignature(signatureOrder).enqueue(object : Callback<Item> {
-                override fun onResponse(call: Call<Item>, response: Response<Item>) {
-                    if (response.body() != null) {
-                        Log.d("VEJA", "Adicionado com sucesso")
-                        Toast.makeText(this@DetailActivity, "Item assinado com sucesso", Toast.LENGTH_SHORT).show()
-                        finish()
-                    } else {
-                        Log.d("VEJA", "Falhou")
-                    }
-                }
-                override fun onFailure(call: Call<Item>, t: Throwable) {
-                    Log.d("VEJA", "Falhou")
-                }
-            })
+        binding.btnAddAssinatura.setOnClickListener() {
+            if (binding.tvQtd.text.toString().toInt() != 0) {
+                val intent = Intent(this, PaymentActivity2::class.java)
+                intent.putExtra("item", itemSelected.id)
+                intent.putExtra("qtd", binding.tvQtd.text.toString().toInt())
+                intent.putExtra("total", binding.tvTotal.text.toString().replace(",", ".").toDouble())
+                startActivity(intent)
+            }
         }
         binding.tvLoja.setOnClickListener(){
             val intent = Intent(this, SellerActivity::class.java)

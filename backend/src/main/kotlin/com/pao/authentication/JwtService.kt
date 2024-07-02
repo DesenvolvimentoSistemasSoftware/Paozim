@@ -8,7 +8,7 @@ import com.pao.data.classes.userStuff.User
 class JwtService {
 
     private val issuer = "paoServer"
-    private val jwtSecret = System.getenv("JWT_SECRET")
+    private val jwtSecret = "database"
     private val algorithm = Algorithm.HMAC512(jwtSecret)
 
     private val verifier: JWTVerifier = JWT

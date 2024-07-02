@@ -31,6 +31,9 @@
         android:theme="@style/Theme.Paozim"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.PaymentActivity2"
+            android:exported="false" />
+        <activity
             android:name=".activities.SellerActivity"
             android:exported="false" />
         <activity

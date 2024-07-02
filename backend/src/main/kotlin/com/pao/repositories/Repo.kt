@@ -4,7 +4,7 @@ import com.pao.data.classes.itemStuff.Item
 import com.pao.data.classes.orderStuff.Order
 import com.pao.data.classes.orderStuff.OrderItemResponse
 import com.pao.data.classes.orderStuff.OrderResponse
-import com.pao.data.classes.orderStuff.SignatureOrder
+import com.pao.data.classes.orderStuff.Signature
 import com.pao.data.classes.rateStuff.Rate
 import com.pao.data.classes.sellerStuff.Seller
 import com.pao.data.classes.userStuff.UpdateRequest
@@ -256,7 +256,7 @@ class Repo {
                 .mapNotNull { rowToOrder(it) }
         }
     }
-    suspend fun updateStatus(orderID: Int, newStatus: String) {
+    suspend fun updateOrderStatus(orderID: Int, newStatus: String) {
         dbQuery {
             OrderTable.update(
                 where = { OrderTable.id eq orderID })
@@ -305,28 +305,52 @@ class Repo {
     }
 
     // Signature functions in database
-    suspend fun addSignature(signatureOrder: SignatureOrder) {
+    suspend fun addSignature(signature: Signature) {
         dbQuery {
-            SignaturedItemTable.insert { sit ->
-                sit[SignaturedItemTable.itemId] = signatureOrder.productId
-                sit[SignaturedItemTable.userEmail] = signatureOrder.userEmail
-                sit[SignaturedItemTable.frequency] = "Semanalmente"
+            SignatureTable.insert { s ->
+                s[SignatureTable.itemID] = signature.itemID
+                s[SignatureTable.userEmail] = signature.userEmail
+                s[SignatureTable.totalPrice] = signature.totalPrice
+                s[SignatureTable.quantity] = signature.quantity
+                s[SignatureTable.status] = signature.status
+                s[SignatureTable.arriveTime] = signature.arriveTime
+                s[SignatureTable.dayStart] = signature.dayStart
+                s[SignatureTable.frequency] = signature.frequency
+                s[SignatureTable.totalPeriod] = signature.totalPeriod
             }
         }
     }
-    suspend fun findSignaturedItems(userEmail: String): List<Item> {
-        // Obtém o item na ItemTable com ID registrado na SignaturedItemTable
+    suspend fun findSignaturesByUser(userEmail: String): List<Signature> {
         return dbQuery {
-            val rows = (SignaturedItemTable innerJoin ItemTable)
-                .select { SignaturedItemTable.userEmail.eq(userEmail) }
-                .mapNotNull { it }
-            rows.mapNotNull {
-                val avgRate = RatingTable
-                    .slice(RatingTable.rating.avg())
-                    .select { RatingTable.itemID.eq(it[ItemTable.id].value) }
-                    .mapNotNull { it[RatingTable.rating.avg()] }
-                    .singleOrNull() ?: 6.0
-                rowToItem(it, avgRate)
+            SignatureTable
+                .select { SignatureTable.userEmail.eq(userEmail) and SignatureTable.status.neq("Finalizado") }
+                .mapNotNull { rowToSignature(it) }
+        }
+    }
+    private fun rowToSignature(row: ResultRow?): Signature? {
+        if (row == null) {
+            return null
+        }
+        return Signature(
+            id = row[SignatureTable.id].value,
+            itemID = row[SignatureTable.itemID],
+            userEmail = row[SignatureTable.userEmail],
+            totalPrice = row[SignatureTable.totalPrice],
+            quantity = row[SignatureTable.quantity],
+            status = row[SignatureTable.status],
+            arriveTime = row[SignatureTable.arriveTime],
+            dayStart = row[SignatureTable.dayStart],
+            frequency = row[SignatureTable.frequency],
+            currPeriod = 0,
+            totalPeriod = row[SignatureTable.totalPeriod]
+        )
+    }
+    suspend fun updateSignatureStatus(id: Int, newStatus: String) {
+        dbQuery {
+            SignatureTable.update(
+                where = { SignatureTable.id eq id})
+            {
+                it[SignatureTable.status] = newStatus
             }
         }
     }
