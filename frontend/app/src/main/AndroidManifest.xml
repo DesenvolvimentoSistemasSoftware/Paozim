@@ -58,13 +58,13 @@
             android:name=".activities.PaymentActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.RegisterActivity3"
+            android:name=".activities.enter.RegisterActivity3"
             android:exported="false" />
         <activity
-            android:name=".activities.RegisterActivity2"
+            android:name=".activities.enter.RegisterActivity2"
             android:exported="false" />
         <activity
-            android:name=".activities.RegisterActivity"
+            android:name=".activities.enter.RegisterActivity"
             android:exported="false"
             android:label="@string/title_activity_register"
             android:theme="@style/Theme.Paozim" />
@@ -75,7 +75,7 @@
             android:name=".activities.TabActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.enter.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"

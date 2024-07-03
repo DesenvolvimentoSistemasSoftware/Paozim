@@ -12,13 +12,13 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.mobile.paozim.R
-import com.mobile.paozim.classes.CartStuff.CartInstance
-import com.mobile.paozim.classes.Item
+import com.mobile.paozim.classes.cartStuff.CartInstance
+import com.mobile.paozim.classes.itemStuff.Item
 import com.mobile.paozim.classes.Seller
 import com.mobile.paozim.databinding.ActivityDetailBinding
 import com.mobile.paozim.retrofit.BASE_URL
 import com.mobile.paozim.retrofit.RetrofitInstance
-import com.mobile.paozim.retrofit.SellerAPI
+import com.mobile.paozim.retrofit.API.SellerAPI
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,7 +35,7 @@ class DetailActivity : AppCompatActivity() {
 
         setContentView(binding.root)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            itemSelected = intent.getParcelableExtra("escolhido",Item::class.java)!!
+            itemSelected = intent.getParcelableExtra("escolhido", Item::class.java)!!
         else
             itemSelected = intent.getParcelableExtra<Item>("escolhido")!!
 

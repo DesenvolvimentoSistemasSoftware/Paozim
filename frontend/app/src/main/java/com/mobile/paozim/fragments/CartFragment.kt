@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.paozim.activities.PaymentActivity
-import com.mobile.paozim.classes.CartStuff.CartAdapter
-import com.mobile.paozim.classes.CartStuff.CartInstance
+import com.mobile.paozim.classes.cartStuff.CartAdapter
+import com.mobile.paozim.classes.cartStuff.CartInstance
 import com.mobile.paozim.viewModel.CartViewModel
 import com.mobile.paozim.databinding.FragmentCartBinding
 

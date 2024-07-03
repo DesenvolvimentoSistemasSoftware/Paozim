@@ -28,8 +28,13 @@ fun Route.OrderRoute(db: Repo){
         }
 
         try {
-            db.addOrder(orderRequest)
-            call.respond(HttpStatusCode.OK,SimpleResponse("true","Pedido criado com sucesso"))
+            launch {
+                val id = db.addOrder(orderRequest)
+                for(item in orderRequest.items){
+                    db.addOrderItem(id, item)
+                }
+                call.respond(HttpStatusCode.OK,SimpleResponse("true","Pedido criado com sucesso"))
+            }.join()
         } catch (e: Exception){
             call.respond(HttpStatusCode.Conflict,SimpleResponse("false",e.message ?: "Algo deu errado"))
             return@post

@@ -2,9 +2,10 @@ package com.pao.repositories
 
 import com.pao.data.classes.itemStuff.Item
 import com.pao.data.classes.orderStuff.Order
+import com.pao.data.classes.orderStuff.OrderItem
 import com.pao.data.classes.orderStuff.OrderItemResponse
 import com.pao.data.classes.orderStuff.OrderResponse
-import com.pao.data.classes.orderStuff.Signature
+import com.pao.data.classes.signatureStuff.Signature
 import com.pao.data.classes.rateStuff.Rate
 import com.pao.data.classes.sellerStuff.Seller
 import com.pao.data.classes.userStuff.UpdateRequest
@@ -217,11 +218,11 @@ class Repo {
     }
 
     // Order functions in database
-    suspend fun addOrder(order: Order) {
+    suspend fun addOrder(order: Order) : Int {
         val timeStart = LocalDateTime.now()
         val timeFinish = timeStart.plusMinutes(order.shippingDuration.toLong())
 
-        val id = dbQuery {
+        return dbQuery {
             OrderTable.insertAndGetId { ot ->
                 ot[OrderTable.sellerID] = order.sellerID
                 ot[OrderTable.userEmail] = order.userEmail
@@ -232,19 +233,39 @@ class Repo {
                 ot[OrderTable.shippingPrice] = order.shippingPrice
             }.value
         }
-        for (item in order.items) {
-            dbQuery {
-                OrderItemTable.insert { oit ->
-                    oit[OrderItemTable.orderID] = id
-                    oit[OrderItemTable.itemID] = item.itemID
-                    oit[OrderItemTable.quantity] = item.quantity
-                    oit[OrderItemTable.price] = item.price
-                }
+//        println(order)
+//        for (item in order.items) {
+//            println(item)
+//            dbQuery {
+//                OrderItemTable.insert { oit ->
+//                    oit[OrderItemTable.orderID] = id
+//                    oit[OrderItemTable.itemID] = item.itemID
+//                    oit[OrderItemTable.quantity] = item.quantity
+//                    oit[OrderItemTable.price] = item.price
+//                }
+//            }
+//            // Update the stock of the item
+//            ItemTable.update({ ItemTable.id eq item.itemID }) {
+//                with(SqlExpressionBuilder) {
+//                    it.update(ItemTable.stock, ItemTable.stock - item.quantity)
+//                }
+//            }
+//        }
+    }
+    suspend fun addOrderItem(orderID: Int, orderItem: OrderItem){
+        dbQuery {
+            OrderItemTable.insert { oit ->
+                oit[OrderItemTable.orderID] = orderID
+                oit[OrderItemTable.itemID] = orderItem.itemID
+                oit[OrderItemTable.quantity] = orderItem.quantity
+                oit[OrderItemTable.price] = orderItem.price
             }
-            // Update the stock of the item
-            ItemTable.update({ ItemTable.id eq item.itemID }) {
+        }
+        // Update the stock of the item
+        dbQuery {
+            ItemTable.update({ ItemTable.id eq orderItem.itemID }) {
                 with(SqlExpressionBuilder) {
-                    it.update(ItemTable.stock, ItemTable.stock - item.quantity)
+                    it.update(ItemTable.stock, ItemTable.stock - orderItem.quantity)
                 }
             }
         }

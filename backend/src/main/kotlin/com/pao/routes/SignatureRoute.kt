@@ -1,7 +1,7 @@
 package com.pao.routes
 
 import com.pao.data.classes.SimpleResponse
-import com.pao.data.classes.orderStuff.Signature
+import com.pao.data.classes.signatureStuff.Signature
 import com.pao.plugins.API_VERSION
 import com.pao.repositories.Repo
 import io.ktor.http.*

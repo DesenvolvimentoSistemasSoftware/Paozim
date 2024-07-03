@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mobile.paozim.classes.Item
+import com.mobile.paozim.classes.itemStuff.Item
 import com.mobile.paozim.retrofit.BASE_URL
-import com.mobile.paozim.retrofit.ItemAPI
+import com.mobile.paozim.retrofit.API.ItemAPI
 import com.mobile.paozim.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
