@@ -233,24 +233,6 @@ class Repo {
                 ot[OrderTable.shippingPrice] = order.shippingPrice
             }.value
         }
-//        println(order)
-//        for (item in order.items) {
-//            println(item)
-//            dbQuery {
-//                OrderItemTable.insert { oit ->
-//                    oit[OrderItemTable.orderID] = id
-//                    oit[OrderItemTable.itemID] = item.itemID
-//                    oit[OrderItemTable.quantity] = item.quantity
-//                    oit[OrderItemTable.price] = item.price
-//                }
-//            }
-//            // Update the stock of the item
-//            ItemTable.update({ ItemTable.id eq item.itemID }) {
-//                with(SqlExpressionBuilder) {
-//                    it.update(ItemTable.stock, ItemTable.stock - item.quantity)
-//                }
-//            }
-//        }
     }
     suspend fun addOrderItem(orderID: Int, orderItem: OrderItem){
         dbQuery {
