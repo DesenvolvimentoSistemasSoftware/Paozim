@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.mobile.paozim.R
 import com.mobile.paozim.activities.profile.AccountSettingsActivity
 import com.mobile.paozim.activities.profile.HistoryActivity
-import com.mobile.paozim.classes.UserStuff.UserInstance
+import com.mobile.paozim.classes.userStuff.UserInstance
 import com.mobile.paozim.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {

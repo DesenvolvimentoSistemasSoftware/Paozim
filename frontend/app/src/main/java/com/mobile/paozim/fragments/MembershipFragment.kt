@@ -1,6 +1,6 @@
 package com.mobile.paozim.fragments
 
-import Signature
+import com.mobile.paozim.classes.signatureStuff.Signature
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mobile.paozim.classes.OrderStuff.MembershipAdapter
-import com.mobile.paozim.classes.UserStuff.UserInstance
+import com.mobile.paozim.classes.signatureStuff.SignatureAdapter
+import com.mobile.paozim.classes.userStuff.UserInstance
 import com.mobile.paozim.databinding.FragmentMembershipBinding
 import com.mobile.paozim.retrofit.RetrofitInstance
-import com.mobile.paozim.retrofit.SignatureAPI
+import com.mobile.paozim.retrofit.API.SignatureAPI
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,7 +53,7 @@ class MembershipFragment : Fragment() {
                 binding.pbMembership.visibility = View.GONE
                 if(!signatureList.isNullOrEmpty()){
                     binding.rvItensSignatures.layoutManager = LinearLayoutManager(context)
-                    binding.rvItensSignatures.adapter = MembershipAdapter(signatureList)
+                    binding.rvItensSignatures.adapter = SignatureAdapter(signatureList)
                     binding.rvItensSignatures.visibility = View.VISIBLE
                 }
                 else{

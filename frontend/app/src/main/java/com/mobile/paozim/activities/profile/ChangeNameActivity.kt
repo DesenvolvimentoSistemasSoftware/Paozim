@@ -3,19 +3,19 @@ package com.mobile.paozim.activities.profile
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.mobile.paozim.classes.UserStuff.ChangeNameRequest
+import com.mobile.paozim.classes.userStuff.ChangeNameRequest
 
 import com.mobile.paozim.databinding.ActivityChangeNameBinding
 import com.mobile.paozim.retrofit.RetrofitInstance
-import com.mobile.paozim.retrofit.UserAPI
+import com.mobile.paozim.retrofit.API.UserAPI
 
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 import android.widget.Toast
-import com.mobile.paozim.classes.Responses.SimpleResponse
-import com.mobile.paozim.classes.UserStuff.UserInstance
+import com.mobile.paozim.classes.SimpleResponse
+import com.mobile.paozim.classes.userStuff.UserInstance
 
 
 class ChangeNameActivity: AppCompatActivity() {

@@ -1,6 +1,5 @@
 package com.pao.routes
 
-// https://ktor.io/docs/server-requests.html#request_information
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*

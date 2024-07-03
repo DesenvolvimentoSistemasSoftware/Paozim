@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mobile.paozim.classes.OrderStuff.OrderItemAdapter
-import com.mobile.paozim.classes.OrderStuff.OrderItemCallback
+import com.mobile.paozim.classes.orderStuff.OrderItemAdapter
+import com.mobile.paozim.classes.orderStuff.OrderItemCallback
 import com.mobile.paozim.databinding.ActivityReviewBinding
 import com.mobile.paozim.retrofit.BASE_URL
-import com.mobile.paozim.retrofit.OrderAPI
+import com.mobile.paozim.retrofit.API.OrderAPI
 import com.mobile.paozim.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback

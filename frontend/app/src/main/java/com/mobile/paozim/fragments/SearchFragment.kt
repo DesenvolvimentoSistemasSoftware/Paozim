@@ -10,11 +10,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.mobile.paozim.classes.Item
-import com.mobile.paozim.classes.ItemAdapter
+import com.mobile.paozim.classes.itemStuff.Item
+import com.mobile.paozim.classes.itemStuff.ItemAdapter
 import com.mobile.paozim.databinding.FragmentSearchBinding
 import com.mobile.paozim.retrofit.BASE_URL
-import com.mobile.paozim.retrofit.ItemAPI
+import com.mobile.paozim.retrofit.API.ItemAPI
 import com.mobile.paozim.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,9 +22,6 @@ import retrofit2.Response
 
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
-    // true = search an item name and show all the itens with this name
-    // false = search a store name and show all the stores with this name
-    private var searchType: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,29 +41,14 @@ class SearchFragment : Fragment() {
                 binding.tvEmpty.visibility = View.GONE
                 binding.tvTitleSearch.visibility = View.VISIBLE
                 binding.pbWhileSearching.visibility = View.VISIBLE
-                if(searchType){
-                    binding.tvTitleSearch.text = "Produtos"
-                    searchItem(binding.edSearchBox.text.toString())
-                }
-                else {
-                    binding.tvTitleSearch.text = "Lojas"
-//                    val searchedList = searchItem(binding.edSearchBox.text.toString())
-//                    binding.pbWhileSearching.visibility = View.GONE
-
-//                    if(searchedList != null){
-//                        TODO implementar o adapter
-//                    } else {
-//                        binding.tvEmpty.text = "Não encontramos nenhuma\n loja com esse nome\n : ("
-//                        binding.tvEmpty.visibility = View.VISIBLE
-//                    }
-                }
+                binding.tvTitleSearch.text = "Produtos"
+                searchItem(binding.edSearchBox.text.toString())
                 true
             }
             else {
                 false
             }
         }
-        //TODO implementar filtro de pesquisa
         return binding.root
     }
 

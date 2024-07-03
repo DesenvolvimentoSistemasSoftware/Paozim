@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.mobile.paozim.classes.Item
-import com.mobile.paozim.classes.ItemAdapter
+import com.mobile.paozim.classes.itemStuff.Item
+import com.mobile.paozim.classes.itemStuff.ItemAdapter
 import com.mobile.paozim.databinding.FragmentCategoryBinding
 import com.mobile.paozim.retrofit.BASE_URL
-import com.mobile.paozim.retrofit.ItemAPI
+import com.mobile.paozim.retrofit.API.ItemAPI
 import com.mobile.paozim.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback

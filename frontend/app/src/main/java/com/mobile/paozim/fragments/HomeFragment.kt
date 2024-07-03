@@ -11,10 +11,10 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.mobile.paozim.R
 import com.mobile.paozim.activities.DetailActivity
-import com.mobile.paozim.classes.CategoryStuff.Category
-import com.mobile.paozim.classes.CategoryStuff.CategoryAdapter
+import com.mobile.paozim.classes.categoryStuff.Category
+import com.mobile.paozim.classes.categoryStuff.CategoryAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mobile.paozim.classes.Item
+import com.mobile.paozim.classes.itemStuff.Item
 import com.mobile.paozim.databinding.FragmentHomeBinding
 import com.mobile.paozim.viewModel.HomeViewModel
 

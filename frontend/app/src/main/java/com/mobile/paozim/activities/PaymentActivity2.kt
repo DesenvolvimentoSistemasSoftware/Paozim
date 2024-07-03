@@ -1,6 +1,6 @@
 package com.mobile.paozim.activities
 
-import Signature
+import com.mobile.paozim.classes.signatureStuff.Signature
 import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -18,16 +18,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mobile.paozim.R
-import com.mobile.paozim.classes.Responses.SimpleResponse
-import com.mobile.paozim.classes.UserStuff.UserInstance
+import com.mobile.paozim.classes.SimpleResponse
+import com.mobile.paozim.classes.userStuff.UserInstance
 import com.mobile.paozim.databinding.ActivityPayment2Binding
 import com.mobile.paozim.retrofit.RetrofitInstance
-import com.mobile.paozim.retrofit.SignatureAPI
+import com.mobile.paozim.retrofit.API.SignatureAPI
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Locale
 import java.util.concurrent.CompletableFuture
 
